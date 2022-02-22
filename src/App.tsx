@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React , {useEffect} from 'react';
+import Dashboard from './routes/Dashboard/dashboard';
+import { Routes, Route } from 'react-router-dom';
+import QuestionDisplayContainer from "./routes/Genre/questionDisplayContainer";
+import useStateHandler from './ReduxToolkit/useStateHandler';
+// import Result from "./routes/Result/result";
 
 function App() {
+  const { unAnsweredArray} = useStateHandler();
+  useEffect(()=>{
+    console.log("App")
+    console.log(unAnsweredArray)
+  },[unAnsweredArray]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path="/" element={<Dashboard/>} />
+        <Route path="/genre/:genreId/:qIndex" element={<QuestionDisplayContainer/>}/>
+        {/* <Route path="/result" element={<Result/>}/> */}
+      </Routes>
     </div>
   );
 }
