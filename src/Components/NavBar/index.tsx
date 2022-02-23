@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavbarStyle } from './Styles/NavbarStyle.styled';
+import { NavbarStyle } from './navbarStyle';
 
 const Navbar: React.FC = ()=> {
   return (

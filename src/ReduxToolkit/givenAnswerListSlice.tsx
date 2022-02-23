@@ -89,11 +89,12 @@ const givenAnswerListSlice = createSlice({
             }
         },
         storeUnAnsweredHandler: (state, action) => {
-            if (state.answerArr.length === 0 && action.payload) {
+            if (state.answerArr.length === 0 && Array.isArray(action.payload)) {
                 console.log("In Reducer")
                 console.log(action.payload)
-                console.log(action.payload[0])
-                const arrayOfUnanswered = action.payload[0];
+                console.log(current(state))
+                console.log(action.payload)
+                const arrayOfUnanswered = action.payload;
                 if(arrayOfUnanswered){
                     const modifiedArrayOfUnAnswered = arrayOfUnanswered?.map((item: any)=>({
                         ...item,

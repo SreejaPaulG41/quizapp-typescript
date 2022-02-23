@@ -54,7 +54,8 @@ const questionSortSlice = createSlice({
         },
         firstLoadUnAnsweredQuestion: (state = initialState)=>{
             const allGenreBasedQues : any = state.genreBasedQuestionData;
-            state.onLoadUnAnseredQuestion.push(allGenreBasedQues);
+            const onLoadArr = [...state.onLoadUnAnseredQuestion, allGenreBasedQues]
+            state.onLoadUnAnseredQuestion = allGenreBasedQues;
         }
     }
 })

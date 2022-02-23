@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import useStateHandler from '../../ReduxToolkit/useStateHandler';
+import useStateHandler from '../../../ReduxToolkit/useStateHandler';
 import { useParams } from 'react-router-dom';
-import SingleQuestionDisplay from '../../Components/singleQuestionDisplay';
-import QuestionChart from './questionChart';
-import { QuestionContainerDiv, FlexDiv } from '../../Components/Styles/QuestionContainerDiv.styled';
-import Timer from '../../Components/timer';
+import SingleQuestionDisplay from '../../../Components/SingleQuestionDisplay/index';
+import QuestionChart from '../QuestionChart/index';
+import { QuestionContainerDiv, FlexDiv } from '../QuestionDisplayContainer/questionContainerDivStyle';
+import Timer from '../../../Components/Timer/timer';
 
 type answerOptionArr = {
     answerText: string;
@@ -39,7 +39,11 @@ function QuestionDisplayContainer() {
     }, []);
 
     useEffect(() => {
-        storeNotAnsweredHandler(onLoadUnAnseredQuestion);
+        console.log('****')
+        console.log(onLoadUnAnseredQuestion)
+        if(onLoadUnAnseredQuestion.length > 0){
+            storeNotAnsweredHandler(onLoadUnAnseredQuestion);
+        }
     }, [onLoadUnAnseredQuestion])
 
     useEffect(() => {

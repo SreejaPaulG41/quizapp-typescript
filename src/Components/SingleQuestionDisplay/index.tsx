@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useStateHandler from '../ReduxToolkit/useStateHandler';
-import { ParentSingleQuestionAnswerDiv, SingleQuestionAnswerDiv, QuestionDivStyle, OptionStyle, ButtonStyle } from './Styles/SingleQuestionAnswerDiv.styled';
-import SubmitHandlerModal from './submitHandlerModal';
+import useStateHandler from '../../ReduxToolkit/useStateHandler';
+import { ParentSingleQuestionAnswerDiv, SingleQuestionAnswerDiv, QuestionDivStyle, OptionStyle, ButtonStyle } from '../SingleQuestionDisplay/SingleQuestionAnswerDivStyle';
+import SubmitHandlerModal from '../SubmitHandleModal/index';
 
 type answerOptionArr = {
     answerText: string;

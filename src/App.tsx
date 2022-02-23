@@ -1,9 +1,9 @@
 import React , {useEffect} from 'react';
-import Dashboard from './routes/Dashboard/dashboard';
+import Dashboard from './routes/Dashboard/Home/index';
 import { Routes, Route } from 'react-router-dom';
-import QuestionDisplayContainer from "./routes/Genre/questionDisplayContainer";
+import QuestionDisplayContainer from "./routes/Genre/QuestionDisplayContainer/index";
 import useStateHandler from './ReduxToolkit/useStateHandler';
-// import Result from "./routes/Result/result";
+import Result from "./routes/Result/ResultPage/index";
 
 function App() {
   const { unAnsweredArray} = useStateHandler();
@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard/>} />
         <Route path="/genre/:genreId/:qIndex" element={<QuestionDisplayContainer/>}/>
-        {/* <Route path="/result" element={<Result/>}/> */}
+        <Route path="/result" element={<Result/>}/>
       </Routes>
     </div>
   );

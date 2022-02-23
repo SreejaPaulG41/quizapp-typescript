@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const ButtonDiv = styled.div`
+interface buttonProps {
+    bgcolor?: undefined | string;
+    hoverBgColor?: undefined | string;
+}
+export const ButtonDiv = styled.div<buttonProps>`
 display: inline-block;
     button{
         height:41px;

@@ -1,6 +1,6 @@
 import React from 'react'
-import Navbar from '../../Components/navBar';
-import QuizTopicCardContainer from './quizTopicCardContainer';
+import Navbar from '../../../Components/NavBar/index';
+import QuizTopicCardContainer from '../QuizTopicCardContainer/index';
 
 const Dashboard: React.FC = ()=> {
   return (

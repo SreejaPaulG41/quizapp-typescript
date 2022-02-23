@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import useStateHandler from '../ReduxToolkit/useStateHandler';
-import { ButtonDiv } from './Styles/ButtonDiv.Styled';
+import useStateHandler from '../../ReduxToolkit/useStateHandler';
+import { ButtonDiv } from '../SingleButtonInChart/buttonDivStyle';
 
 type answerOptionArr = {
     answerText: string;
@@ -56,10 +56,16 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
   useEffect(() => {
     setAnsweredQues(answerArr);
     // setUnAnsweredQues(unAnsweredArray[1])
+    
     setUnAnsweredQues(unAnsweredArray)
+    // if(unAnsweredArray.length === 0 && answerArr.length > 0){
+    //   setUnAnsweredQues(unAnsweredArray)
+    // }
     console.log(".....")
     console.log("Answer")
     console.log(answerArr)
+    console.log("data")
+    console.log(genreBasedQuestionData)
     console.log("Unanswered")
     console.log(unAnsweredArray)
   }, [questionNoFromUrl]);
@@ -70,20 +76,20 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
       const answeredQuestionIds = answerArr.map((item) => {
         return item.questionId;
       })
-      // console.log("given answer")
-      // console.log(answerArr)
+      console.log("given answer")
+      console.log(answerArr)
       //All Questions ID
       const allQuestionIds = genreBasedQuestionData.map((item) => {
         return item.questionId;
       })
-      // console.log("all")
-      // console.log(genreBasedQuestionData)
+      console.log("all")
+      console.log(genreBasedQuestionData)
       //Not Answered Question ID
       const notAnsweredIds = allQuestionIds.filter((item) => {
         return !answeredQuestionIds.includes(item);
       })
-      // console.log("Not ID")
-      // console.log(notAnsweredIds);
+      console.log("Not ID")
+      console.log(notAnsweredIds);
       //Not Answered Question Index
       if (notAnsweredIds.length > 0) {
         // const notAnseredItem: (number | allQuestionArr)[] = genreBasedQuestionData.map((item, index) => {
@@ -106,8 +112,9 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
         //     notAnseredIndex.push(notAnseredItem[i] + 1);
         //   }
         // }
-        // console.log("index")
+        console.log("index")
         // console.log(notAnseredIndex)
+        console.log(notAnseredItem)
         setUnAnsweredIndexArr(notAnseredItem);
       }
     } else if (answeredQues.length > 0 && unAnswereQues.length === 0) {
@@ -116,13 +123,15 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
     //   const notAnseredIndex = onLoadUnAnseredQuestion[0]?.map((item, index) => {
     //     return index + 1;
     //   })
+    console.log("onLoadUnAnseredQuestion")
+    console.log(onLoadUnAnseredQuestion)
       const notAnseredIndex = onLoadUnAnseredQuestion?.map((item, index) => {
         return index + 1;
       })
       setUnAnsweredIndexArr(notAnseredIndex);
     }
 
-  }, [answeredQues, unAnswereQues])
+  }, [questionNoFromUrl, answeredQues, unAnswereQues])
 
   useEffect(() => {
     console.log('/////')
@@ -141,12 +150,16 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
   }, [unAnsweredIndexArr, item]);
 
   const questionButtonClick = () => {
+    console.log("coming here")
     if (selectedAnswer !== '') {
       storeQuestionAnswer();
+      console.log("coming if")
     } else {
+      console.log("coming else")
       storeUnAnswerQuestionHandler();
     }
     if (genreId) {
+      console.log("changing")
       navigate('/genre/' + genreId + '/' + item);
     }
   }
@@ -170,16 +183,12 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
     return hoverColorButton;
   }
   return (
-    // <ButtonDiv bgcolor={getBgColorButton()} hoverBgColor={getHoverBgColor()}>
-    //   <button onClick={() => questionButtonClick()}>
-    //     {item}
-    //   </button>
-    // </ButtonDiv>
-    <ButtonDiv>
-    <button onClick={() => questionButtonClick()}>
-      {item}
-    </button>
-  </ButtonDiv>
+    <ButtonDiv bgcolor={getBgColorButton()} hoverBgColor={getHoverBgColor()}>
+      <button onClick={() => questionButtonClick()}>
+        {item}
+        {console.log(getBgColorButton())}
+      </button>
+    </ButtonDiv>
   )
 }
 

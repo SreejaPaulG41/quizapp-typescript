@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { QuestionTopicContainer, QuestionTopicsDiv, QuestionSingleTopicCard } from '../../Components/Styles/QuestionTopicContainer.styled';
-import QuizTopicCard from '../../Components/quizTopicCard';
-import useStateHandler from '../../ReduxToolkit/useStateHandler';
+import { QuestionTopicContainer, QuestionTopicsDiv, QuestionSingleTopicCard } from '../QuizTopicCardContainer/questionTopicContainerStyle';
+import QuizTopicCard from '../../../Components/QuizTopicCard/index';
+import useStateHandler from '../../../ReduxToolkit/useStateHandler';
 
 function QuizTopicCardContainer() {
   const {genreDetails} = useStateHandler();

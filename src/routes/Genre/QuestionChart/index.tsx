@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import SingleButtonInChart from '../../Components/singleButtonInChart';
-import useStateHandler from '../../ReduxToolkit/useStateHandler';
-import { QuestionButtonChartDiv } from '../../Components/Styles/QuestionButtonChartDiv.styled';
+import SingleButtonInChart from '../../../Components/SingleButtonInChart/index';
+import useStateHandler from '../../../ReduxToolkit/useStateHandler';
+import { QuestionButtonChartDiv } from '../QuestionChart/questionButtonChartDivStyle';
 
 
 type answerOptionArr = {

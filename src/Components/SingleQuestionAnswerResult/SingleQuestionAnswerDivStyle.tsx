@@ -1,5 +1,13 @@
 import styled from 'styled-components';
 
+interface questionProps {
+    color?: undefined | string;
+}
+interface  optionPrips {
+    bgColor?: undefined | string;
+    borderColor?: undefined | string;
+}
+
 export const ParentSingleQuestionAnswerDiv = styled.div`
     padding: 10px;
     margin-left: 5px;
@@ -15,7 +23,7 @@ export const SingleQuestionAnswerDiv = styled.div`
     font-height: 1.5em;
 
 `
-export const QuestionDivStyle = styled.div`
+export const QuestionDivStyle = styled.div<questionProps>`
     display: flex;
     padding: 10px;
     margin: 8px;
@@ -30,7 +38,7 @@ export const QuestionDivStyle = styled.div`
         }
     }
 `
-export const OptionStyle = styled.div`
+export const OptionStyle = styled.div<optionPrips>`
     padding: 16px;
     margin: 8px;
     border-radius: 10px;

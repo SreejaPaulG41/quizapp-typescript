@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import useStateHandler from '../ReduxToolkit/useStateHandler';
-import {IndividualCard} from './Styles/QuestionTopicContainer.styled';
+import useStateHandler from '../../ReduxToolkit/useStateHandler';
+import {IndividualCard} from '../QuizTopicCard/questionTopicContainerStyle';
 
 type quizTopicCard = {
     name: string;
