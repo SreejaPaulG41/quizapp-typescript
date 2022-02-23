@@ -37,7 +37,7 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
     const history = useNavigate();
 
     useEffect(() => {
-        previousQuestionAnswerHandler({ questionId: questionId })
+        previousQuestionAnswerHandler({ questionId: questionId }) //on question change if any answer was there will show that
         setSelected(prevAnswer ? prevAnswer : '');
     }, [questionId, prevAnswer])
 
@@ -111,6 +111,14 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
     const onAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelected(e.target.value);
     }
+    const onAnswerDivClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>)=>{
+        const divElement= e.target as Element;
+        setSelected(divElement.id);
+    }
+    const onClearButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
+        setSelected('');
+        storeNotAnsweredHandler({ questionId: questionId, givenAnswerText: '', rightNess: false, answerGiven: false })
+    }
     const onSubmitHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (selected !== '') {
@@ -122,16 +130,18 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
         submitGivenAnswerHandler();
         setCheckSubmitClicked(true);
     }
+
     return (
         <ParentSingleQuestionAnswerDiv>
             <SingleQuestionAnswerDiv>
                 <QuestionDivStyle>
-                    {questionText}
+                    <div style={{flex: 1}}>{questionText}</div>
+                    <div><button onClick={(e)=>onClearButtonClick(e)}>Clear Answer</button></div>
                 </QuestionDivStyle>
                 <div>
                     {
                         answerOptions?.map((item: answerOptionArr, index: number) =>
-                            <OptionStyle>
+                            <OptionStyle id={item?.answerText} onClick={(e)=>onAnswerDivClick(e)}>
                                 <input key={index} type="radio" value={item?.answerText} checked={(selected === item?.answerText) ? true : false} onChange={(e) => onAnswerChange(e)} />{item?.answerText}
                             </OptionStyle>)
                     }

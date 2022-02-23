@@ -29,6 +29,20 @@ export const QuestionDivStyle = styled.div<questionProps>`
     margin: 8px;
     font-weight: 700;
     font-size: 20px;
+    button{
+        padding: 6px;
+        font-weight: 600;
+        font-size: 15px;
+        border-radius: 10px;
+        margin: 10px;
+        margin-top: 0px;
+        background-color: transparent;
+    }
+    button:hover{
+        cursor: pointer;
+        background-color: #dbe4f0;
+        font-weight:900;
+    }
     > * {
         &:first-child {
             flex:1;
@@ -43,9 +57,13 @@ export const OptionStyle = styled.div<optionPrips>`
     margin: 8px;
     border-radius: 10px;
     font-weight: 600;
+    cursor: pointer;
     background-color: ${({ bgColor }) => bgColor};
     border: 2px solid;
     border-color: ${({ borderColor }) => borderColor};
+    input{
+        cursor: pointer;
+    }
 `
 export const ButtonStyle = styled.div`
     margin: 18px;

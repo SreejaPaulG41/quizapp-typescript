@@ -1,5 +1,5 @@
 import { createSlice, current } from '@reduxjs/toolkit';
-import {sliceNames} from './storeConstants';
+import { sliceNames } from './storeConstants';
 
 export type answerOptionArr = {
     answerText: string;
@@ -95,35 +95,81 @@ const givenAnswerListSlice = createSlice({
                 console.log(current(state))
                 console.log(action.payload)
                 const arrayOfUnanswered = action.payload;
-                if(arrayOfUnanswered){
-                    const modifiedArrayOfUnAnswered = arrayOfUnanswered?.map((item: any)=>({
+                if (arrayOfUnanswered) {
+                    const modifiedArrayOfUnAnswered = arrayOfUnanswered?.map((item: any) => ({
                         ...item,
                         givenAnswerText: '',
-                        rightNess: false, 
-                        answerGiven: false 
+                        rightNess: false,
+                        answerGiven: false
                     }))
                     state.unAnsweredArr = modifiedArrayOfUnAnswered;
                 }
             } else {
                 console.log("on blank reponse")
                 console.log(action.payload)
-                const presentArr: any = state.unAnsweredArr;
+                console.log(current(state))
+                let presentArr: any = state.unAnsweredArr;
+                const presentAnsweredArr: any = state.answerArr;
                 const presentData = presentArr.find((item: any) => {
                     return item.questionId === action.payload.questionId;
                 })
-
+                const presentDataInAnswered = presentAnsweredArr.find((item: any) => {
+                    return item.questionId === action.payload.questionId;
+                })
                 if (presentData) {
                     const index = presentArr.indexOf(presentData);
                     presentArr[index] = action.payload;
+                    // let uniqueArr: any = [];
+                    // presentArr.forEach((element: any) => {
+                    //     if (!uniqueArr.includes(element)) {
+                    //         uniqueArr.push(element);
+                    //     }
+
+                    // });
+                    let uniqueSet = new Set(presentArr);
+                    let uniqueArray = Array.from(uniqueSet);
+                    presentArr = uniqueArray;
+                    console.log("changing if only in unAnswered")
+                    console.log(current(state))
+                }
+                if (presentAnsweredArr) {
+                    const indexInAnswered = presentAnsweredArr.indexOf(presentDataInAnswered);
+                    const indexInUnAnswered = presentArr.indexOf(presentData);
+                    if (indexInUnAnswered > -1) {
+                        presentArr[indexInUnAnswered] = action.payload; //in unAnswered Array Push
+                    } else {
+                        presentArr.push(action.payload);
+                        // let uniqueArr: any = [];
+                        // presentArr.forEach((element: any) => {
+                        //     if (!uniqueArr.includes(element)) {
+                        //         uniqueArr.push(element);
+                        //     }
+    
+                        // });
+                        let uniqueSet = new Set(presentArr);
+                    let uniqueArray = Array.from(uniqueSet);
+                    presentArr = uniqueArray;
+                    }
+                    //from answered array remove
+                    if (indexInAnswered > -1) {
+                        presentAnsweredArr.splice(indexInAnswered, 1); // 2nd parameter means remove one item only
+                    }
+                    console.log("changing if was in answered")
+                    console.log(current(state))
                 }
             }
         },
         showPreviousAnswerHandler: (state, action) => {
+            console.log("Prev Question")
+            console.log(action.payload)
             const questionId = action.payload.questionId;
             const presentArr = state.answerArr;
             const previousQuestion = presentArr.find((item) => {
                 return item.questionId === questionId;
             })
+            console.log("Prev Question 2")
+            console.log(previousQuestion)
+            console.log(current(state))
             if (previousQuestion) {
                 state.previousQuestionAnswer = previousQuestion.givenAnswerText;
             } else {
