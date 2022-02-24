@@ -34,7 +34,7 @@ interface onAnsweredRespone {
 }
 function useStateHandler() {
     const genreDetails = useSelector((state : RootState) => state.genreRender.genreDetails);
-    const questionData = useSelector((state : RootState) =>state.genreBasedQuestions.questionData);
+    //const questionData = useSelector((state : RootState) =>state.genreBasedQuestions.questionData);
     const genreBasedQuestionData = useSelector((state : RootState) =>state.genreBasedQuestions.genreBasedQuestionData);
     const onLoadUnAnseredQuestion = useSelector((state : RootState) =>state.genreBasedQuestions.onLoadUnAnseredQuestion);
     const answerArr = useSelector((state : RootState) =>state.answerStoreHandler.answerArr);
@@ -65,7 +65,7 @@ function useStateHandler() {
     const previousQuestionAnswerHandler = (answer: prevAnswer)=>{
         dispatch(showPreviousAnswerHandler(answer));
     }
-    return {genreDetails, questionData, genreBasedQuestionData, onLoadUnAnseredQuestion, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, genreBasedQuestionTime,
+    return {genreDetails, genreBasedQuestionData, onLoadUnAnseredQuestion, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, genreBasedQuestionTime,
          genreBasedQuestionFullMarks, genreBasedSortQuestionHandler, getUnAnsweredQuestionOnFirstLoad, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, 
          previousQuestionAnswerHandler}
   

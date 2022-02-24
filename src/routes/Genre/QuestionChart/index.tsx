@@ -22,11 +22,14 @@ const QuestionChart: React.FC<questionChartProps> = ({ genreId, questionId, answ
     // const genreId = useParams().genreId;
 
     useEffect(() => {
-        const len = genreBasedQuestionData.length;
-        const buttonsArr = [];
-        for (let i = 0; i < len; i++) {
-            buttonsArr[i] = i + 1;
-        }
+        // const len = genreBasedQuestionData.length;
+        // const buttonsArr = [];
+        // for (let i = 0; i < len; i++) {
+        //     buttonsArr[i] = i + 1;
+        // }
+        const buttonsArr = genreBasedQuestionData?.map((item)=>{
+            return item.questionId;
+        })
         setButtonValue(buttonsArr)
     }, [genreBasedQuestionData]);
 

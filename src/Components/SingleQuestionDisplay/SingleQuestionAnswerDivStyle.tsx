@@ -74,16 +74,43 @@ export const ButtonStyle = styled.div`
         border-radius: 10px;
         margin: 20px;
         background-color: transparent;
+        transition-duration: 0.6s;
     }
     button:hover{
         cursor: pointer;
         background-color: #dbe4f0;
-        font-weight:900;
+        font-weight: 900;
         font-size: 17px;
     }
     > * {
         &:last-child{
             float: right;
+        }
+    }
+    @media (max-width: 780px) {
+        button{
+            padding: 6px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+    }
+    @media (max-width: 550px) {
+        button{
+            padding: 6px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+    }
+    @media (max-width: 400px) {
+        button{
+            padding: 6px;
+            font-weight: 500;
+            font-size: 15px;
+            margin-right: 5px;
+        }
+        button:hover{
+            font-weight:500;
+            font-size: 15px;
         }
     }
 

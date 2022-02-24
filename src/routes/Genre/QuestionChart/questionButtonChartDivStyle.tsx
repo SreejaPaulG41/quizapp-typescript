@@ -9,4 +9,9 @@ export const QuestionButtonChartDiv = styled.div`
     padding: 10px 0px 0px 10px;
     margin: 20px 20px 0px 10px;
     border-radius: 10px;
+    @media (max-width: 550px) {
+        margin-left: 40px;
+        height: 100%;
+        width: 80%;
+    }
 `

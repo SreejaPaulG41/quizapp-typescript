@@ -99,10 +99,10 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
         //     return item;
         //   }
         // })
-        const notAnseredItem: number[] = [];
+        const notAnsweredItem: number[] = [];
         for(let i=0;i<genreBasedQuestionData.length;i++){
             if(notAnsweredIds.includes(genreBasedQuestionData[i].questionId)){
-                notAnseredItem.push(i+1);
+                notAnsweredItem.push(genreBasedQuestionData[i].questionId);
             }
         }
         
@@ -114,8 +114,8 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
         // }
         console.log("index")
         // console.log(notAnseredIndex)
-        console.log(notAnseredItem)
-        setUnAnsweredIndexArr(notAnseredItem);
+        console.log(notAnsweredItem)
+        setUnAnsweredIndexArr(notAnsweredItem);
       }
     } else if (answeredQues.length > 0 && unAnswereQues.length === 0) {
       setUnAnsweredIndexArr([]);
@@ -126,7 +126,7 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
     console.log("onLoadUnAnseredQuestion")
     console.log(onLoadUnAnseredQuestion)
       const notAnseredIndex = onLoadUnAnseredQuestion?.map((item, index) => {
-        return index + 1;
+        return item.questionId;
       })
       setUnAnsweredIndexArr(notAnseredIndex);
     }
@@ -134,9 +134,6 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
   }, [questionNoFromUrl, answeredQues, unAnswereQues])
 
   useEffect(() => {
-    console.log('/////')
-    console.log(unAnsweredIndexArr)
-    console.log(item)
     if (unAnsweredIndexArr.includes(item)) {
       console.log("Yellow");
       setColorOfButton("#ffe033");

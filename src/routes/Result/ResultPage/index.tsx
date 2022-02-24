@@ -52,7 +52,7 @@ const Result: React.FC = () => {
   },[submittedAnswerArr, genreBasedQuestionData]);
 
   return (
-    <div style={{padding: '10px', marginTop: '30px'}}>
+    <div style={{padding: '41px', marginTop: '30px'}}>
       <MarksPannel percentageMarksGot={percentageMarks}/>
       <AnswerKey resultArrToShow={resultArrToShow}/>
     </div>

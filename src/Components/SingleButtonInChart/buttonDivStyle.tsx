@@ -5,7 +5,7 @@ interface buttonProps {
     hoverBgColor?: undefined | string;
 }
 export const ButtonDiv = styled.div<buttonProps>`
-display: inline-block;
+    display: inline-block;
     button{
         height:41px;
         width: 41px;
@@ -21,5 +21,4 @@ display: inline-block;
         border-color: ${({bgcolor})=>bgcolor};
         font-weight: 900;      
     }
-    
 `

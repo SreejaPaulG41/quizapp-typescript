@@ -32,7 +32,7 @@ export const MarkShowDiv = styled.div`
 
     h1{
         margin-left: 30%;
-        color: Plum;
+        
         animation: ${moveInLeft} 1s ease-in-out .3s both;
     }
 `

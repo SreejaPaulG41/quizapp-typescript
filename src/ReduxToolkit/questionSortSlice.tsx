@@ -17,14 +17,12 @@ export type allQuestionArr = {
 }
 
 export interface questionSortSlice {
-    questionData: allQuestionArr[],
     genreBasedQuestionData: allQuestionArr[],
     onLoadUnAnseredQuestion: allQuestionArr[],
     genreBasedQuestionTime: number,
     genreBasedQuestionFullMarks: number,
 }
 const initialState: questionSortSlice = {
-    questionData: questions,
     genreBasedQuestionData: [],
     onLoadUnAnseredQuestion: [],
     genreBasedQuestionTime: 0,
@@ -36,7 +34,7 @@ const questionSortSlice = createSlice({
     initialState,
     reducers:{ //will contain the reduece functions
         genreBasedQuestionSort: (state = initialState , action)=>{
-            const allQuestions = state.questionData;
+            const allQuestions = questions;
             const filterQuestions = allQuestions.filter((item)=>{
                 return item.genreId === action.payload;
             })

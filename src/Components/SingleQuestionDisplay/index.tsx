@@ -22,18 +22,20 @@ interface singleQuestionDisplay {
     questionId: number;
     questionText: string; 
     answerOptions: answerOptionArr[];
-    questionIndex: number; 
-    setQIndex: React.Dispatch<React.SetStateAction<number>>;
+    questionIndex: number | undefined; 
+    setQIndex: React.Dispatch<React.SetStateAction<number | undefined>>;
     questions: allQuestionArr[];
-    setSelectedAnswer: React.Dispatch<React.SetStateAction<string>>
+    setSelectedAnswer: React.Dispatch<React.SetStateAction<string>>;
+    buttonType: number;
+    setButtonType: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, questionId, questionText, answerOptions, questionIndex, setQIndex, questions, setSelectedAnswer })=>{
+const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, questionId, questionText, answerOptions, questionIndex, setQIndex, questions, setSelectedAnswer, buttonType, setButtonType})=>{
     const [selected, setSelected] = useState<string>('');
     const [modalShow, setModalShow] = useState<boolean>(false);
     const [ modalMsg, setModalMsg] = useState<string>('');
     const [checkSubmitClicked, setCheckSubmitClicked] = useState<boolean>(false);
-    const { prevAnswer, unAnsweredArray, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler } = useStateHandler();
+    const { genreBasedQuestionData, prevAnswer, unAnsweredArray, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler } = useStateHandler();
     const history = useNavigate();
 
     useEffect(() => {
@@ -43,7 +45,7 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
 
     useEffect(() => {
         if (genreId) {
-            history('/genre/' + genreId + "/" + (questionIndex + 1))
+            history('/genre/' + genreId + "/" + questionIndex)
         }
     }, [questionIndex])
 
@@ -90,9 +92,29 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
     const storeUnAnswerQuestionHandler = () => {
         storeNotAnsweredHandler({ questionId: questionId, givenAnswerText: selected, rightNess: false, answerGiven: false })
     }
+    const setQuestionIdHandler = (cond:string)=>{
+        if(cond === "Prev"){
+            let indexVal = 0;
+            for (let i=0;i<genreBasedQuestionData.length;i++){
+                if(questionIndex === genreBasedQuestionData[i].questionId){
+                    indexVal = i;
+                }
+            }
+            return genreBasedQuestionData[indexVal-1]?.questionId;
+        }else{
+            let indexVal = 0;
+            for (let i=0;i<genreBasedQuestionData.length;i++){
+                if(questionIndex === genreBasedQuestionData[i].questionId){
+                    indexVal = i;
+                }
+            }
+            return genreBasedQuestionData[indexVal+1]?.questionId;
+        }
+    }
     const onPrevClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        setQIndex(prev => prev - 1);
+        const idChangeValue = setQuestionIdHandler("Prev")
+        setQIndex(idChangeValue);
         if (selected !== '') {
             storeQuestionAnswer();
         } else {
@@ -101,7 +123,8 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
     }
     const onNextClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        setQIndex(prev => prev + 1);
+        const idChangeValue = setQuestionIdHandler("Next")
+        setQIndex(idChangeValue);
         if (selected !== '') {
             storeQuestionAnswer();
         } else {
@@ -149,10 +172,10 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
             </SingleQuestionAnswerDiv>
             <ButtonStyle>
             {
-                (questionIndex === 0) ? <button disabled>Previous Question</button> : <button onClick={(e) => onPrevClick(e)}>Previous Question</button>
+                (buttonType === 0) ? <button disabled>Previous Question</button> : <button onClick={(e) => onPrevClick(e)}>Previous Question</button>
             }
             {
-                (questionIndex === questions.length - 1) ? <button onClick={(e) => onSubmitHandler(e)}>Submit Quiz</button> : <button onClick={(e) => onNextClick(e)}>Next Question</button>
+                (buttonType === genreBasedQuestionData.length - 1) ? <button onClick={(e) => onSubmitHandler(e)}>Submit Quiz</button> : <button onClick={(e) => onNextClick(e)}>Next Question</button>
             }
             </ButtonStyle>
             {

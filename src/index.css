@@ -6,6 +6,9 @@ body {
     sans-serif;font-family: 'Poppins', sans-serif;
     background-color: white;
     background: linear-gradient(90deg, #b9deed, #efefef);
+    background-repeat: no-repeat;
+    height: 100%;
+    overflow: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
