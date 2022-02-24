@@ -18,6 +18,7 @@ type allQuestionArr = {
 
 interface singleButtonInChartProps { 
     item: number;
+    id: number;
     genreId: string; 
     questionId: number;
     answerOptions: answerOptionArr[];
@@ -42,7 +43,7 @@ type onLoadUnAnsweredArr = {
     rightNess: boolean;
     answerGiven: boolean;
 }
-const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId, questionId, answerOptions, selectedAnswer })=>{
+const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, genreId, questionId, answerOptions, selectedAnswer })=>{
   const navigate = useNavigate();
   const qNo = useParams().qIndex;
   const questionNoFromUrl = parseInt(qNo ? qNo : '');
@@ -134,7 +135,7 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
   }, [questionNoFromUrl, answeredQues, unAnswereQues])
 
   useEffect(() => {
-    if (unAnsweredIndexArr.includes(item)) {
+    if (unAnsweredIndexArr.includes(id)) {
       console.log("Yellow");
       setColorOfButton("#ffe033");
       setHoverColorButton('#fff4b3');
@@ -144,7 +145,7 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
       setHoverColorButton('#bdf5bd');
     }
 
-  }, [unAnsweredIndexArr, item]);
+  }, [unAnsweredIndexArr, id]);
 
   const questionButtonClick = () => {
     console.log("coming here")
@@ -157,7 +158,7 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, genreId
     }
     if (genreId) {
       console.log("changing")
-      navigate('/genre/' + genreId + '/' + item);
+      navigate('/genre/' + genreId + '/' + id);
     }
   }
   const checkCorrectNessHandler = () => {

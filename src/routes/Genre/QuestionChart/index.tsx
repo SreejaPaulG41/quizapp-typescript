@@ -15,10 +15,13 @@ interface questionChartProps {
     answerOptions: answerOptionArr[];
     selectedAnswer: string;
 }
-
+interface buttonData {
+    index: number;
+    id: number;
+}
 const QuestionChart: React.FC<questionChartProps> = ({ genreId, questionId, answerOptions, selectedAnswer }) => {
     const { genreBasedQuestionData } = useStateHandler();
-    const [buttonValue, setButtonValue] = useState<number[]>([]);
+    const [buttonValue, setButtonValue] = useState<buttonData[]>([]);
     // const genreId = useParams().genreId;
 
     useEffect(() => {
@@ -27,8 +30,11 @@ const QuestionChart: React.FC<questionChartProps> = ({ genreId, questionId, answ
         // for (let i = 0; i < len; i++) {
         //     buttonsArr[i] = i + 1;
         // }
-        const buttonsArr = genreBasedQuestionData?.map((item)=>{
-            return item.questionId;
+        const buttonsArr = genreBasedQuestionData?.map((item, index)=>{
+            return {
+                index: index + 1,
+                id: item.questionId,
+            }
         })
         setButtonValue(buttonsArr)
     }, [genreBasedQuestionData]);
@@ -37,8 +43,8 @@ const QuestionChart: React.FC<questionChartProps> = ({ genreId, questionId, answ
         <QuestionButtonChartDiv>
             <div>
                 {
-                    buttonValue.map((item: number, index: number) =>
-                        <SingleButtonInChart key={index} item={item} genreId={genreId} questionId={questionId} answerOptions={answerOptions} selectedAnswer={selectedAnswer} />
+                    buttonValue.map((item: buttonData, index: number) =>
+                        <SingleButtonInChart key={index} item={item.index} id={item.id} genreId={genreId} questionId={questionId} answerOptions={answerOptions} selectedAnswer={selectedAnswer} />
                     )
                 }
             </div>

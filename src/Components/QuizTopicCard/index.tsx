@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import useStateHandler from '../../ReduxToolkit/useStateHandler';
 import { IndividualCard } from '../QuizTopicCard/questionTopicContainerStyle';
-import Emoji from '../Emoji/index';
 import gk from '../../Assets/Images/gk.jpg';
 import javascript from '../../Assets/Images/javascript.png';
 import react from '../../Assets/Images/react.png';
@@ -33,7 +32,6 @@ const QuizTopicCard: React.FC<quizTopicCard> = ({ name, id }) => {
         <IndividualCard>
             <div>
                 <h1>{name}</h1>
-                {/* <Emoji symbol="🐑" label="sheep" /> */}
                 <img src={emojiRendererHandler(name)} alt={name}/>
             </div>
             <div>
