@@ -19,12 +19,14 @@ type onLoadUnAnsweredArr = {
 }
 type answerKeyProps = {
     resultArrToShow: onLoadUnAnsweredArr[];
+    fullMarks: number;
+    marksGot: number;
 }
-const AnswerKey: React.FC<answerKeyProps> = ({resultArrToShow})=>{
+const AnswerKey: React.FC<answerKeyProps> = ({resultArrToShow, fullMarks, marksGot})=>{
     
   return (
     <div>
-        <h3>Check The Answers Below</h3>
+        <h2>{(fullMarks > 0) ? "Your Marks : " + marksGot + " / " + fullMarks : ''}</h2>
         {
             resultArrToShow?.map((item, index)=>
                 <div key={index}>

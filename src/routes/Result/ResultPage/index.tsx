@@ -23,6 +23,8 @@ type onLoadUnAnsweredArr = {
 const Result: React.FC = () => {
   const [resultArrToShow, setResultArrToShow] = useState<onLoadUnAnsweredArr[]>([]);
   const [percentageMarks, setPercentageMarks] = useState<number>(0);
+  const [fullMarks, setFullMarks] = useState<number>(0);
+  const [marksGot, setMarksGot] = useState<number>(0);
   
     const {submittedAnswerArr, genreBasedQuestionData, genreBasedQuestionFullMarks} = useStateHandler();
 
@@ -46,6 +48,8 @@ const Result: React.FC = () => {
         return  (item.rightNess) ? (acc + item.questionMark) : ((item.answerGiven)? (acc - (item.questionMark*0.50)) : acc);
       },0);
       const percentage = (marksGot / genreBasedQuestionFullMarks) * 100;
+      setFullMarks(genreBasedQuestionFullMarks);
+      setMarksGot(marksGot);
       setPercentageMarks(percentage);
       setResultArrToShow(resultArr);
 
@@ -53,8 +57,8 @@ const Result: React.FC = () => {
 
   return (
     <div style={{padding: '41px', marginTop: '30px'}}>
-      <MarksPannel percentageMarksGot={percentageMarks}/>
-      <AnswerKey resultArrToShow={resultArrToShow}/>
+      <MarksPannel percentageMarksGot={percentageMarks} />
+      <AnswerKey resultArrToShow={resultArrToShow} fullMarks={fullMarks} marksGot={marksGot}/>
     </div>
   )
 }

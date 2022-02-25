@@ -53,7 +53,13 @@ export const IndividualCard = styled.div`
     }
     @media (max-width: 550px) {
         h1{
+            font-size: 20px;
             margin: 2px;
+        }
+        img{
+            height: 50px;
+            width: 50px;
+            margin-top: 8px;
         }
         button{
             height: 50px;
@@ -63,7 +69,13 @@ export const IndividualCard = styled.div`
     }
     @media (max-width: 400px) {
         h1{
+            font-size: 20px;
             margin: 2px;
+        }
+        img{
+            height: 50px;
+            width: 50px;
+            margin-top: 8px;
         }
         button{
             height: 50px;

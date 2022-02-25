@@ -32,7 +32,37 @@ export const MarkShowDiv = styled.div`
 
     h1{
         margin-left: 30%;
-        
         animation: ${moveInLeft} 1s ease-in-out .3s both;
+    }
+    @media (max-width: 550px) {
+        img{
+            margin-left: 39%;
+            height: 80px;
+            width: 80px;
+        }
+        img:hover {
+            height: 100px;
+            width: 100px;
+        }
+    
+        h1{
+            font-size: 22px;
+            margin-left: 20%;
+        }
+    }
+    @media (max-width: 400px) {
+        img{
+            margin-left: 39%;
+            height: 80px;
+            width: 80px;
+        }
+        img:hover {
+            height: 100px;
+            width: 100px;
+        }
+    
+        h1{
+            margin-left: 20%;
+        }
     }
 `

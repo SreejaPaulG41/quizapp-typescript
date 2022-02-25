@@ -1,4 +1,10 @@
 .app{
-  height: 100%;
-    overflow: auto;
+  min-height: 100%;
+  overflow: scroll;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+}
+
+.app::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
 }
