@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavbarStyle, UserInfo } from './navbarStyle';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -11,9 +11,12 @@ import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [user, setUser] = useState<string>('');
+  const navigate = useNavigate();
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -21,12 +24,35 @@ const Navbar: React.FC = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(()=>{
+    let cancel = false;
+    fetch('http://localhost:5000/dashboard', {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      headers: {
+          'Content-Type': 'application/json',
+          'jwtToken': localStorage.token
+      }})
+    .then((res)=>res.json())
+    .then((data)=>{
+      setUser(data);
+      console.log(data)
+    })
+    return () => { 
+      cancel = true;
+    }
+  },[user])
+
+  const logOutHandler = () =>{
+    localStorage.removeItem("token");
+    navigate('/');
+  }
   return (
     <NavbarStyle>
       <h1>Quiz Master</h1>
       <UserInfo>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-          <Typography sx={{ minWidth: 100 }}>Hello, User</Typography>
+          <Typography sx={{ minWidth: 100 }}>{"Hello " + user}</Typography>
           <Tooltip title="Account settings">
             <IconButton
               onClick={handleClick}
@@ -80,7 +106,7 @@ const Navbar: React.FC = () => {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          <MenuItem>
+          <MenuItem onClick={logOutHandler}>
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>
