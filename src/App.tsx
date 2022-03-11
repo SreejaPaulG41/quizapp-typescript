@@ -10,11 +10,11 @@ import SignUp from './routes/SignUp';
 import Login from './routes/Login';
 
 function App() {
-  const { unAnsweredArray} = useStateHandler();
-  useEffect(()=>{
-    console.log("App")
-    console.log(unAnsweredArray)
-  },[unAnsweredArray]);
+  // const { unAnsweredArray} = useStateHandler();
+  // useEffect(()=>{
+  //   console.log("App")
+  //   console.log(unAnsweredArray)
+  // },[unAnsweredArray]);
   return (
     <div className='app'>
       <Routes>

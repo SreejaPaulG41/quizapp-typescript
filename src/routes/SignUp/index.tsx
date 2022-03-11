@@ -10,7 +10,7 @@ const SignUp = () => {
 
     const signUpHandler = async () => {
         const dataToAdd = { firstName, lastName, email, password };
-        const response = await fetch('http://localhost:5000/register', {
+        const response = await fetch('http://localhost:5000/auth/register', {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             headers: {
                 'Content-Type': 'application/json'

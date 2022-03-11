@@ -8,7 +8,7 @@ const Login: React.FC = () => {
 
     const loginHandler = async () => {
         const dataToAdd = { email, password };
-        const response = await fetch('http://localhost:5000/login', {
+        const response = await fetch('http://localhost:5000/auth/login', {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             headers: {
                 'Content-Type': 'application/json'

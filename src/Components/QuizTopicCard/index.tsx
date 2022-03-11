@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import useStateHandler from '../../ReduxToolkit/useStateHandler';
+import useStateHandler from '../../Redux/useStateHandler';
 import { IndividualCard } from '../QuizTopicCard/questionTopicContainerStyle';
 import gk from '../../Assets/Images/gk.jpg';
 import javascript from '../../Assets/Images/javascript.png';
@@ -13,7 +13,7 @@ type quizTopicCard = {
     id: string;
 }
 const QuizTopicCard: React.FC<quizTopicCard> = ({ name, id }) => {
-    //const { genreBasedSortQuestionHandler } = useStateHandler();
+    const { getGenreSpecificQuestions } = useStateHandler();
     const navigate = useNavigate();
 
     const emojiRendererHandler = (name: string) => {
@@ -36,7 +36,7 @@ const QuizTopicCard: React.FC<quizTopicCard> = ({ name, id }) => {
             </div>
             <div>
                 <Link to= {"/genre/" + id }>
-                    <button>Start Quiz</button>
+                    <button onClick={()=>getGenreSpecificQuestions(id)}>Start Quiz</button>
                 </Link>
             </div>
         </IndividualCard>
