@@ -8,6 +8,7 @@ import Result from "./routes/Result/ResultPage/index";
 import Home from './routes/Home/index';
 import SignUp from './routes/SignUp';
 import Login from './routes/Login';
+import Test from './routes/Genre/QuestionDisplayContainer/test';
 
 function App() {
   // const { unAnsweredArray} = useStateHandler();
@@ -22,8 +23,9 @@ function App() {
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/genre/:genreId/:qIndex" element={<QuestionDisplayContainer/>}/>
-        <Route path="/genre/:genreId" element={<QuestionDisplayContainer/>}/>
+        {/* <Route path="/genre/:genreId/:qIndex" element={<QuestionDisplayContainer/>}/>
+        <Route path="/genre/:genreId" element={<QuestionDisplayContainer/>}/> */}
+        <Route path="/genre/:genreId" element={<Test/>}/>
         <Route path="/result" element={<Result/>}/>
       </Routes>
     </div>

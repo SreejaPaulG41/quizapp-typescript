@@ -20,6 +20,7 @@ type question = {
 
 type actionType = {
     type: string;
+    questionArrDetails: allQuestionArr[]
 }
 const initialState: question = {
     genreBasedQuestionData: []
@@ -29,13 +30,13 @@ const genreBasedQuestionReducer = (state = initialState , action: actionType)=>{
         case genreBasedQuestionConstant.GET_GENRE_BASED_QUESTION:
             return {
                 ...state,
-                
+                genreBasedQuestionData: action.questionArrDetails
             }
             
         case genreBasedQuestionConstant.GET_GENRE_BASED_QUESTION_RESPONSE:
             return {
                 ...state,
-                
+                genreBasedQuestionData: action.questionArrDetails
             }
 
         case genreBasedQuestionConstant.GOT_ERROR_FROM_GENRE_BASED_QUESTION_RESPONSE:
