@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useStateHandler from '../../ReduxToolkit/useStateHandler';
+import useStateHandler from '../../Redux/useStateHandler';
 import { ParentSingleQuestionAnswerDiv, SingleQuestionAnswerDiv, QuestionDivStyle, OptionStyle, ButtonStyle } from '../SingleQuestionDisplay/SingleQuestionAnswerDivStyle';
 import SubmitHandlerModal from '../SubmitHandleModal/index';
 
@@ -17,12 +17,12 @@ type allQuestionArr = {
     answerOptions: answerOptionArr[];
 }
 
-interface singleQuestionDisplay { 
-    genreId: string; 
+interface singleQuestionDisplay {
+    genreId: string;
     questionId: number;
-    questionText: string; 
+    questionText: string;
     answerOptions: answerOptionArr[];
-    questionIndex: number | undefined; 
+    questionIndex: number | undefined;
     setQIndex: React.Dispatch<React.SetStateAction<number | undefined>>;
     questions: allQuestionArr[];
     setSelectedAnswer: React.Dispatch<React.SetStateAction<string>>;
@@ -30,12 +30,12 @@ interface singleQuestionDisplay {
     setButtonType: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, questionId, questionText, answerOptions, questionIndex, setQIndex, questions, setSelectedAnswer, buttonType, setButtonType})=>{
+const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, questionId, questionText, answerOptions, questionIndex, setQIndex, questions, setSelectedAnswer, buttonType, setButtonType }) => {
     const [selected, setSelected] = useState<string>('');
     const [modalShow, setModalShow] = useState<boolean>(false);
-    const [ modalMsg, setModalMsg] = useState<string>('');
+    const [modalMsg, setModalMsg] = useState<string>('');
     const [checkSubmitClicked, setCheckSubmitClicked] = useState<boolean>(false);
-    const { genreBasedQuestionData, prevAnswer, unAnsweredArray, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler } = useStateHandler();
+    const { genreBasedQuestionData, prevAnswer, answerArr, unAnsweredArray, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler } = useStateHandler();
     const history = useNavigate();
 
     useEffect(() => {
@@ -53,21 +53,21 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
         setSelectedAnswer(selected);
     }, [selected])
 
-    useEffect(()=>{
-        if(checkSubmitClicked){
+    useEffect(() => {
+        if (checkSubmitClicked) {
             // unAnsweredArray[1].length > 0
             // console.log('[[[[')
             // console.log(unAnsweredArray[1])
-            if(unAnsweredArray.length > 0){
+            if (unAnsweredArray.length > 0) {
                 setModalMsg("You Haven't Submitted All Of The Answeres. Still Want To Submit ? ");
                 setModalShow(true);
-            }else{
+            } else {
                 setModalMsg("Want To Submit The Quiz?");
                 setModalShow(true);
             }
             setCheckSubmitClicked(false);
         }
-    },[checkSubmitClicked, unAnsweredArray]);
+    }, [checkSubmitClicked, unAnsweredArray]);
 
     //on option click will change - not done
     // useEffect(() => {
@@ -92,23 +92,23 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
     const storeUnAnswerQuestionHandler = () => {
         storeNotAnsweredHandler({ questionId: questionId, givenAnswerText: selected, rightNess: false, answerGiven: false })
     }
-    const setQuestionIdHandler = (cond:string)=>{
-        if(cond === "Prev"){
+    const setQuestionIdHandler = (cond: string) => {
+        if (cond === "Prev") {
             let indexVal = 0;
-            for (let i=0;i<genreBasedQuestionData.length;i++){
-                if(questionIndex === genreBasedQuestionData[i].questionId){
+            for (let i = 0; i < genreBasedQuestionData?.genreBasedQuestionData.length; i++) {
+                if (questionIndex === genreBasedQuestionData?.genreBasedQuestionData[i].questionId) {
                     indexVal = i;
                 }
             }
-            return genreBasedQuestionData[indexVal-1]?.questionId;
-        }else{
+            return genreBasedQuestionData?.genreBasedQuestionData[indexVal - 1]?.questionId;
+        } else {
             let indexVal = 0;
-            for (let i=0;i<genreBasedQuestionData.length;i++){
-                if(questionIndex === genreBasedQuestionData[i].questionId){
+            for (let i = 0; i < genreBasedQuestionData?.genreBasedQuestionData.length; i++) {
+                if (questionIndex === genreBasedQuestionData?.genreBasedQuestionData[i].questionId) {
                     indexVal = i;
                 }
             }
-            return genreBasedQuestionData[indexVal+1]?.questionId;
+            return genreBasedQuestionData?.genreBasedQuestionData[indexVal + 1]?.questionId;
         }
     }
     const onPrevClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -134,11 +134,11 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
     const onAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelected(e.target.value);
     }
-    const onAnswerDivClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>)=>{
-        const divElement= e.target as Element;
+    const onAnswerDivClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const divElement = e.target as Element;
         setSelected(divElement.id);
     }
-    const onClearButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
+    const onClearButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         setSelected('');
         storeNotAnsweredHandler({ questionId: questionId, givenAnswerText: '', rightNess: false, answerGiven: false })
     }
@@ -150,36 +150,68 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
         } else {
             storeUnAnswerQuestionHandler();
         }
-        submitGivenAnswerHandler();
+        submitAnsModificationHandler();
         setCheckSubmitClicked(true);
+    }
+    const submitAnsModificationHandler = () => {
+        const presentAnsweredArr = answerArr;
+        const presentUnAnsweredArr = unAnsweredArray;
+        const submiitedStoredArr = [];
+        for (let i = 0; i < presentAnsweredArr.length; i++) {
+            submiitedStoredArr[i] = {
+                questionId: presentAnsweredArr[i].questionId,
+                givenAnswerText: presentAnsweredArr[i].givenAnswerText,
+                answerGiven: presentAnsweredArr[i].answerGiven,
+                rightNess: presentAnsweredArr[i].rightNess
+            }
+        }
+        let lastLength = submiitedStoredArr.length - 1;
+        for (let i = 0; i < presentUnAnsweredArr.length; i++) {
+            if (presentUnAnsweredArr[i]) {
+                submiitedStoredArr[lastLength + i + 1] = {
+                    questionId: presentUnAnsweredArr[i].questionId,
+                    givenAnswerText: presentUnAnsweredArr[i].givenAnswerText,
+                    answerGiven: presentUnAnsweredArr[i].answerGiven,
+                    rightNess: presentUnAnsweredArr[i].rightNess
+                }
+            }
+        }
+        const sortedAnswerArr = submiitedStoredArr.sort((a, b) => {
+            return a.questionId - b.questionId;
+        })
+        const sortedAnswerDetails = {
+            genreId: genreId,
+            givenAnswerArr: sortedAnswerArr
+        }
+        submitGivenAnswerHandler(sortedAnswerDetails);
     }
 
     return (
         <ParentSingleQuestionAnswerDiv>
             <SingleQuestionAnswerDiv>
                 <QuestionDivStyle>
-                    <div style={{flex: 1}}>{questionText}</div>
-                    <div><button onClick={(e)=>onClearButtonClick(e)}>Clear Answer</button></div>
+                    <div style={{ flex: 1 }}>{questionText}</div>
+                    <div><button onClick={(e) => onClearButtonClick(e)}>Clear Answer</button></div>
                 </QuestionDivStyle>
                 <div>
                     {
                         answerOptions?.map((item: answerOptionArr, index: number) =>
-                            <OptionStyle id={item?.answerText} onClick={(e)=>onAnswerDivClick(e)}>
+                            <OptionStyle id={item?.answerText} onClick={(e) => onAnswerDivClick(e)}>
                                 <input key={index} type="radio" value={item?.answerText} checked={(selected === item?.answerText) ? true : false} onChange={(e) => onAnswerChange(e)} />{item?.answerText}
                             </OptionStyle>)
                     }
                 </div>
             </SingleQuestionAnswerDiv>
             <ButtonStyle>
-            {
-                (buttonType === 0) ? <button disabled>Previous Question</button> : <button onClick={(e) => onPrevClick(e)}>Previous Question</button>
-            }
-            {
-                (buttonType === genreBasedQuestionData.length - 1) ? <button onClick={(e) => onSubmitHandler(e)}>Submit Quiz</button> : <button onClick={(e) => onNextClick(e)}>Next Question</button>
-            }
+                {
+                    (buttonType === 0) ? <button disabled>Previous Question</button> : <button onClick={(e) => onPrevClick(e)}>Previous Question</button>
+                }
+                {
+                    (buttonType === genreBasedQuestionData?.genreBasedQuestionData?.length - 1) ? <button onClick={(e) => onSubmitHandler(e)}>Submit Quiz</button> : <button onClick={(e) => onNextClick(e)}>Next Question</button>
+                }
             </ButtonStyle>
             {
-                modalShow ? <SubmitHandlerModal modalMsg={modalMsg} modalShow={modalShow} setModalShow={setModalShow}/> : ''
+                modalShow ? <SubmitHandlerModal modalMsg={modalMsg} modalShow={modalShow} setModalShow={setModalShow} /> : ''
             }
 
         </ParentSingleQuestionAnswerDiv>

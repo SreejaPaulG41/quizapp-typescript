@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import useStateHandler from '../../ReduxToolkit/useStateHandler';
+import useStateHandler from '../../Redux/useStateHandler';
 import { ButtonDiv } from '../SingleButtonInChart/buttonDivStyle';
 
 type answerOptionArr = {
@@ -23,6 +23,7 @@ interface singleButtonInChartProps {
     questionId: number;
     answerOptions: answerOptionArr[];
     selectedAnswer: string;
+    setQIndex: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 type answeredArr = {
@@ -43,7 +44,7 @@ type onLoadUnAnsweredArr = {
     rightNess: boolean;
     answerGiven: boolean;
 }
-const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, genreId, questionId, answerOptions, selectedAnswer })=>{
+const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, genreId, questionId, answerOptions, selectedAnswer, setQIndex })=>{
   const navigate = useNavigate();
   const qNo = useParams().qIndex;
   const questionNoFromUrl = parseInt(qNo ? qNo : '');
@@ -74,13 +75,13 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, gen
   useEffect(() => {
     //All Ansered Question ID
     if (answeredQues.length > 0 && unAnswereQues.length > 0) {
-      const answeredQuestionIds = answerArr.map((item) => {
+      const answeredQuestionIds = answerArr?.map((item: any) => {
         return item.questionId;
       })
       console.log("given answer")
       console.log(answerArr)
       //All Questions ID
-      const allQuestionIds = genreBasedQuestionData.map((item) => {
+      const allQuestionIds = genreBasedQuestionData?.genreBasedQuestionData?.map((item) => {
         return item.questionId;
       })
       console.log("all")
@@ -101,9 +102,9 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, gen
         //   }
         // })
         const notAnsweredItem: number[] = [];
-        for(let i=0;i<genreBasedQuestionData.length;i++){
-            if(notAnsweredIds.includes(genreBasedQuestionData[i].questionId)){
-                notAnsweredItem.push(genreBasedQuestionData[i].questionId);
+        for(let i=0;i<genreBasedQuestionData?.genreBasedQuestionData?.length;i++){
+            if(notAnsweredIds.includes(genreBasedQuestionData?.genreBasedQuestionData[i].questionId)){
+                notAnsweredItem.push(genreBasedQuestionData?.genreBasedQuestionData[i].questionId);
             }
         }
         
@@ -157,7 +158,7 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, gen
       storeUnAnswerQuestionHandler();
     }
     if (genreId) {
-      console.log("changing")
+      setQIndex(id)
       navigate('/genre/' + genreId + '/' + id);
     }
   }

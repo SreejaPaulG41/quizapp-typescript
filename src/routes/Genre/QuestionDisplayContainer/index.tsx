@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import useStateHandler from '../../../ReduxToolkit/useStateHandler';
+import useStateHandler from '../../../Redux/useStateHandler';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import SingleQuestionDisplay from '../../../Components/SingleQuestionDisplay/index';
 import QuestionChart from '../QuestionChart/index';
@@ -23,29 +23,37 @@ type urlPrameter = {
     qIndex: string;
 }
 function QuestionDisplayContainer() {
-    const { genreBasedQuestionData, answerArr, genreDetails, onLoadUnAnseredQuestion, genreBasedSortQuestionHandler, storeNotAnsweredHandler, getUnAnsweredQuestionOnFirstLoad } = useStateHandler();
+    const { genreBasedQuestionData, answerArr, genreDetails, onLoadUnAnseredQuestion, getGenreSpecificQuestions, storeNotAnsweredHandler } = useStateHandler();
     const [questionToDisplay, setQuestionToDisplay] = useState<allQuestionArr>({ questionId: 0, genreId: '', questionText: '', questionMark: 0, timeAlloted: 0, answerOptions: [] });
     const navigate = useNavigate();
     const genreId = useParams<urlPrameter>().genreId;
     const paramQIndex = useParams<urlPrameter>().qIndex;
     const qsIndex = parseInt(paramQIndex ? paramQIndex : '');
     const [buttonType, setButtonType] = useState<number>(0);
+    const [allQuestions, setAllQuestions] = useState<allQuestionArr[]>([]);
     const [selectedQuestionId, setSelectedQuestionId] = useState<number | undefined>(0);
     const [selectedAnswer, setSelectedAnswer] = useState<string>("");
     const [genreName, setGenreName] = useState<string>('');
 
     useEffect(() => {
         if (genreId) {
-            genreBasedSortQuestionHandler(genreId);
+            getGenreSpecificQuestions(genreId);
             // navigate("/genre/"+ genreId + "/1", { replace:true });
         }
     }, [genreId]);
 
     useEffect(() => {
-        if (genreBasedQuestionData.length > 0 && answerArr.length === 0) {
+        console.log(genreBasedQuestionData.genreBasedQuestionData)
+        if (genreBasedQuestionData.genreBasedQuestionData) {
+            setAllQuestions(genreBasedQuestionData.genreBasedQuestionData)
+        }
+    }, [genreBasedQuestionData])
+
+    useEffect(() => {
+        if (genreBasedQuestionData?.genreBasedQuestionData?.length > 0 && answerArr?.length === 0) {
             console.log("Genre Here")
             console.log(genreBasedQuestionData)
-            getUnAnsweredQuestionOnFirstLoad();
+            //getUnAnsweredQuestionOnFirstLoad();
         }
 
     }, [genreBasedQuestionData, answerArr]);
@@ -53,7 +61,7 @@ function QuestionDisplayContainer() {
     useEffect(() => {
         console.log('****')
         console.log(onLoadUnAnseredQuestion)
-        if (onLoadUnAnseredQuestion.length > 0) {
+        if (onLoadUnAnseredQuestion?.length > 0) {
             storeNotAnsweredHandler(onLoadUnAnseredQuestion);
         }
     }, [onLoadUnAnseredQuestion])
@@ -62,15 +70,15 @@ function QuestionDisplayContainer() {
         // setQuestionIndex(qsIndex - 1);
         if (qsIndex) {
             setSelectedQuestionId(qsIndex);
-            console.log("qsIndex")
-            console.log(qsIndex)
+            // console.log("qsIndex")
+            // console.log(qsIndex)
         }
     }, [qsIndex]);
 
     //Genre Name On Top
     useEffect(() => {
-        if (genreDetails.length > 0) {
-            const selectedGnere = genreDetails.find((item) => {
+        if (genreDetails.genreDetails.length > 0) {
+            const selectedGnere = genreDetails.genreDetails.find((item) => {
                 return item.genreId === genreId;
             })
             if (selectedGnere) {
@@ -81,13 +89,16 @@ function QuestionDisplayContainer() {
 
     useEffect(() => {
         if (qsIndex) {
-            if (genreBasedQuestionData.length > 0) {
-                const filteredQuestion = genreBasedQuestionData.find((item, index) => {
+            if (genreBasedQuestionData?.genreBasedQuestionData) {
+                console.log("First Phase")
+                console.log(qsIndex)
+                console.log(selectedQuestionId)
+                const filteredQuestion = genreBasedQuestionData?.genreBasedQuestionData?.find((item, index) => {
                     return item.questionId === selectedQuestionId;
                 })
                 let indexVal = 0;
-                for (let i = 0; i < genreBasedQuestionData.length; i++) {
-                    if (selectedQuestionId === genreBasedQuestionData[i].questionId) {
+                for (let i = 0; i < genreBasedQuestionData.genreBasedQuestionData.length; i++) {
+                    if (selectedQuestionId === genreBasedQuestionData.genreBasedQuestionData[i].questionId) {
                         indexVal = i;
                     }
                 }
@@ -100,11 +111,14 @@ function QuestionDisplayContainer() {
                 }
             }
         } else {
-            const filteredQuestion = genreBasedQuestionData[0];
-            if (filteredQuestion) {
-                setQuestionToDisplay(filteredQuestion);
-                setSelectedQuestionId(filteredQuestion.questionId);
-                setButtonType(0);
+            console.log("Second Phase")
+            if(genreBasedQuestionData.genreBasedQuestionData){
+                const filteredQuestion = genreBasedQuestionData?.genreBasedQuestionData[0];
+                if (filteredQuestion) {
+                    setQuestionToDisplay(filteredQuestion);
+                    setSelectedQuestionId(filteredQuestion.questionId);
+                    setButtonType(0);
+                }
             }
         }
     }, [genreBasedQuestionData, selectedQuestionId])
@@ -123,13 +137,13 @@ function QuestionDisplayContainer() {
                 <div style={{ flex: 1 }}>
                     <SingleQuestionDisplay genreId={questionToDisplay?.genreId} questionId={questionToDisplay?.questionId}
                         questionText={questionToDisplay?.questionText} answerOptions={questionToDisplay?.answerOptions}
-                        questionIndex={selectedQuestionId} setQIndex={setSelectedQuestionId} questions={genreBasedQuestionData}
+                        questionIndex={selectedQuestionId} setQIndex={setSelectedQuestionId} questions={allQuestions}
                         setSelectedAnswer={setSelectedAnswer} buttonType={buttonType} setButtonType={setButtonType}
                     />
                 </div>
                 <div>
                     <QuestionChart genreId={questionToDisplay?.genreId} questionId={questionToDisplay?.questionId}
-                        answerOptions={questionToDisplay?.answerOptions} selectedAnswer={selectedAnswer} />
+                        answerOptions={questionToDisplay?.answerOptions} selectedAnswer={selectedAnswer} setQIndex={setSelectedQuestionId}/>
                 </div>
 
             </FlexDiv>
