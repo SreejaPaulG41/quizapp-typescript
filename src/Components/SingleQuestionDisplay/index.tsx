@@ -95,20 +95,20 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
     const setQuestionIdHandler = (cond: string) => {
         if (cond === "Prev") {
             let indexVal = 0;
-            for (let i = 0; i < genreBasedQuestionData?.genreBasedQuestionData.length; i++) {
-                if (questionIndex === genreBasedQuestionData?.genreBasedQuestionData[i].questionId) {
+            for (let i = 0; i < genreBasedQuestionData.length; i++) {
+                if (questionIndex === genreBasedQuestionData[i].questionId) {
                     indexVal = i;
                 }
             }
-            return genreBasedQuestionData?.genreBasedQuestionData[indexVal - 1]?.questionId;
+            return genreBasedQuestionData[indexVal - 1]?.questionId;
         } else {
             let indexVal = 0;
-            for (let i = 0; i < genreBasedQuestionData?.genreBasedQuestionData.length; i++) {
-                if (questionIndex === genreBasedQuestionData?.genreBasedQuestionData[i].questionId) {
+            for (let i = 0; i < genreBasedQuestionData.length; i++) {
+                if (questionIndex === genreBasedQuestionData[i].questionId) {
                     indexVal = i;
                 }
             }
-            return genreBasedQuestionData?.genreBasedQuestionData[indexVal + 1]?.questionId;
+            return genreBasedQuestionData[indexVal + 1]?.questionId;
         }
     }
     const onPrevClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -158,11 +158,13 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
         const presentUnAnsweredArr = unAnsweredArray;
         const submiitedStoredArr = [];
         for (let i = 0; i < presentAnsweredArr.length; i++) {
-            submiitedStoredArr[i] = {
-                questionId: presentAnsweredArr[i].questionId,
-                givenAnswerText: presentAnsweredArr[i].givenAnswerText,
-                answerGiven: presentAnsweredArr[i].answerGiven,
-                rightNess: presentAnsweredArr[i].rightNess
+            if(presentAnsweredArr[i]){
+                submiitedStoredArr[i] = {
+                    questionId: presentAnsweredArr[i].questionId,
+                    givenAnswerText: presentAnsweredArr[i].givenAnswerText,
+                    answerGiven: presentAnsweredArr[i].answerGiven,
+                    rightNess: presentAnsweredArr[i].rightNess
+                }
             }
         }
         let lastLength = submiitedStoredArr.length - 1;
@@ -196,7 +198,7 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
                 <div>
                     {
                         answerOptions?.map((item: answerOptionArr, index: number) =>
-                            <OptionStyle id={item?.answerText} onClick={(e) => onAnswerDivClick(e)}>
+                            <OptionStyle key={index} id={item?.answerText} onClick={(e) => onAnswerDivClick(e)}>
                                 <input key={index} type="radio" value={item?.answerText} checked={(selected === item?.answerText) ? true : false} onChange={(e) => onAnswerChange(e)} />{item?.answerText}
                             </OptionStyle>)
                     }
@@ -207,7 +209,7 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
                     (buttonType === 0) ? <button disabled>Previous Question</button> : <button onClick={(e) => onPrevClick(e)}>Previous Question</button>
                 }
                 {
-                    (buttonType === genreBasedQuestionData?.genreBasedQuestionData?.length - 1) ? <button onClick={(e) => onSubmitHandler(e)}>Submit Quiz</button> : <button onClick={(e) => onNextClick(e)}>Next Question</button>
+                    (buttonType === genreBasedQuestionData?.length - 1) ? <button onClick={(e) => onSubmitHandler(e)}>Submit Quiz</button> : <button onClick={(e) => onNextClick(e)}>Next Question</button>
                 }
             </ButtonStyle>
             {

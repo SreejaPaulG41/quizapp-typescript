@@ -43,14 +43,13 @@ function QuestionDisplayContainer() {
     }, [genreId]);
 
     useEffect(() => {
-        console.log(genreBasedQuestionData.genreBasedQuestionData)
-        if (genreBasedQuestionData.genreBasedQuestionData) {
-            setAllQuestions(genreBasedQuestionData.genreBasedQuestionData)
+        if (genreBasedQuestionData) {
+            setAllQuestions(genreBasedQuestionData)
         }
     }, [genreBasedQuestionData])
 
     useEffect(() => {
-        if (genreBasedQuestionData?.genreBasedQuestionData?.length > 0 && answerArr?.length === 0) {
+        if (genreBasedQuestionData?.length > 0 && answerArr?.length === 0) {
             console.log("Genre Here")
             console.log(genreBasedQuestionData)
             //getUnAnsweredQuestionOnFirstLoad();
@@ -77,8 +76,8 @@ function QuestionDisplayContainer() {
 
     //Genre Name On Top
     useEffect(() => {
-        if (genreDetails.genreDetails.length > 0) {
-            const selectedGnere = genreDetails.genreDetails.find((item) => {
+        if (genreDetails?.length > 0) {
+            const selectedGnere = genreDetails?.find((item: any) => {
                 return item.genreId === genreId;
             })
             if (selectedGnere) {
@@ -89,16 +88,16 @@ function QuestionDisplayContainer() {
 
     useEffect(() => {
         if (qsIndex) {
-            if (genreBasedQuestionData?.genreBasedQuestionData) {
+            if (genreBasedQuestionData) {
                 console.log("First Phase")
                 console.log(qsIndex)
                 console.log(selectedQuestionId)
-                const filteredQuestion = genreBasedQuestionData?.genreBasedQuestionData?.find((item, index) => {
+                const filteredQuestion = genreBasedQuestionData?.find((item: any, index: number) => {
                     return item.questionId === selectedQuestionId;
                 })
                 let indexVal = 0;
-                for (let i = 0; i < genreBasedQuestionData.genreBasedQuestionData.length; i++) {
-                    if (selectedQuestionId === genreBasedQuestionData.genreBasedQuestionData[i].questionId) {
+                for (let i = 0; i < genreBasedQuestionData.length; i++) {
+                    if (selectedQuestionId === genreBasedQuestionData[i].questionId) {
                         indexVal = i;
                     }
                 }
@@ -112,8 +111,8 @@ function QuestionDisplayContainer() {
             }
         } else {
             console.log("Second Phase")
-            if(genreBasedQuestionData.genreBasedQuestionData){
-                const filteredQuestion = genreBasedQuestionData?.genreBasedQuestionData[0];
+            if(genreBasedQuestionData){
+                const filteredQuestion = genreBasedQuestionData[0];
                 if (filteredQuestion) {
                     setQuestionToDisplay(filteredQuestion);
                     setSelectedQuestionId(filteredQuestion.questionId);

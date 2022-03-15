@@ -6,11 +6,12 @@ interface genreInterface {
 }
 interface actionSuccessType {
     type: string;
-    genreData: genreInterface[];
+    genreData?: genreInterface[];
+    msg?: string;
 }
 
 interface genre {
-    genreDetails: genreInterface[] | any[];
+    genreDetails: genreInterface[] | any;
     msg: string | undefined;
 }
 const initialState: genre = {
@@ -32,9 +33,10 @@ const genreReducer = (state = initialState, action: actionSuccessType) => {
             }
 
         case genresConstant.GOT_ERROR_FROM_GENRES:
+            const dataToShow =action.msg;
             return {
                 ...state,
-                msg: "Something Went Wrong!"
+                msg: dataToShow
             }
         default:
             return {

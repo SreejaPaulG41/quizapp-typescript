@@ -4,7 +4,7 @@ import useStateHandler from '../../../Redux/useStateHandler';
 function Test() {
     const {genreBasedQuestionData} = useStateHandler();
     useEffect(()=>{
-        console.log(genreBasedQuestionData.genreBasedQuestionData)
+        console.log(genreBasedQuestionData)
     },[genreBasedQuestionData])
   return (
     <div>

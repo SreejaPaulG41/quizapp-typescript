@@ -4,6 +4,7 @@ import { RootState } from './rootReducer';
 import {genreActions} from './Genres/genreAction';
 import { genreBasedQuestionsAction } from './GenreBasedQuestions/genreBasedQuestionsAction';
 import { givenAnswerAction } from './GivenAnswers/givenAnswerAction';
+import { resultActions } from './Result/resultActions';
 
 interface prevAnswer {
     questionId: number;
@@ -45,15 +46,17 @@ type submittedAns = {
     givenAnswerArr: answeredArr[];
 }
 function useStateHandler() {
-    const genreDetails = useSelector((state: RootState) => state.genreRender);
-    const genreBasedQuestionData = useSelector((state: RootState) => state.genreBasedQuestions);
+    const genreDetails = useSelector((state: RootState) => state.genreRender.genreDetails);
+    const genreBasedQuestionData = useSelector((state: RootState) => state.genreBasedQuestions.genreBasedQuestionData);
     const onLoadUnAnseredQuestion = useSelector((state : RootState) =>state.genreBasedQuestions.onLoadUnAnseredQuestion);
     const genreBasedQuestionTime = useSelector((state : RootState) =>state.genreBasedQuestions.genreBasedQuestionTime);
     const genreBasedQuestionFullMarks = useSelector((state : RootState) =>state.genreBasedQuestions.genreBasedQuestionFullMarks);
+    const genreBasedQuestionMsg = useSelector((state : RootState) =>state.genreBasedQuestions.msg);
     const answerArr = useSelector((state : RootState) =>state.answerStoreHandler.answerArr);
     const unAnsweredArray = useSelector((state : RootState) =>state.answerStoreHandler.unAnsweredArr);
     const submittedAnswerArr = useSelector((state : RootState) =>state.answerStoreHandler.submittedAns);
     const prevAnswer = useSelector((state : RootState) =>state.answerStoreHandler.previousQuestionAnswer);
+    const resultArr = useSelector((state : RootState)=>state.resultReducer.resultArr);
 
     const dispatch = useDispatch();
     const getAllGenreDetails = ()=>{
@@ -74,8 +77,11 @@ function useStateHandler() {
     const submitGivenAnswerHandler = (sortedAnswerDetails: submittedAns)=>{
         dispatch(givenAnswerAction.submittedAnswerHandler(sortedAnswerDetails));
     }
-    return {genreDetails, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer,
-        getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler}
+    const resultHandler = (genreId: string)=>{
+        dispatch(resultActions.getResultHandler(genreId));
+    }
+    return {genreDetails, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, 
+        getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler}
   
 }
 

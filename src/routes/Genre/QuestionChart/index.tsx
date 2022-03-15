@@ -31,8 +31,8 @@ const QuestionChart: React.FC<questionChartProps> = ({ genreId, questionId, answ
         // for (let i = 0; i < len; i++) {
         //     buttonsArr[i] = i + 1;
         // }
-        if(genreBasedQuestionData.genreBasedQuestionData){
-            const buttonsArr = genreBasedQuestionData?.genreBasedQuestionData?.map((item, index)=>{
+        if(genreBasedQuestionData){
+            const buttonsArr = genreBasedQuestionData?.map((item: any, index: number)=>{
                 return {
                     index: index + 1,
                     id: item.questionId,

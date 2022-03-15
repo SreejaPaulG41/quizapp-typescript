@@ -16,7 +16,7 @@ function QuizTopicCardContainer() {
     getAllGenreDetails();
   },[])
   useEffect(()=>{
-    setGenresDetail(genreDetails.genreDetails);
+    setGenresDetail(genreDetails);
   },[genreDetails])
   return (
     <QuestionTopicContainer>

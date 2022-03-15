@@ -29,7 +29,8 @@ function* givenAnswerSubmitResponse(action: PayloadAction<actionType>){
     try {
         const payload = action.payload;
         const allGenreDetails: res = yield call(givenAnswerSubmitRes, payload);
-        yield put({type: givenAnswerConstants.GIVEN_ANSWER_SUBMIT_HANDLER , genreData: allGenreDetails?.data});
+        const dataToStore = {genreId: allGenreDetails?.data.genreId, givenAnswerArr: allGenreDetails?.data.givenAnswerDetails};
+        yield put({type: givenAnswerConstants.GIVEN_ANSWER_SUBMIT_HANDLER , genreData: dataToStore});
     } catch (error) {
         yield put({type: givenAnswerConstants.GIVEN_ANSWER_SUBMIT_ERROR , msg:error}) //type and payload
     }

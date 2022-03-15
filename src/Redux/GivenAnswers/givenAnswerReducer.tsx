@@ -45,7 +45,8 @@ interface givenAnswerSlice {
 }
 type actionType = {
     type: string;
-    payload: any;
+    payload?: any;
+    genreData?: submittedAns[];
 }
 const initialState: givenAnswerSlice = {
     answerArr: [],
@@ -173,41 +174,10 @@ const givenAnswerReducer = (state = initialState, action: actionType) => {
             }
 
         case givenAnswerConstants.GIVEN_ANSWER_SUBMIT_HANDLER:
-            const presentAnsweredArr = state.answerArr;
-            const presentUnAnsweredArr = state.unAnsweredArr;
-            const submiitedStoredArr = [];
-            const genreId = action.payload;
-            for (let i = 0; i < presentAnsweredArr.length; i++) {
-                submiitedStoredArr[i] = {
-                    questionId: presentAnsweredArr[i].questionId,
-                    givenAnswerText: presentAnsweredArr[i].givenAnswerText,
-                    answerGiven: presentAnsweredArr[i].answerGiven,
-                    rightNess: presentAnsweredArr[i].rightNess
-                }
-            }
-            let lastLength = submiitedStoredArr.length - 1;
-            for (let i = 0; i < presentUnAnsweredArr.length; i++) {
-                if (presentUnAnsweredArr[i]) {
-                    submiitedStoredArr[lastLength + i + 1] = {
-                        questionId: presentUnAnsweredArr[i].questionId,
-                        givenAnswerText: presentUnAnsweredArr[i].givenAnswerText,
-                        answerGiven: presentUnAnsweredArr[i].answerGiven,
-                        rightNess: presentUnAnsweredArr[i].rightNess
-                    }
-                }
-            }
-            const sortedAnswerArr = submiitedStoredArr.sort((a, b) => {
-                return a.questionId - b.questionId;
-            })
-            const sortedAnswerDetails = {
-                genreId,
-                givenAnswerArr: sortedAnswerArr
-            }
-            console.log("Result")
-            console.log(sortedAnswerDetails)
+            const dataToStore = action.genreData;
             return {
                 ...state,
-                submittedAns: sortedAnswerDetails
+                submittedAns: dataToStore
             }
         case givenAnswerConstants.GIVEN_ANSWER_SUBMIT_ERROR:
             return{

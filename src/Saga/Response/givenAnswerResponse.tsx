@@ -15,7 +15,7 @@ type submittedAns = {
 
 const givenAnswerSubmitRes = (payload: submittedAns) => {
     const dataToSend = payload;
-    return axios.post('http://localhost:5000/submtAnswers', JSON.stringify(dataToSend), {
+    return axios.post('http://localhost:5000/submitAnswers', JSON.stringify(dataToSend), {
         headers: {
             'Content-Type': 'application/json',
             'jwtToken': localStorage.token

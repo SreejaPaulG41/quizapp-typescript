@@ -81,13 +81,13 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, gen
       console.log("given answer")
       console.log(answerArr)
       //All Questions ID
-      const allQuestionIds = genreBasedQuestionData?.genreBasedQuestionData?.map((item) => {
+      const allQuestionIds = genreBasedQuestionData?.map((item: any) => {
         return item.questionId;
       })
       console.log("all")
       console.log(genreBasedQuestionData)
       //Not Answered Question ID
-      const notAnsweredIds = allQuestionIds.filter((item) => {
+      const notAnsweredIds = allQuestionIds.filter((item: any) => {
         return !answeredQuestionIds.includes(item);
       })
       console.log("Not ID")
@@ -102,9 +102,9 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, gen
         //   }
         // })
         const notAnsweredItem: number[] = [];
-        for(let i=0;i<genreBasedQuestionData?.genreBasedQuestionData?.length;i++){
-            if(notAnsweredIds.includes(genreBasedQuestionData?.genreBasedQuestionData[i].questionId)){
-                notAnsweredItem.push(genreBasedQuestionData?.genreBasedQuestionData[i].questionId);
+        for(let i=0;i<genreBasedQuestionData?.length;i++){
+            if(notAnsweredIds.includes(genreBasedQuestionData[i].questionId)){
+                notAnsweredItem.push(genreBasedQuestionData[i].questionId);
             }
         }
         
@@ -127,7 +127,7 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, gen
     //   })
     console.log("onLoadUnAnseredQuestion")
     console.log(onLoadUnAnseredQuestion)
-      const notAnseredIndex = onLoadUnAnseredQuestion?.map((item, index) => {
+      const notAnseredIndex = onLoadUnAnseredQuestion?.map((item: any, index: number) => {
         return item.questionId;
       })
       setUnAnsweredIndexArr(notAnseredIndex);
