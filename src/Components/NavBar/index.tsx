@@ -26,22 +26,10 @@ const Navbar: React.FC = () => {
   };
 
   useEffect(()=>{
-    let cancel = false;
-    fetch('http://localhost:5000/dashboard', {
-      method: 'GET', // *GET, POST, PUT, DELETE, etc.
-      headers: {
-          'Content-Type': 'application/json',
-          'jwtToken': localStorage.token
-      }})
-    .then((res)=>res.json())
-    .then((data)=>{
-      setUser(data);
-      console.log(data)
-    })
-    return () => { 
-      cancel = true;
-    }
-  },[user])
+   localStorage.getItem("userInformation");
+
+    console.log(localStorage.getItem("userInformation"))
+  },[])
 
   const logOutHandler = () =>{
     localStorage.removeItem("token");

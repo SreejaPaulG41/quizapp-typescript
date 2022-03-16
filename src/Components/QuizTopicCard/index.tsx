@@ -36,7 +36,7 @@ const QuizTopicCard: React.FC<quizTopicCard> = ({ name, id }) => {
             </div>
             <div>
                 <Link to= {"/genre/" + id }>
-                    <button onClick={()=>getGenreSpecificQuestions(id)}>Start Quiz</button>
+                    <button>Start Quiz</button>
                 </Link>
             </div>
         </IndividualCard>

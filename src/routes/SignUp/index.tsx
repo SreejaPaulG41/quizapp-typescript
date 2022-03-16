@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useStateHandler from '../../Redux/useStateHandler';
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -7,28 +8,24 @@ const SignUp = () => {
     const [lastName, setLastName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const { jwtToken, userInfo, userSignUpHandler } = useStateHandler();
 
     const signUpHandler = async () => {
         const dataToAdd = { firstName, lastName, email, password };
-        const response = await fetch('http://localhost:5000/auth/register', {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify(dataToAdd) // body data type must match "Content-Type" header
-        });
-        const result = await response.json();
-        console.log(result)
-        if (result.jwtToken) {
-            localStorage.setItem("token", result.jwtToken);
-            navigate('/dashboard');
-        }
+        userSignUpHandler(dataToAdd);
         setFirstName('');
         setLastName('');
         setEmail('');
         setPassword('');
     }
+
+    useEffect(()=>{
+        if (jwtToken !== '') {
+            localStorage.setItem("token", jwtToken);
+            localStorage.setItem("userInformation", JSON.stringify(userInfo))
+            navigate('/dashboard');
+        }
+    },[jwtToken])
     return (
         <div>
             <div>
