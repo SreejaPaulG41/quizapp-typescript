@@ -7,6 +7,10 @@ export const NavbarStyle = styled.div`
         padding: 0px 20px;
         flex: 1;
     }
+    h4{
+        margin-right: 32px;
+        cursor: pointer;
+    }
     @media (max-width: 550px) {
         font-size: 10px;
     }
@@ -18,5 +22,5 @@ export const NavbarStyle = styled.div`
 `
 
 export const UserInfo = styled.div`
-    margin: 10px 20px 10px 10px;
+    margin: 12px 20px 10px 10px;
 `

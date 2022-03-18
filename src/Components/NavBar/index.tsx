@@ -12,12 +12,15 @@ import Logout from '@mui/icons-material/Logout';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import useStateHandler from '../../Redux/useStateHandler';
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [user, setUser] = useState<string>('');
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
+  const { signedUpLogOut, logOutHandler } = useStateHandler();
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -26,21 +29,24 @@ const Navbar: React.FC = () => {
   };
 
   useEffect(()=>{
-   localStorage.getItem("userInformation");
-
-    console.log(localStorage.getItem("userInformation"))
+    const userInfo = JSON.parse(localStorage.getItem("userInformation") || " ");
+    setUser(userInfo.firstName)
   },[])
 
-  const logOutHandler = () =>{
+  const userLogOut = () =>{
     localStorage.removeItem("token");
+    localStorage.removeItem("userInformation");
+    signedUpLogOut();
+    logOutHandler();
     navigate('/');
   }
   return (
     <NavbarStyle>
       <h1>Quiz Master</h1>
+      <h4>Leaderboard</h4>
       <UserInfo>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-          <Typography sx={{ minWidth: 100 }}>{"Hello " + user}</Typography>
+          <Typography sx={{ minWidth: 100 }}>{"Hello, " + user}</Typography>
           <Tooltip title="Account settings">
             <IconButton
               onClick={handleClick}
@@ -94,7 +100,7 @@ const Navbar: React.FC = () => {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          <MenuItem onClick={logOutHandler}>
+          <MenuItem onClick={userLogOut}>
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>

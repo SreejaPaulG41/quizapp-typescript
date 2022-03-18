@@ -1,30 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useStateHandler from '../../Redux/useStateHandler';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
+    const { loggedJwtToken, loggedUserInfo, userLogInHandler} = useStateHandler();
 
     const loginHandler = async () => {
         const dataToAdd = { email, password };
-        const response = await fetch('http://localhost:5000/auth/login', {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify(dataToAdd) // body data type must match "Content-Type" header
-        });
-        const result = await response.json();
-        console.log(result)
-        if (result.jwtToken) {
-            localStorage.setItem("token", result.jwtToken);
-            navigate('/dashboard');
-        }
+        userLogInHandler(dataToAdd);
         setEmail('');
         setPassword('');
     }
+    useEffect(()=>{
+        if (loggedJwtToken !== '') {
+            localStorage.setItem("token", loggedJwtToken);
+            localStorage.setItem("userInformation", JSON.stringify(loggedUserInfo))
+            navigate('/dashboard');
+        }
+    },[loggedJwtToken])
     return (
         <div>
             <div>

@@ -13,5 +13,10 @@ export const signUpActions = {
             type: signUpConstants.SIGN_USER_UP,
             payload: userInfo
         }
+    },
+    singedUpLogOut: ()=>{
+        return {
+            type: signUpConstants.LOGGED_OUT_ACTION
+        }
     }
 }

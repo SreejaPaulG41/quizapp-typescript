@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { SingleQuestionAnswerDiv, QuestionDivStyle, OptionStyle } from '../SingleQuestionAnswerResult/SingleQuestionAnswerDivStyle';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Fade from '@mui/material/Fade';
 
 type answerOptionArr = {
     answerText: string;
@@ -7,28 +12,33 @@ type answerOptionArr = {
 }
 
 type singleQuestionAnswerProps = {
-    genreId: string; 
-    questionText: string; 
-    questionId: number; 
-    givenAnswerText: string; 
+    id: number;
+    genreId: string;
+    questionMarks: number;
+    questionText: string;
+    questionId: number;
+    givenAnswerText: string;
     answerOptions: answerOptionArr[],
-    rightNess: boolean; 
-    answerGiven: boolean; 
+    rightNess: boolean;
+    answerGiven: boolean;
     questionMark: number;
     timeAlloted: number;
 }
-const SingleQuestionAnswerResult: React.FC<singleQuestionAnswerProps> = ({ genreId, questionText, questionId, givenAnswerText, answerOptions, rightNess, answerGiven, questionMark,timeAlloted})=> {
-    const [marksCalc, setMarksCal] = useState(0);
+const SingleQuestionAnswerResult: React.FC<singleQuestionAnswerProps> = ({ id, genreId, questionMarks, questionText, questionId, givenAnswerText, answerOptions, rightNess, answerGiven, questionMark, timeAlloted }) => {
+    const [marksCalc, setMarksCal] = useState<number>(0);
+    const [show, setShow] = useState<boolean>(false);
+    const [clicked, setClicked] = useState<string>('');
+
     useEffect(() => {
         marksShowHnadler();
     }, [questionId])
-    const marksShowHnadler = ()=>{
-        if(!answerGiven){
+    const marksShowHnadler = () => {
+        if (!answerGiven) {
             setMarksCal(0);
-        }else{
-            if(rightNess){
+        } else {
+            if (rightNess) {
                 setMarksCal(questionMark);
-            }else{
+            } else {
                 const afterNegetiveMarks = questionMark * 0.50;
                 setMarksCal(-afterNegetiveMarks);
             }
@@ -57,28 +67,50 @@ const SingleQuestionAnswerResult: React.FC<singleQuestionAnswerProps> = ({ genre
         }
     }
     const marksColor = (answerGiven: boolean, rightNess: boolean) => {
-        if(!answerGiven){
+        if (!answerGiven) {
             return "#808080";
-        }else{
-            if(rightNess){
+        } else {
+            if (rightNess) {
                 return "#3b5e3b";
-            }else{
+            } else {
                 return "#eb2d53";
             }
         }
     }
+    const setOptionShowHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        setShow(!show);
+        setClicked(e.currentTarget.id);
+    }
+    useEffect(() => {
+        if (!show) {
+            setClicked('');
+        }
+    }, [show])
     return (
         <SingleQuestionAnswerDiv>
             <QuestionDivStyle color={marksColor(answerGiven, rightNess)}>
                 <div>{questionText}</div>
-                <div>{marksCalc}</div>
+                <span>{marksCalc + " / " + questionMarks}</span>
+                <div onClick={(e) => setOptionShowHandler(e)} id={id.toString()}>
+                    {(!show) ?
+                        <Tooltip title="Show Options" arrow TransitionComponent={Fade} TransitionProps={{ timeout: 600 }}>
+                            <IconButton><ArrowDropDownIcon /></IconButton>
+                        </Tooltip> :
+                        <Tooltip title="Hide Options" arrow TransitionComponent={Fade} TransitionProps={{ timeout: 600 }}>
+                            <IconButton><ArrowDropUpIcon /></IconButton>
+                        </Tooltip>
+                    }
+                </div>
             </QuestionDivStyle>
-            <div>{answerOptions.map((item, index) =>
-                <OptionStyle key={index} bgColor={chooseBgColor(item)} borderColor={borderColor(item)}>
-                    {item.answerText}                    
-                </OptionStyle>
-            )}</div>
-            <div>{rightNess}</div>
+
+            <div style={{ display: (clicked === id.toString()) ? "block" : "none"}}>
+                <div>{answerOptions.map((item, index) =>
+                    <OptionStyle key={index} bgColor={chooseBgColor(item)} borderColor={borderColor(item)}>
+                        {item.answerText}
+                    </OptionStyle>
+                )}</div>
+                <div>{rightNess}</div>
+            </div>
         </SingleQuestionAnswerDiv>
     )
 }

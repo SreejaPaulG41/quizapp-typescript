@@ -3,11 +3,12 @@ import {watchGenreBasedQuestionSagaMiddleWare} from "./Handler/genreBasedQuestio
 import { watchGivenAnswerSubmitSagaMiddleWare } from './Handler/givenAnswerHandler';
 import { resultSagaMiddleWare } from './Handler/resultHandler';
 import { signUpResponseSagaMiddleWare } from './Handler/signUpHandler';
+import { logInResponseSagaMiddleWare } from './Handler/logInHandler';
 import React from 'react';
 import { all } from "redux-saga/effects";
 
 function* rootSagas() {
-    yield all([watchGenreSagaMiddleWare(), watchGenreBasedQuestionSagaMiddleWare(), watchGivenAnswerSubmitSagaMiddleWare(), resultSagaMiddleWare(), signUpResponseSagaMiddleWare()])
+    yield all([watchGenreSagaMiddleWare(), watchGenreBasedQuestionSagaMiddleWare(), watchGivenAnswerSubmitSagaMiddleWare(), resultSagaMiddleWare(), signUpResponseSagaMiddleWare(), logInResponseSagaMiddleWare()])
 }
 
 export default rootSagas;

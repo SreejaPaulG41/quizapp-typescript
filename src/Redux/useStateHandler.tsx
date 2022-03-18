@@ -6,6 +6,7 @@ import { genreBasedQuestionsAction } from './GenreBasedQuestions/genreBasedQuest
 import { givenAnswerAction } from './GivenAnswers/givenAnswerAction';
 import { resultActions } from './Result/resultActions';
 import { signUpActions } from './SignUp/signUpActions';
+import { loginAction } from './Login/loginAction';
 
 interface prevAnswer {
     questionId: number;
@@ -52,9 +53,16 @@ type userInformation = {
     email: string;
     password: string;
 }
+type logInInfoType = {
+    email: string;
+    password: string;
+}
+
 function useStateHandler() {
     const jwtToken = useSelector((state: RootState) => state.signUpReducer.jwtToken);
     const userInfo = useSelector((state: RootState) => state.signUpReducer.userInfo);
+    const loggedJwtToken = useSelector((state: RootState) => state.loginReducer.jwtToken);
+    const loggedUserInfo = useSelector((state: RootState) => state.loginReducer.userInfo);
     const genreDetails = useSelector((state: RootState) => state.genreRender.genreDetails);
     const genreBasedQuestionData = useSelector((state: RootState) => state.genreBasedQuestions.genreBasedQuestionData);
     const onLoadUnAnseredQuestion = useSelector((state : RootState) =>state.genreBasedQuestions.onLoadUnAnseredQuestion);
@@ -70,6 +78,15 @@ function useStateHandler() {
     const dispatch = useDispatch();
     const userSignUpHandler = (userInfo: userInformation)=>{
         dispatch(signUpActions.userSignUpHandler(userInfo));
+    }
+    const signedUpLogOut = ()=>{
+        dispatch(signUpActions.singedUpLogOut());
+    }
+    const userLogInHandler = (loginUserInfo: logInInfoType)=>{
+        dispatch(loginAction.logInUser(loginUserInfo));
+    }
+    const logOutHandler = ()=>{
+        dispatch(loginAction.logOutUser());
     }
     const getAllGenreDetails = ()=>{
         dispatch(genreActions.getAllGenre());
@@ -92,8 +109,8 @@ function useStateHandler() {
     const resultHandler = (genreId: string)=>{
         dispatch(resultActions.getResultHandler(genreId));
     }
-    return {jwtToken, userInfo, genreDetails, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, 
-        userSignUpHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler}
+    return {jwtToken, userInfo, loggedJwtToken, loggedUserInfo, genreDetails, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, 
+        userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler}
   
 }
 

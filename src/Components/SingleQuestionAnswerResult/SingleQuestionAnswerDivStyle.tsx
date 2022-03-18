@@ -18,7 +18,7 @@ export const SingleQuestionAnswerDiv = styled.div`
     background: linear-gradient(90deg, #b9deed, #efefef);
     border: 1px solid black;
     margin: 25px 10px 10px 10px;
-    padding: 15px;
+    padding: 8px;
     border-radius:20px;
     font-height: 1.5em;
 
@@ -29,12 +29,16 @@ export const QuestionDivStyle = styled.div<questionProps>`
     margin: 8px;
     font-weight: 700;
     font-size: 20px;
+    span {
+        color: ${({ color }) => color}
+    }
     > * {
         &:first-child {
             flex:1;
         }
         &:last-child {
-            color: ${({ color }) => color}
+            margin-top: -8px;
+            padding: 2px;
         }
     }
 `

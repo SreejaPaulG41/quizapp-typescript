@@ -30,7 +30,7 @@ const AnswerKey: React.FC<answerKeyProps> = ({resultArrToShow, fullMarks, marksG
         {
             resultArrToShow?.map((item, index)=>
                 <div key={index}>
-                    <SingleQuestionAnswerResult key={index + item.questionId} genreId={item.genreId} questionText={item.questionText} questionId={item.questionId} givenAnswerText={item.givenAnswerText} answerOptions={item.answerOptions} rightNess={item.rightNess} answerGiven={item.answerGiven} questionMark={item.questionMark}
+                    <SingleQuestionAnswerResult key={index + item.questionId} id={item.questionId} genreId={item.genreId} questionMarks={item.questionMark} questionText={item.questionText} questionId={item.questionId} givenAnswerText={item.givenAnswerText} answerOptions={item.answerOptions} rightNess={item.rightNess} answerGiven={item.answerGiven} questionMark={item.questionMark}
         timeAlloted= {item.timeAlloted}/>
                 </div>
             )

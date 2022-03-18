@@ -1,4 +1,4 @@
-import { signUpConstants } from './signUpConstants';
+import { loginConstants } from './loginConstants';
 
 type userInfoType = {
     id: number;
@@ -13,24 +13,23 @@ type stateType = {
 
 type actionType = {
     type: string;
-    userInfo: stateType;
+    loggedUserInfo: stateType;
 }
 const initialState: stateType = {
     jwtToken: '',
     userInfo: { id: 0, firstName: '', lastName: '', email: '' }
 }
-
-const signUpReducer = (state = initialState, action: actionType) => {
+const loginReducer = (state = initialState, action: actionType) => {
     switch (action.type) {
-        case signUpConstants.SUCCESSFUL_USER_SIGN_UP:
-            const token = action.userInfo.jwtToken;
-            const user = action.userInfo.userInfo;
+        case loginConstants.SUCCESSFUL_LOG_IN:
+            const token = action.loggedUserInfo.jwtToken;
+            const user = action.loggedUserInfo.userInfo;
             return {
                 ...state,
                 jwtToken: token,
                 userInfo: user
             }
-        case signUpConstants.LOGGED_OUT_ACTION:
+        case loginConstants.LOG_OUT_ACTION:
             return {
                 ...state,
                 jwtToken: ''
@@ -40,4 +39,4 @@ const signUpReducer = (state = initialState, action: actionType) => {
     }
 }
 
-export default signUpReducer;
+export default loginReducer;
