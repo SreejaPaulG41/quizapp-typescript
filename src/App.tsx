@@ -3,12 +3,11 @@ import './App.css';
 import Dashboard from './routes/Dashboard/Home/index';
 import { Routes, Route } from 'react-router-dom';
 import QuestionDisplayContainer from "./routes/Genre/QuestionDisplayContainer/index";
-import useStateHandler from './ReduxToolkit/useStateHandler';
+import useStateHandler from './Redux/useStateHandler';
 import Result from "./routes/Result/ResultPage/index";
 import Home from './routes/Home/index';
 import SignUp from './routes/SignUp';
 import Login from './routes/Login';
-import Test from './routes/Genre/QuestionDisplayContainer/test';
 import LeaderBoard from './routes/LeaderBoard';
 
 function App() {

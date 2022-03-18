@@ -37,24 +37,24 @@ const initialState: question = {
 }
 const genreBasedQuestionReducer = (state = initialState, action: actionType) => {
     switch (action.type) {
-        case genreBasedQuestionConstant.GET_GENRE_BASED_QUESTION:
-            const filteredQuestion = action.questionArrDetails;
-            const timeAlloted = filteredQuestion?.reduce((acc, item) => {
-                acc = acc + item.timeAlloted;
-                return acc;
-            }, 0);
-            const fullMarks = filteredQuestion?.reduce((acc, item) => {
-                acc = acc + item.questionMark;
-                return acc;
-            }, 0);
-            return {
-                ...state,
-                genreBasedQuestionData: filteredQuestion,
-                onLoadUnAnseredQuestion: filteredQuestion,
-                genreBasedQuestionTime: timeAlloted,
-                genreBasedQuestionFullMarks: fullMarks,
-                msg: ''
-            }
+        // case genreBasedQuestionConstant.GET_GENRE_BASED_QUESTION:
+        //     const filteredQuestion = action.questionArrDetails;
+        //     const timeAlloted = filteredQuestion?.reduce((acc, item) => {
+        //         acc = acc + item.timeAlloted;
+        //         return acc;
+        //     }, 0);
+        //     const fullMarks = filteredQuestion?.reduce((acc, item) => {
+        //         acc = acc + item.questionMark;
+        //         return acc;
+        //     }, 0);
+        //     return {
+        //         ...state,
+        //         genreBasedQuestionData: filteredQuestion,
+        //         onLoadUnAnseredQuestion: filteredQuestion,
+        //         genreBasedQuestionTime: timeAlloted,
+        //         genreBasedQuestionFullMarks: fullMarks,
+        //         msg: ''
+        //     }
 
         case genreBasedQuestionConstant.GET_GENRE_BASED_QUESTION_RESPONSE:
             const filteredQuestionRes = action.questionArrDetails;

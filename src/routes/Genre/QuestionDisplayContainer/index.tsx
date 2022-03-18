@@ -48,6 +48,17 @@ function QuestionDisplayContainer() {
         }
     }, [genreBasedQuestionData])
 
+    useEffect(()=>{
+        if(allQuestions === genreBasedQuestionData){
+            const filteredQuestion = allQuestions[0];
+            if (filteredQuestion) {
+                setQuestionToDisplay(filteredQuestion);
+                setSelectedQuestionId(filteredQuestion.questionId);
+                setButtonType(0);
+            }
+        }
+    },[allQuestions])
+
     useEffect(() => {
         if (genreBasedQuestionData?.length > 0 && answerArr?.length === 0) {
             console.log("Genre Here")
@@ -87,7 +98,7 @@ function QuestionDisplayContainer() {
     }, [genreId]);
 
     useEffect(() => {
-        if (qsIndex) {
+        if (genreBasedQuestionData === allQuestions) {
             if (genreBasedQuestionData) {
                 console.log("First Phase")
                 console.log(qsIndex)
@@ -108,16 +119,7 @@ function QuestionDisplayContainer() {
                     console.log("selectedQuestionId")
                     console.log(filteredQuestion.questionId)
                 }
-            }
-        } else {
-            console.log("Second Phase")
-            if(genreBasedQuestionData){
-                const filteredQuestion = genreBasedQuestionData[0];
-                if (filteredQuestion) {
-                    setQuestionToDisplay(filteredQuestion);
-                    setSelectedQuestionId(filteredQuestion.questionId);
-                    setButtonType(0);
-                }
+
             }
         }
     }, [genreBasedQuestionData, selectedQuestionId])
@@ -142,7 +144,7 @@ function QuestionDisplayContainer() {
                 </div>
                 <div>
                     <QuestionChart genreId={questionToDisplay?.genreId} questionId={questionToDisplay?.questionId}
-                        answerOptions={questionToDisplay?.answerOptions} selectedAnswer={selectedAnswer} setQIndex={setSelectedQuestionId}/>
+                        answerOptions={questionToDisplay?.answerOptions} selectedAnswer={selectedAnswer} setQIndex={setSelectedQuestionId} />
                 </div>
 
             </FlexDiv>
