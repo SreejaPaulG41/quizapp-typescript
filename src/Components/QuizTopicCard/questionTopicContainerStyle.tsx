@@ -29,7 +29,7 @@ export const IndividualCard = styled.div`
         height: 50px;
         width: 200px;
         padding: 10px;
-        margin: 100px 20px 20px 30px;
+        margin: 80px 20px 20px 30px;
         border-radius: 10px;
         font-size: 15px;
         background-color: transparent;
@@ -84,3 +84,14 @@ export const IndividualCard = styled.div`
         }
     }
 `
+
+export const DetailsDiv = styled.div`
+    height: 80px;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 80px 20px 20px 30px;
+    display: flex;
+    div{
+        font-weight: bold;
+    }
+` 

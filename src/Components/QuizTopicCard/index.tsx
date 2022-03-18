@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import useStateHandler from '../../Redux/useStateHandler';
-import { IndividualCard } from '../QuizTopicCard/questionTopicContainerStyle';
+import { IndividualCard, DetailsDiv } from '../QuizTopicCard/questionTopicContainerStyle';
 import gk from '../../Assets/Images/gk.jpg';
 import javascript from '../../Assets/Images/javascript.png';
 import react from '../../Assets/Images/react.png';
 import science from '../../Assets/Images/science.jpeg';
 
+type singleLeaderboardDataType = {
+    fullMarks: number;
+    userScore: number;
+    quizGivenTime: string;
+    genreName: string;
+    genreId: string;
+}
+
 type quizTopicCard = {
     name: string;
     id: string;
+    leaderBoardDetails: singleLeaderboardDataType[];
 }
-const QuizTopicCard: React.FC<quizTopicCard> = ({ name, id }) => {
-    const { getGenreSpecificQuestions } = useStateHandler();
-    const navigate = useNavigate();
-
+const QuizTopicCard: React.FC<quizTopicCard> = ({ name, id, leaderBoardDetails }) => {
+    const [showButton, setShowButton] = useState<boolean>(true);
+    const [showDetails, setShowDetails] = useState<singleLeaderboardDataType | undefined>({ fullMarks: 0, userScore: 0, quizGivenTime: '', genreName: '', genreId: '' });
     const emojiRendererHandler = (name: string) => {
         switch (name) {
             case "General Knowledge":
@@ -28,17 +35,42 @@ const QuizTopicCard: React.FC<quizTopicCard> = ({ name, id }) => {
                 return science;
         }
     }
+    useEffect(() => {
+        const idsInLeaderBoard = leaderBoardDetails.map((item: singleLeaderboardDataType, index: number) => item.genreId);
+        if (idsInLeaderBoard?.indexOf(id) > -1) {
+            setShowButton(false);
+            const dataToShow = leaderBoardDetails.find((item: singleLeaderboardDataType, index: number) => item.genreId == id)
+            setShowDetails(dataToShow);
+        } else {
+            setShowButton(true);
+            setShowDetails({ fullMarks: 0, userScore: 0, quizGivenTime: '', genreName: '', genreId: '' });
+        }
+    }, [leaderBoardDetails, id])
     return (
         <IndividualCard>
             <div>
                 <h1>{name}</h1>
-                <img src={emojiRendererHandler(name)} alt={name}/>
+                <img src={emojiRendererHandler(name)} alt={name} />
             </div>
-            <div>
-                <Link to= {"/genre/" + id }>
-                    <button>Start Quiz</button>
-                </Link>
-            </div>
+            {
+                (showButton) ?
+
+                    <Link to={"/genre/" + id}>
+                        <button>Start Quiz</button>
+                    </Link>
+                    :
+                    <DetailsDiv>
+                        <div>
+                            <div style={{fontSize: "20px", fontWeight: "bolder"}}>{"Score"}</div>
+                            <div>{showDetails?.userScore + " / " + showDetails?.fullMarks}</div>
+                        </div>
+                        <div>
+                            <div style={{fontSize: "20px", fontWeight: "bolder"}}>{"Quiz Taken On"}</div>
+                            <div>{showDetails?.quizGivenTime}</div>
+                        </div>
+
+                    </DetailsDiv>
+            }
         </IndividualCard>
     )
 }

@@ -9,6 +9,7 @@ import Home from './routes/Home/index';
 import SignUp from './routes/SignUp';
 import Login from './routes/Login';
 import Test from './routes/Genre/QuestionDisplayContainer/test';
+import LeaderBoard from './routes/LeaderBoard';
 
 function App() {
   // const { unAnsweredArray} = useStateHandler();
@@ -25,8 +26,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/genre/:genreId/:qIndex" element={<QuestionDisplayContainer/>}/>
         <Route path="/genre/:genreId" element={<QuestionDisplayContainer/>}/>
-        {/* <Route path="/genre/:genreId" element={<Test/>}/> */}
         <Route path="/result" element={<Result/>}/>
+        <Route path="/leaderBoard" element={<LeaderBoard/>}/>
       </Routes>
     </div>
   );

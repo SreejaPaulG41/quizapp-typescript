@@ -11,8 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
+import { useNavigate, Link } from 'react-router-dom';
 import useStateHandler from '../../Redux/useStateHandler';
 
 const Navbar: React.FC = () => {
@@ -28,12 +27,12 @@ const Navbar: React.FC = () => {
     setAnchorEl(null);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInformation") || " ");
     setUser(userInfo.firstName)
-  },[])
+  }, [])
 
-  const userLogOut = () =>{
+  const userLogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userInformation");
     signedUpLogOut();
@@ -43,7 +42,9 @@ const Navbar: React.FC = () => {
   return (
     <NavbarStyle>
       <h1>Quiz Master</h1>
-      <h4>Leaderboard</h4>
+      <Link to="/leaderBoard">
+        <h4>Leaderboard</h4>
+      </Link>
       <UserInfo>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
           <Typography sx={{ minWidth: 100 }}>{"Hello, " + user}</Typography>
@@ -60,7 +61,7 @@ const Navbar: React.FC = () => {
                 <img src={"https://avataaars.io/?avatarStyle=Transparent&topType=WinterHat2&accessoriesType=Blank&hatColor=Blue01&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"} style={{ width: 32, height: 32 }} />
               </Avatar>
               {
-                (anchorEl === null) ? <ArrowDropDownIcon sx={{ transition: '1s ease-in' }}/> : <ArrowDropUpIcon sx={{ transition: '1s ease-out' }}/>
+                (anchorEl === null) ? <ArrowDropDownIcon sx={{ transition: '1s ease-in' }} /> : <ArrowDropUpIcon sx={{ transition: '1s ease-out' }} />
               }
             </IconButton>
           </Tooltip>

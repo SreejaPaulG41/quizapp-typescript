@@ -74,7 +74,7 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, gen
 
   useEffect(() => {
     //All Ansered Question ID
-    if (answeredQues.length > 0 && unAnswereQues.length > 0) {
+    if (answeredQues?.length > 0 && unAnswereQues?.length > 0) {
       const answeredQuestionIds = answerArr?.map((item: any) => {
         return item.questionId;
       })
@@ -87,13 +87,13 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, gen
       console.log("all")
       console.log(genreBasedQuestionData)
       //Not Answered Question ID
-      const notAnsweredIds = allQuestionIds.filter((item: any) => {
+      const notAnsweredIds = allQuestionIds?.filter((item: any) => {
         return !answeredQuestionIds.includes(item);
       })
       console.log("Not ID")
       console.log(notAnsweredIds);
       //Not Answered Question Index
-      if (notAnsweredIds.length > 0) {
+      if (notAnsweredIds?.length > 0) {
         // const notAnseredItem: (number | allQuestionArr)[] = genreBasedQuestionData.map((item, index) => {
         //   if (notAnsweredIds.includes(item.questionId)) {
         //     return index;
@@ -119,7 +119,7 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, gen
         console.log(notAnsweredItem)
         setUnAnsweredIndexArr(notAnsweredItem);
       }
-    } else if (answeredQues.length > 0 && unAnswereQues.length === 0) {
+    } else if (answeredQues?.length > 0 && unAnswereQues?.length === 0) {
       setUnAnsweredIndexArr([]);
     } else {
     //   const notAnseredIndex = onLoadUnAnseredQuestion[0]?.map((item, index) => {
@@ -136,7 +136,7 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, gen
   }, [questionNoFromUrl, answeredQues, unAnswereQues])
 
   useEffect(() => {
-    if (unAnsweredIndexArr.includes(id)) {
+    if (unAnsweredIndexArr?.includes(id)) {
       console.log("Yellow");
       setColorOfButton("#ffe033");
       setHoverColorButton('#fff4b3');
@@ -163,7 +163,7 @@ const SingleButtonInChart: React.FC<singleButtonInChartProps> = ({ item, id, gen
     }
   }
   const checkCorrectNessHandler = () => {
-    return answerOptions.find((item) => {
+    return answerOptions?.find((item) => {
       return item.answerText === selectedAnswer;
     })
   }

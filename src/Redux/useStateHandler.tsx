@@ -7,6 +7,7 @@ import { givenAnswerAction } from './GivenAnswers/givenAnswerAction';
 import { resultActions } from './Result/resultActions';
 import { signUpActions } from './SignUp/signUpActions';
 import { loginAction } from './Login/loginAction';
+import { leaderBoardActions } from './LeaderBoard/leaderBoardAction';
 
 interface prevAnswer {
     questionId: number;
@@ -74,6 +75,8 @@ function useStateHandler() {
     const submittedAnswerArr = useSelector((state : RootState) =>state.answerStoreHandler.submittedAns);
     const prevAnswer = useSelector((state : RootState) =>state.answerStoreHandler.previousQuestionAnswer);
     const resultArr = useSelector((state : RootState)=>state.resultReducer.resultArr);
+    const leaderBoardUserSpecific = useSelector((state : RootState)=>state.leaderBoardReducer.userSpecificLeaderBoardInformation);
+    const leaderBoard = useSelector((state : RootState)=>state.leaderBoardReducer.leaderBoardInformation);
 
     const dispatch = useDispatch();
     const userSignUpHandler = (userInfo: userInformation)=>{
@@ -109,8 +112,14 @@ function useStateHandler() {
     const resultHandler = (genreId: string)=>{
         dispatch(resultActions.getResultHandler(genreId));
     }
-    return {jwtToken, userInfo, loggedJwtToken, loggedUserInfo, genreDetails, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, 
-        userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler}
+    const leaderBoardHandler = ()=>{
+        dispatch(leaderBoardActions.getLeaderboardHandler());
+    }
+    const userBasedLeaderBoardHandler = ()=>{
+        dispatch(leaderBoardActions.getLeaderboardUserSpecHandler());
+    }
+    return {jwtToken, userInfo, loggedJwtToken, loggedUserInfo, genreDetails, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, leaderBoardUserSpecific, leaderBoard,
+        userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler}
   
 }
 
