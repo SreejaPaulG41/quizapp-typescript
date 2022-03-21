@@ -35,7 +35,7 @@ const Result: React.FC = () => {
 
   useEffect(() => {
     resultHandler(submittedAnswerArr?.genreId);
-  }, [])
+  }, [submittedAnswerArr])
 
   useEffect(() => {
     if (resultArr) {

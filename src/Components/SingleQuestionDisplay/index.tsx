@@ -150,7 +150,7 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
         } else {
             storeUnAnswerQuestionHandler();
         }
-        submitAnsModificationHandler();
+        //submitAnsModificationHandler();
         setCheckSubmitClicked(true);
     }
     const submitAnsModificationHandler = () => {
@@ -185,6 +185,8 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
             genreId: genreId,
             givenAnswerArr: sortedAnswerArr
         }
+        console.log("call")
+        console.log(sortedAnswerDetails)
         submitGivenAnswerHandler(sortedAnswerDetails);
     }
 
@@ -213,7 +215,7 @@ const SingleQuestionDisplay: React.FC<singleQuestionDisplay> = ({ genreId, quest
                 }
             </ButtonStyle>
             {
-                modalShow ? <SubmitHandlerModal modalMsg={modalMsg} modalShow={modalShow} setModalShow={setModalShow} /> : ''
+                modalShow ? <SubmitHandlerModal modalMsg={modalMsg} modalShow={modalShow} setModalShow={setModalShow} submitAnsModificationHandler={submitAnsModificationHandler}/> : ''
             }
 
         </ParentSingleQuestionAnswerDiv>

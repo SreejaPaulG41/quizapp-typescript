@@ -6,18 +6,26 @@ type userInfoType = {
     lastName: string;
     email: string;
 }
+type errorObj = {
+    data: string;
+    statusCode: number;
+
+}
 type stateType = {
-    jwtToken: string;
-    userInfo: userInfoType;
+    jwtToken?: string;
+    userInfo?: userInfoType;
+    msg?: errorObj;
 }
 
 type actionType = {
     type: string;
     loggedUserInfo: stateType;
+    msg: errorObj;
 }
 const initialState: stateType = {
     jwtToken: '',
-    userInfo: { id: 0, firstName: '', lastName: '', email: '' }
+    userInfo: { id: 0, firstName: '', lastName: '', email: '' },
+    msg: {data: '', statusCode: 0}
 }
 const loginReducer = (state = initialState, action: actionType) => {
     switch (action.type) {
@@ -33,6 +41,11 @@ const loginReducer = (state = initialState, action: actionType) => {
             return {
                 ...state,
                 jwtToken: ''
+            }
+        case loginConstants.ERROR_IN_LOGIN:
+            return {
+                ...state,
+                msg: action.msg
             }
         default:
             return { ...state }

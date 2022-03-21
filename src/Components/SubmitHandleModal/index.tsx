@@ -8,9 +8,10 @@ interface modalProps{
     modalMsg: string;
     modalShow: boolean;
     setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
+    submitAnsModificationHandler: () => void;
 }
 
-const SubmitHandlerModal: React.FC<modalProps> = ({ modalMsg, modalShow, setModalShow }) => {
+const SubmitHandlerModal: React.FC<modalProps> = ({ modalMsg, modalShow, setModalShow, submitAnsModificationHandler }) => {
     const [open, setOpen] = useState(modalShow);
     const navigate = useNavigate();
     const onCloseModal = () => {
@@ -18,6 +19,7 @@ const SubmitHandlerModal: React.FC<modalProps> = ({ modalMsg, modalShow, setModa
         setModalShow(false);
     }
     const onYesClickHandler = () => {
+        submitAnsModificationHandler();
         setOpen(false);
         setModalShow(false);
         navigate('/result');

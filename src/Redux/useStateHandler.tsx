@@ -8,6 +8,7 @@ import { resultActions } from './Result/resultActions';
 import { signUpActions } from './SignUp/signUpActions';
 import { loginAction } from './Login/loginAction';
 import { leaderBoardActions } from './LeaderBoard/leaderBoardAction';
+import { authenticationActions } from './Authentication/authenticationActions';
 
 interface prevAnswer {
     questionId: number;
@@ -60,11 +61,15 @@ type logInInfoType = {
 }
 
 function useStateHandler() {
+    const userValid = useSelector((state: RootState) => state.authenticationReducer.userValid);
+    const userValidMsg = useSelector((state: RootState) => state.authenticationReducer.msg);
     const jwtToken = useSelector((state: RootState) => state.signUpReducer.jwtToken);
     const userInfo = useSelector((state: RootState) => state.signUpReducer.userInfo);
     const loggedJwtToken = useSelector((state: RootState) => state.loginReducer.jwtToken);
     const loggedUserInfo = useSelector((state: RootState) => state.loginReducer.userInfo);
+    const logInUserError = useSelector((state: RootState) => state.loginReducer.msg);
     const genreDetails = useSelector((state: RootState) => state.genreRender.genreDetails);
+    const genreAuthenticationError = useSelector((state: RootState) => state.genreRender.msg)
     const genreBasedQuestionData = useSelector((state: RootState) => state.genreBasedQuestions.genreBasedQuestionData);
     const onLoadUnAnseredQuestion = useSelector((state : RootState) =>state.genreBasedQuestions.onLoadUnAnseredQuestion);
     const genreBasedQuestionTime = useSelector((state : RootState) =>state.genreBasedQuestions.genreBasedQuestionTime);
@@ -77,8 +82,10 @@ function useStateHandler() {
     const resultArr = useSelector((state : RootState)=>state.resultReducer.resultArr);
     const leaderBoardUserSpecific = useSelector((state : RootState)=>state.leaderBoardReducer.userSpecificLeaderBoardInformation);
     const leaderBoard = useSelector((state : RootState)=>state.leaderBoardReducer.leaderBoardInformation);
-
     const dispatch = useDispatch();
+    const authenticationHandler = ()=>{
+        dispatch(authenticationActions.getUserValidity());
+    }
     const userSignUpHandler = (userInfo: userInformation)=>{
         dispatch(signUpActions.userSignUpHandler(userInfo));
     }
@@ -118,8 +125,8 @@ function useStateHandler() {
     const userBasedLeaderBoardHandler = ()=>{
         dispatch(leaderBoardActions.getLeaderboardUserSpecHandler());
     }
-    return {jwtToken, userInfo, loggedJwtToken, loggedUserInfo, genreDetails, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, leaderBoardUserSpecific, leaderBoard,
-        userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler}
+    return {userValid, userValidMsg, jwtToken, userInfo, loggedJwtToken, loggedUserInfo, logInUserError, genreDetails, genreAuthenticationError, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, leaderBoardUserSpecific, leaderBoard,
+        authenticationHandler, userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler}
   
 }
 

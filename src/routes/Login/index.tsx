@@ -6,7 +6,7 @@ const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
-    const { loggedJwtToken, loggedUserInfo, userLogInHandler} = useStateHandler();
+    const { loggedJwtToken, logInUserError, loggedUserInfo, userLogInHandler} = useStateHandler();
 
     const loginHandler = async () => {
         const dataToAdd = { email, password };
@@ -16,11 +16,17 @@ const Login: React.FC = () => {
     }
     useEffect(()=>{
         if (loggedJwtToken !== '') {
-            localStorage.setItem("token", loggedJwtToken);
+            localStorage.setItem("token", loggedJwtToken!);
             localStorage.setItem("userInformation", JSON.stringify(loggedUserInfo))
             navigate('/dashboard');
         }
     },[loggedJwtToken])
+
+    useEffect(()=>{
+        if(logInUserError?.data!=='' && logInUserError?.statusCode!==0){
+            alert(logInUserError?.data)
+        }
+    },[logInUserError])
     return (
         <div>
             <div>

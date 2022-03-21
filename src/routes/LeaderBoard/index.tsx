@@ -4,12 +4,12 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Fade from '@mui/material/Fade';
 import { useNavigate } from 'react-router-dom';
-import { LeaderBoardStyle, Content } from './leaderBoardStyle';
+import { LeaderBoardStyle, Content, Button, ButtonDiv } from './leaderBoardStyle';
 import useStateHandler from '../../Redux/useStateHandler';
 import MyLeaderBoard from './MyLeaderBoard';
 import AllLeaderBoard from './AllLeaderBoard.tsx';
 
-type singleLeaderboardDataType= {
+type singleLeaderboardDataType = {
     fullMarks: number;
     userScore: number;
     quizGivenTime: string;
@@ -19,6 +19,7 @@ type singleLeaderboardDataType= {
 
 type singleLeaderBoard = {
     userFullName: string;
+    genreName: string;
     fullMarks: number;
     userScore: number;
     quizGivenTime: string;
@@ -28,27 +29,26 @@ const LeaderBoard: React.FC = () => {
     const [userSpecificLeaderBoard, setUserSpecificLeaderBoard] = useState<singleLeaderboardDataType[]>([]);
     const [leaderBoardData, setLeaderBoardData] = useState<singleLeaderBoard[]>([]);
     const [selected, setSelected] = useState<string>("user");
-    const {leaderBoardUserSpecific, leaderBoard, leaderBoardHandler, userBasedLeaderBoardHandler} = useStateHandler();
-    useEffect(()=>{
-        if(selected === "user"){
-            if(leaderBoardUserSpecific?.length > 0){
+    const { leaderBoardUserSpecific, leaderBoard, leaderBoardHandler, userBasedLeaderBoardHandler } = useStateHandler();
+    useEffect(() => {
+        if (selected === "user") {
+            if (leaderBoardUserSpecific?.length > 0) {
                 setUserSpecificLeaderBoard(leaderBoardUserSpecific)
-            }else{
+            } else {
                 userBasedLeaderBoardHandler();
             }
-        }else{
-            if(leaderBoard?.length > 0){
+        } else {
+            if (leaderBoard?.length > 0) {
                 setLeaderBoardData(leaderBoard)
-            }else{
-                console.log("comming")
+            } else {
                 leaderBoardHandler();
             }
         }
-    },[selected, leaderBoardUserSpecific, leaderBoard])
+    }, [selected, leaderBoardUserSpecific, leaderBoard])
 
-    useEffect(()=>{
+    useEffect(() => {
 
-    },[])
+    }, [])
     return (
         <LeaderBoardStyle>
             <div style={{ height: "30px", width: "100%" }}>
@@ -59,21 +59,18 @@ const LeaderBoard: React.FC = () => {
                 </div>
             </div>
             <Content>
-                <div>
+                <ButtonDiv>
                     <div>
-                        <button onClick={()=>setSelected("user")}>
+                        <Button onClick={() => setSelected("user")} style={{borderBottom: (selected === "user")? "2px solid grey": ""}}>
                             My Leader Board
-                        </button>
+                        </Button>
                     </div>
-
-                    <div>
-                        <button onClick={()=>setSelected("genre")}>
-                            Main Leader Board
-                        </button>
-                    </div>
-                </div>
+                    <Button onClick={() => setSelected("genre")} style={{borderBottom: (selected === "genre")? "2px solid grey": ""}}>
+                        Main Leader Board
+                    </Button>
+                </ButtonDiv>
                 <div>
-                    {(selected === "user") ? <MyLeaderBoard userSpecificLeaderBoard={userSpecificLeaderBoard}/> : <AllLeaderBoard leaderBoardData={leaderBoardData}/>}
+                    {(selected === "user") ? <MyLeaderBoard userSpecificLeaderBoard={userSpecificLeaderBoard} /> : <AllLeaderBoard leaderBoardData={leaderBoardData} />}
                 </div>
             </Content>
         </LeaderBoardStyle>

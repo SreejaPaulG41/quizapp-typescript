@@ -6,6 +6,7 @@ import resultReducer from './Result/resultReducer';
 import signUpReducer from './SignUp/signUpReducer';
 import loginReducer from './Login/loginReducer';
 import leaderBoardReducer from './LeaderBoard/leaderBoardReducer';
+import authenticationReducer from './Authentication/authenticationReducer';
 
 const rootReducer = combineReducers({
     signUpReducer: signUpReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     genreBasedQuestions: genreBasedQuestionReducer,
     answerStoreHandler: givenAnswerReducer,
     resultReducer: resultReducer,
-    leaderBoardReducer: leaderBoardReducer
+    leaderBoardReducer: leaderBoardReducer,
+    authenticationReducer: authenticationReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>;

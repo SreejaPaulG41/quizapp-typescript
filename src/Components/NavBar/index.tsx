@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
   return (
     <NavbarStyle>
       <h1>Quiz Master</h1>
-      <Link to="/leaderBoard">
+      <Link to="/leaderBoard" style={{textDecoration: "none", color: "inherit"}}>
         <h4>Leaderboard</h4>
       </Link>
       <UserInfo>

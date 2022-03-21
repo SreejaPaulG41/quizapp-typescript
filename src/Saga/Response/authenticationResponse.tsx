@@ -1,27 +1,24 @@
 import React from 'react';
 import axios from 'axios';
 
-type logInInfoType = {
-    email: string;
-    password: string;
-}
-
 type errorObj = {
     data: string;
     statusCode: number;
 
 }
-const logInResponse = (payload: logInInfoType) => {
-    const dataToSend = payload;
-    return axios.post('http://localhost:5000/auth/login', JSON.stringify(dataToSend), {
+const authenticationResponse = () => {
+    return axios.request({
+        method: 'GET',
+        url: 'http://localhost:5000/valid-check',
         headers: {
             'Content-Type': 'application/json',
-        },
-    })
+            'jwtToken': localStorage.token
+        } })
         .then((res) => res.data)
         .catch((error) => {
             const errorResponse: errorObj = { data: '', statusCode: 0 };
             if (error.response) {
+                console.log(error.response)
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
                 errorResponse.data = error.response.data;
@@ -40,4 +37,4 @@ const logInResponse = (payload: logInInfoType) => {
         })
 }
 
-export default logInResponse;
+export default authenticationResponse;
