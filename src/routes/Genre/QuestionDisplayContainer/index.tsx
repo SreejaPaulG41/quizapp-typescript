@@ -23,7 +23,7 @@ type urlPrameter = {
     qIndex: string;
 }
 function QuestionDisplayContainer() {
-    const { genreBasedQuestionData, answerArr, genreDetails, onLoadUnAnseredQuestion, getGenreSpecificQuestions, storeNotAnsweredHandler } = useStateHandler();
+    const { genreBasedQuestionData, answerArr, genreDetails, onLoadUnAnseredQuestion, userValid, userValidMsg, authenticationHandler, getGenreSpecificQuestions, storeNotAnsweredHandler } = useStateHandler();
     const [questionToDisplay, setQuestionToDisplay] = useState<allQuestionArr>({ questionId: 0, genreId: '', questionText: '', questionMark: 0, timeAlloted: 0, answerOptions: [] });
     const navigate = useNavigate();
     const genreId = useParams<urlPrameter>().genreId;
@@ -35,6 +35,19 @@ function QuestionDisplayContainer() {
     const [selectedAnswer, setSelectedAnswer] = useState<string>("");
     const [genreName, setGenreName] = useState<string>('');
 
+    useEffect(() => {
+      authenticationHandler();
+    }, []);
+    useEffect(() => {
+      if (!userValid) {
+        if (userValidMsg?.statusCode === 403) {
+          navigate('/login');
+          console.log("User Is Not Authenticated. Please Login Again!");
+          
+        }
+      }
+    }, [userValid, userValidMsg])
+    
     useEffect(() => {
         if (genreId) {
             getGenreSpecificQuestions(genreId);

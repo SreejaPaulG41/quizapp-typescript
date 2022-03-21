@@ -29,7 +29,21 @@ const LeaderBoard: React.FC = () => {
     const [userSpecificLeaderBoard, setUserSpecificLeaderBoard] = useState<singleLeaderboardDataType[]>([]);
     const [leaderBoardData, setLeaderBoardData] = useState<singleLeaderBoard[]>([]);
     const [selected, setSelected] = useState<string>("user");
-    const { leaderBoardUserSpecific, leaderBoard, leaderBoardHandler, userBasedLeaderBoardHandler } = useStateHandler();
+    const { leaderBoardUserSpecific, leaderBoard, userValid, userValidMsg, authenticationHandler, leaderBoardHandler, userBasedLeaderBoardHandler } = useStateHandler();
+
+    useEffect(() => {
+        authenticationHandler();
+    }, []);
+    useEffect(() => {
+        if (!userValid) {
+            if (userValidMsg?.statusCode === 403) {
+                navigate('/login');
+                console.log("User Is Not Authenticated. Please Login Again!");
+
+            }
+        }
+    }, [userValid, userValidMsg])
+
     useEffect(() => {
         if (selected === "user") {
             if (leaderBoardUserSpecific?.length > 0) {
@@ -39,16 +53,16 @@ const LeaderBoard: React.FC = () => {
             }
         } else {
             if (leaderBoard?.length > 0) {
+                console.log("leader board")
+                console.log(leaderBoardData)
+                console.log(leaderBoard)
                 setLeaderBoardData(leaderBoard)
-            } else {
+            } else if(leaderBoard?.length === 0 && leaderBoard!==leaderBoardData) {
                 leaderBoardHandler();
             }
         }
     }, [selected, leaderBoardUserSpecific, leaderBoard])
 
-    useEffect(() => {
-
-    }, [])
     return (
         <LeaderBoardStyle>
             <div style={{ height: "30px", width: "100%" }}>
@@ -61,11 +75,11 @@ const LeaderBoard: React.FC = () => {
             <Content>
                 <ButtonDiv>
                     <div>
-                        <Button onClick={() => setSelected("user")} style={{borderBottom: (selected === "user")? "2px solid grey": ""}}>
+                        <Button onClick={() => setSelected("user")} style={{ borderBottom: (selected === "user") ? "2px solid grey" : "" }}>
                             My Leader Board
                         </Button>
                     </div>
-                    <Button onClick={() => setSelected("genre")} style={{borderBottom: (selected === "genre")? "2px solid grey": ""}}>
+                    <Button onClick={() => setSelected("genre")} style={{ borderBottom: (selected === "genre") ? "2px solid grey" : "" }}>
                         Main Leader Board
                     </Button>
                 </ButtonDiv>

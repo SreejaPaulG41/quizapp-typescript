@@ -31,7 +31,20 @@ const Result: React.FC = () => {
   const [fullMarks, setFullMarks] = useState<number>(0);
   const [marksGot, setMarksGot] = useState<number>(0);
   const navigate = useNavigate();
-  const { genreBasedQuestionFullMarks, submittedAnswerArr, resultArr, resultHandler } = useStateHandler();
+  const { genreBasedQuestionFullMarks, submittedAnswerArr, resultArr, userValid, userValidMsg, authenticationHandler, resultHandler } = useStateHandler();
+
+  useEffect(() => {
+    authenticationHandler();
+  }, []);
+  useEffect(() => {
+    if (!userValid) {
+      if (userValidMsg?.statusCode === 403) {
+        navigate('/login');
+        console.log("User Is Not Authenticated. Please Login Again!");
+        
+      }
+    }
+  }, [userValid, userValidMsg])
 
   useEffect(() => {
     resultHandler(submittedAnswerArr?.genreId);

@@ -50,34 +50,37 @@ const MyLeaderBoard: React.FC<propsType> = ({ userSpecificLeaderBoard }) => {
     }, [userSpecificLeaderBoard])
     return (
         <div>
+            {(information?.length) ?
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell>{"Genre Name"}</StyledTableCell>
+                                <StyledTableCell align="right">{"Genre Id"}</StyledTableCell>
+                                <StyledTableCell align="right">{"Full Marks"}</StyledTableCell>
+                                <StyledTableCell align="right">{"User Marks"}</StyledTableCell>
+                                <StyledTableCell align="right">{"Given On"}</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
 
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>{"Genre Name"}</StyledTableCell>
-                            <StyledTableCell align="right">{"Genre Id"}</StyledTableCell>
-                            <StyledTableCell align="right">{"Full Marks"}</StyledTableCell>
-                            <StyledTableCell align="right">{"User Marks"}</StyledTableCell>
-                            <StyledTableCell align="right">{"Given On"}</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    
-                        {information?.map((row, index) => (
-                            <StyledTableRow key={index}>
-                                <StyledTableCell component="th" scope="row">
-                                    {row.genreName}
-                                </StyledTableCell>
-                                <StyledTableCell align="right">{row.genreId}</StyledTableCell>
-                                <StyledTableCell align="right">{row.fullMarks}</StyledTableCell>
-                                <StyledTableCell align="right">{row.userScore}</StyledTableCell>
-                                <StyledTableCell align="right">{row.quizGivenTime}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                            {information?.map((row, index) => (
+                                <StyledTableRow key={index}>
+                                    <StyledTableCell component="th" scope="row">
+                                        {row.genreName}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">{row.genreId}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.fullMarks}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.userScore}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.quizGivenTime}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                : <div>
+                    <h4>You Have Not Attended Any Quiz To Show!</h4>
+                </div>}
         </div>
     )
 }

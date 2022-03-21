@@ -6,18 +6,27 @@ type userInfoType = {
     lastName: string;
     email: string;
 }
+
+type errorObj = {
+    data: string;
+    statusCode: number;
+
+}
 type stateType = {
-    jwtToken: string;
-    userInfo: userInfoType;
+    jwtToken?: string;
+    userInfo?: userInfoType;
+    msg?: errorObj;
 }
 
 type actionType = {
     type: string;
     userInfo: stateType;
+    msg: errorObj;
 }
 const initialState: stateType = {
     jwtToken: '',
-    userInfo: { id: 0, firstName: '', lastName: '', email: '' }
+    userInfo: { id: 0, firstName: '', lastName: '', email: '' },
+    msg: {data: '', statusCode: 0}
 }
 
 const signUpReducer = (state = initialState, action: actionType) => {
@@ -34,6 +43,11 @@ const signUpReducer = (state = initialState, action: actionType) => {
             return {
                 ...state,
                 jwtToken: ''
+            }
+        case signUpConstants.ERROR_AS_RESPONSE:
+            return {
+                ...state,
+                msg: action.msg
             }
         default:
             return { ...state }

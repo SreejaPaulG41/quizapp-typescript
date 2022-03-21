@@ -65,6 +65,7 @@ function useStateHandler() {
     const userValidMsg = useSelector((state: RootState) => state.authenticationReducer.msg);
     const jwtToken = useSelector((state: RootState) => state.signUpReducer.jwtToken);
     const userInfo = useSelector((state: RootState) => state.signUpReducer.userInfo);
+    const signUpError = useSelector((state: RootState) => state.signUpReducer.msg);
     const loggedJwtToken = useSelector((state: RootState) => state.loginReducer.jwtToken);
     const loggedUserInfo = useSelector((state: RootState) => state.loginReducer.userInfo);
     const logInUserError = useSelector((state: RootState) => state.loginReducer.msg);
@@ -125,7 +126,7 @@ function useStateHandler() {
     const userBasedLeaderBoardHandler = ()=>{
         dispatch(leaderBoardActions.getLeaderboardUserSpecHandler());
     }
-    return {userValid, userValidMsg, jwtToken, userInfo, loggedJwtToken, loggedUserInfo, logInUserError, genreDetails, genreAuthenticationError, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, leaderBoardUserSpecific, leaderBoard,
+    return {userValid, userValidMsg, jwtToken, userInfo, signUpError, loggedJwtToken, loggedUserInfo, logInUserError, genreDetails, genreAuthenticationError, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, leaderBoardUserSpecific, leaderBoard,
         authenticationHandler, userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler}
   
 }

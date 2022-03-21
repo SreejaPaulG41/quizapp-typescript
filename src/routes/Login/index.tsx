@@ -6,7 +6,7 @@ const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
-    const { loggedJwtToken, logInUserError, loggedUserInfo, userLogInHandler} = useStateHandler();
+    const { loggedJwtToken, logInUserError, loggedUserInfo, userLogInHandler, authenticationHandler} = useStateHandler();
 
     const loginHandler = async () => {
         const dataToAdd = { email, password };
@@ -18,6 +18,7 @@ const Login: React.FC = () => {
         if (loggedJwtToken !== '') {
             localStorage.setItem("token", loggedJwtToken!);
             localStorage.setItem("userInformation", JSON.stringify(loggedUserInfo))
+            authenticationHandler();
             navigate('/dashboard');
         }
     },[loggedJwtToken])

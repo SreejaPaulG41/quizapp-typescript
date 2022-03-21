@@ -43,12 +43,13 @@ const AllLeaderBoard: React.FC<propsType> = ({ leaderBoardData }) => {
         console.log(leaderBoardData)
         if(leaderBoardData.length > 0){
             const sortedArr = leaderBoardData.sort((a,b)=>{
-                if(a.userScore > b.userScore)
-                    return -1;
-                else if(a.userScore < b.userScore)
-                    return 1;
-                return 0;
+                // if(a.userScore - b.userScore)
+                //     return 1;
+                // else if(a.userScore - b.userScore)
+                //     return -1;
+                return b.userScore - a.userScore;
             })
+            console.log(sortedArr === leaderBoardData)
             setSortedData(sortedArr)
         }
     }, [leaderBoardData])

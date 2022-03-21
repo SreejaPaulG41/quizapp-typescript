@@ -8,7 +8,7 @@ const SignUp = () => {
     const [lastName, setLastName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const { jwtToken, userInfo, userSignUpHandler } = useStateHandler();
+    const { jwtToken, userInfo, signUpError, userSignUpHandler, authenticationHandler } = useStateHandler();
 
     const signUpHandler = async () => {
         const dataToAdd = { firstName, lastName, email, password };
@@ -21,11 +21,18 @@ const SignUp = () => {
 
     useEffect(()=>{
         if (jwtToken !== '') {
-            localStorage.setItem("token", jwtToken);
+            localStorage.setItem("token", jwtToken!);
             localStorage.setItem("userInformation", JSON.stringify(userInfo))
+            authenticationHandler();
             navigate('/dashboard');
         }
     },[jwtToken])
+
+    useEffect(()=>{
+        if(signUpError?.data!=='' && signUpError?.statusCode!==0){
+            alert(signUpError?.data)
+        }
+    },[signUpError])
     return (
         <div>
             <div>
