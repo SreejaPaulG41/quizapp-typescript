@@ -40,7 +40,8 @@ const loginReducer = (state = initialState, action: actionType) => {
         case loginConstants.LOG_OUT_ACTION:
             return {
                 ...state,
-                jwtToken: ''
+                jwtToken: '',
+                userInfo: { id: 0, firstName: '', lastName: '', email: '' },
             }
         case loginConstants.ERROR_IN_LOGIN:
             return {

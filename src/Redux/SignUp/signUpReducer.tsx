@@ -42,7 +42,8 @@ const signUpReducer = (state = initialState, action: actionType) => {
         case signUpConstants.LOGGED_OUT_ACTION:
             return {
                 ...state,
-                jwtToken: ''
+                jwtToken: '',
+                userInfo: { id: 0, firstName: '', lastName: '', email: '' },
             }
         case signUpConstants.ERROR_AS_RESPONSE:
             return {

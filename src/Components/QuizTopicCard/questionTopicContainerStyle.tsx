@@ -94,4 +94,31 @@ export const DetailsDiv = styled.div`
     div{
         font-weight: bold;
     }
+    @media (max-width: 550px) {
+        height: 50px;
+        width: 100px;
+        margin: 50px 10px 10px 30px;
+        justify-content: space-evenly;
+    }
+    @media (max-width: 400px) {
+        height: 30px;
+        width: 100px;
+        margin: 50px 10px 10px 30px;
+        justify-content: space-evenly;
+    }
 ` 
+
+export const Heading = styled.div`
+    font-size: 20px;
+    font-weight: bolder;
+    @media (max-width: 550px) {
+        font-size: 10px;
+        margin-right: 10px;
+        display: none;
+    }
+    @media (max-width: 400px) {
+        font-size: 10px;
+        margin-right: 20px;
+        display: none;
+    }
+`

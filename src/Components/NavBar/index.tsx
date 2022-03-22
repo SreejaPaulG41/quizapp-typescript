@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
   const [user, setUser] = useState<string>('');
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
-  const { signedUpLogOut, logOutHandler } = useStateHandler();
+  const { userValid, signedUpLogOut, logOutHandler, authenticationHandler } = useStateHandler();
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -29,15 +29,17 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInformation") || " ");
-    setUser(userInfo.firstName)
+    setUser(userInfo?.firstName)
   }, [])
 
   const userLogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userInformation");
+    navigate('/');
+    window.location.reload();
     signedUpLogOut();
     logOutHandler();
-    navigate('/');
+    console.log(userValid)
   }
   return (
     <NavbarStyle>

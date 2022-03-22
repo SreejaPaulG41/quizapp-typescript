@@ -18,7 +18,6 @@ const authenticationResponse = () => {
         .catch((error) => {
             const errorResponse: errorObj = { data: '', statusCode: 0 };
             if (error.response) {
-                console.log(error.response)
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
                 errorResponse.data = error.response.data;

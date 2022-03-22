@@ -11,16 +11,20 @@ import Login from './routes/Login';
 import LeaderBoard from './routes/LeaderBoard';
 
 function App() {
-  const { userValid } = useStateHandler();
+  const { userValid, authenticationHandler } = useStateHandler();
   
+  useEffect(()=>{
+    if(!userValid)
+      authenticationHandler();
+  },[userValid])
   return (
     <div className='app'>
       {
         userValid ?
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Navigate to="/dashboard" />} />
+            <Route path="/signup" element={<Navigate to="/dashboard" />} />
+            <Route path="/login" element={<Navigate to="/dashboard" />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/genre/:genreId/:qIndex" element={<QuestionDisplayContainer />} />
             <Route path="/genre/:genreId" element={<QuestionDisplayContainer />} />
