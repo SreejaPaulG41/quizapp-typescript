@@ -9,32 +9,33 @@ type singleLeaderboardDataType= {
 }
 type singleLeaderBoard = {
     userFullName: string;
+    genreName: string;
     fullMarks: number;
     userScore: number;
     quizGivenTime: string;
 }
 type stateType = {
-    userSpecificLeaderBoardInformation: singleLeaderboardDataType[]| any;
-    leaderBoardInformation: singleLeaderBoard[] | any;
+    userSpecificLeaderBoardInformation: singleLeaderboardDataType[] ;
+    leaderBoardInformation: singleLeaderBoard[] ;
 }
 type actionType = {
     type: string,
-    leaderBoardData?: singleLeaderboardDataType[],
-    genreSpecLeaderBoard?: singleLeaderBoard[],
+    userSpecificeaderBoardData?: singleLeaderboardDataType[],
+    leaderBoardData?: singleLeaderBoard[],
 }
 const initialState: stateType = {
     userSpecificLeaderBoardInformation: [],
     leaderBoardInformation: []
 }
 
-const leaderBoardReducer = (state = initialState, action: actionType)=>{
+const leaderBoardReducer = (state: stateType = initialState, action: actionType): stateType =>{
     switch(action.type){
         case leaderBoardConstants.ON_SUCCESSFUL_LEADERBOARD_DETAILS_USER_SPECIFIC:
-            const dataToStore = action.leaderBoardData;
-            return {...state, userSpecificLeaderBoardInformation: dataToStore}
+            const dataToStore = action.userSpecificeaderBoardData;
+            return {...state, userSpecificLeaderBoardInformation: dataToStore!}
         case leaderBoardConstants.ON_SUCCESSFUL_LEADERBOARD_DETAILS:
             const dataToSave = action.leaderBoardData;
-            return {...state, leaderBoardInformation: dataToSave}
+            return {...state, leaderBoardInformation: dataToSave!}
         default:
             return {...state}
     }

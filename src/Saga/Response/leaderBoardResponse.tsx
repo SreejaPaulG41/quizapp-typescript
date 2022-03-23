@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-const leaderBoardResponse = (payload: string) =>{
+const leaderBoardResponse = () =>{
     return axios.request({
         method: 'GET',
         url: 'http://localhost:5000/leaderBoard',

@@ -7,7 +7,7 @@ type res = SagaReturnType<typeof leaderBoardUserSpecificResponse>;
 function* leaderBoardUserSpecificResponseHandler(){
     try {
         const leaderBoardDetails: res = yield call(leaderBoardUserSpecificResponse);
-        yield put({type:leaderBoardConstants.ON_SUCCESSFUL_LEADERBOARD_DETAILS_USER_SPECIFIC, leaderBoardData: leaderBoardDetails?.data});
+        yield put({type:leaderBoardConstants.ON_SUCCESSFUL_LEADERBOARD_DETAILS_USER_SPECIFIC, userSpecificeaderBoardData: leaderBoardDetails?.data});
     } catch (error) {
         yield put({type: leaderBoardConstants.ERROR_IN_LEADERBOARD_DETAILS_USER_SPECIFIC , msg:error}) //type and payload
     }

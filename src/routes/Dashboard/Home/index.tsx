@@ -1,16 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../../Components/NavBar/index';
 import QuizTopicCardContainer from '../QuizTopicCardContainer/index';
 import useStateHandler from '../../../Redux/useStateHandler';
 
-const Dashboard: React.FC = ()=> {
+const Dashboard = ()=> {
   const { userValid, userValidMsg, authenticationHandler } = useStateHandler();
   const navigate = useNavigate();
-  useEffect(() => {
-    authenticationHandler();
-  }, []);
-  useEffect(() => {
+  // useEffect(() => {
+  //   authenticationHandler();
+  // }, []);
+  useMemo(() => {
     if (!userValid) {
       if (userValidMsg?.statusCode === 403) {
         navigate('/login');

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import useStateHandler from '../../../Redux/useStateHandler';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -39,20 +40,23 @@ type singleLeaderboardDataType = {
 type propsType = {
     userSpecificLeaderBoard: singleLeaderboardDataType[]
 }
-const MyLeaderBoard: React.FC<propsType> = ({ userSpecificLeaderBoard }) => {
+const MyLeaderBoard = () => {
     const [information, setInformation] = useState<singleLeaderboardDataType[] | undefined>([]);
+    const { leaderBoardUserSpecific, userBasedLeaderBoardHandler } = useStateHandler();
+    
     useEffect(() => {
-        console.log("inside")
-        console.log(userSpecificLeaderBoard)
-        if (userSpecificLeaderBoard?.length > 0) {
-            setInformation(userSpecificLeaderBoard);
+        console.log(leaderBoardUserSpecific)
+        if (leaderBoardUserSpecific.length > 0) {
+            setInformation(leaderBoardUserSpecific);
+        }else{
+            userBasedLeaderBoardHandler();
         }
-    }, [userSpecificLeaderBoard])
+    }, [])
     return (
         <div>
             {(information?.length) ?
                 <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                    <Table sx={{ minWidth: 100 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell>{"Genre Name"}</StyledTableCell>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import useStateHandler from '../../../Redux/useStateHandler';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SingleQuestionDisplay from '../../../Components/SingleQuestionDisplay/index';
 import QuestionChart from '../QuestionChart/index';
 import { QuestionContainerDiv, FlexDiv } from '../QuestionDisplayContainer/questionContainerDivStyle';
@@ -22,7 +22,7 @@ type urlPrameter = {
     genreId: string;
     qIndex: string;
 }
-function QuestionDisplayContainer() {
+const QuestionDisplayContainer = ()=> {
     const { genreBasedQuestionData, answerArr, genreDetails, onLoadUnAnseredQuestion, userValid, userValidMsg, authenticationHandler, getGenreSpecificQuestions, storeNotAnsweredHandler } = useStateHandler();
     const [questionToDisplay, setQuestionToDisplay] = useState<allQuestionArr>({ questionId: 0, genreId: '', questionText: '', questionMark: 0, timeAlloted: 0, answerOptions: [] });
     const navigate = useNavigate();
@@ -35,10 +35,10 @@ function QuestionDisplayContainer() {
     const [selectedAnswer, setSelectedAnswer] = useState<string>("");
     const [genreName, setGenreName] = useState<string>('');
 
-    useEffect(() => {
-      authenticationHandler();
-    }, []);
-    useEffect(() => {
+    // useEffect(() => {
+    //   authenticationHandler();
+    // }, []);
+    useMemo(() => {
       if (!userValid) {
         if (userValidMsg?.statusCode === 403) {
           navigate('/login');

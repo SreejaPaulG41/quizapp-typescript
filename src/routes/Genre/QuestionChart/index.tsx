@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import SingleButtonInChart from '../../../Components/SingleButtonInChart/index';
 import useStateHandler from '../../../Redux/useStateHandler';
 import { QuestionButtonChartDiv } from '../QuestionChart/questionButtonChartDivStyle';
@@ -26,10 +26,10 @@ const QuestionChart: React.FC<questionChartProps> = ({ genreId, questionId, answ
     // const genreId = useParams().genreId;
     const navigate = useNavigate();
     
-    useEffect(() => {
-        authenticationHandler();
-      }, []);
-      useEffect(() => {
+    // useEffect(() => {
+    //     authenticationHandler();
+    //   }, []);
+      useMemo(() => {
         if (!userValid) {
           if (userValidMsg?.statusCode === 403) {
             navigate('/login');

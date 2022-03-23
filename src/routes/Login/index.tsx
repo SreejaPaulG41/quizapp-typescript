@@ -13,16 +13,21 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LogInDiv } from './logInStyle';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const theme = createTheme();
 
-const Login: React.FC = () => {
+const Login = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string>('');
+    const [open, setOpen] = useState<boolean>(false);
+
     const navigate = useNavigate();
     const { loggedJwtToken, logInUserError, loggedUserInfo, userLogInHandler, authenticationHandler } = useStateHandler();
 
-    const loginHandler = async ( e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const loginHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         const dataToAdd = { email, password };
         userLogInHandler(dataToAdd);
@@ -40,9 +45,19 @@ const Login: React.FC = () => {
 
     useEffect(() => {
         if (logInUserError?.data !== '' && logInUserError?.statusCode !== 0) {
-            alert(logInUserError?.data)
+            //alert(logInUserError?.data)
+            setError(logInUserError?.data!)
         }
     }, [logInUserError])
+    useEffect(() => {
+        if (error !== '') {
+            setOpen(true);
+        }
+    }, [error])
+    const handleClose = () => {
+        setOpen(false)
+        setError('');
+    }
     return (
         <LogInDiv>
             <ThemeProvider theme={theme}>
@@ -88,7 +103,7 @@ const Login: React.FC = () => {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                onClick={(e)=>loginHandler(e)}
+                                onClick={(e) => loginHandler(e)}
                             >
                                 Log In
                             </Button>
@@ -103,6 +118,13 @@ const Login: React.FC = () => {
                     </Box>
                 </Container>
             </ThemeProvider>
+
+            <Snackbar open={open} anchorOrigin={{ vertical: "top", horizontal: "center" }} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    {error}
+                </Alert>
+            </Snackbar>
+
         </LogInDiv>
     )
 }

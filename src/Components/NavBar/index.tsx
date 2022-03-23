@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
       </Link>
       <UserInfo>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-          <Typography sx={{ minWidth: 100 }}>{"Hello, " + user}</Typography>
+          <Typography sx={{ minWidth: 50 }}>{"Hello, " + user}</Typography>
           <Tooltip title="Account settings">
             <IconButton
               onClick={handleClick}

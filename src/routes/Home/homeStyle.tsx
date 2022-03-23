@@ -20,6 +20,27 @@ export const HomeDiv = styled.div`
             padding: 2px;
         }
     }
+    @media (max-width: 825px) {
+        display: inline;
+        height: 100vh;
+        > * {
+            &:first-child {
+                flex:1;
+                margin: 101px;
+                margin-left: 220px;
+                margin-top: 50%;
+                padding: 8px;
+                h1 {
+                    font-size: 40px;
+                }
+            }
+        }
+        &:last-child {
+            margin-left: 200px;
+            padding: 2px;
+            border: 1px solid black;
+        }
+    }
     @media (max-width: 770px) {
         display: inline;
         height: 100vh;
@@ -28,6 +49,7 @@ export const HomeDiv = styled.div`
                 flex:1;
                 margin: 101px;
                 margin-left: 220px;
+                margin-top: 50%;
                 padding: 8px;
                 h1 {
                     font-size: 40px;
@@ -42,6 +64,7 @@ export const HomeDiv = styled.div`
                 flex:1;
                 margin: 41px;
                 margin-left: 100px;
+                margin-top: 50%;
                 padding: 8px;
                 h1 {
                     font-size: 40px;

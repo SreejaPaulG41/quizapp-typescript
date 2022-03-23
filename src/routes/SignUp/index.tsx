@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { SignupDiv } from './signUpStyle';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const theme = createTheme();
 
@@ -22,6 +24,8 @@ const SignUp = () => {
     const [lastName, setLastName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string>('');
+    const [open, setOpen] = useState<boolean>(false);
     const { jwtToken, userInfo, signUpError, userSignUpHandler, authenticationHandler } = useStateHandler();
 
     const signUpHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -46,9 +50,19 @@ const SignUp = () => {
 
     useEffect(() => {
         if (signUpError?.data !== '' && signUpError?.statusCode !== 0) {
-            alert(signUpError?.data)
+            //alert(signUpError?.data)
+            setError(signUpError?.data!)
         }
     }, [signUpError])
+    useEffect(()=>{
+        if(error !== ''){
+            setOpen(true);
+        }
+    },[error])
+    const handleClose = ()=>{
+        setOpen(false)
+        setError('');
+    }
     return (
         <SignupDiv>
             <ThemeProvider theme={theme}>
@@ -133,6 +147,13 @@ const SignUp = () => {
                     </Box>
                 </Container>
             </ThemeProvider>
+            
+            <Snackbar open={open} anchorOrigin={{ vertical: "top", horizontal: "center" }} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    {error}
+                </Alert>
+            </Snackbar>
+
         </SignupDiv>
     )
 }

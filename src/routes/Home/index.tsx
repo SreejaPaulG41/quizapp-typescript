@@ -1,14 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import brain from '../../Assets/Images/brain.png';
 import choose from '../../Assets/Images/choose.png';
 import ideas from '../../Assets/Images/ideas.png';
 import trophy from '../../Assets/Images/trophy.png';
 import { HomeStyle, HomeDiv } from './homeStyle';
 
-const Home: React.FC = () => {
-  const navigate = useNavigate();
+const Home = () => {
 
   return (
     <HomeDiv>

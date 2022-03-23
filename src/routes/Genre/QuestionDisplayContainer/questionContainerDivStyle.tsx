@@ -9,7 +9,11 @@ export const QuestionContainerDiv = styled.div`
         margin-bottom: 50px;
     }
     @media (max-width: 550px) {
-        height: 100%;
+        height: 100vh;
+        overflow: none;
+    }
+    @media (max-width: 393px) {
+        height: 100vh;
         overflow: none;
     }
 `

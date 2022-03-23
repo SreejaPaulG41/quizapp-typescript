@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import useStateHandler from '../../../Redux/useStateHandler';
 import AnswerKey from '../AnswerKeys/index';
 import MarksPannel from '../MarksPannel/index';
@@ -25,7 +25,7 @@ type onLoadUnAnsweredArr = {
   answerGiven: boolean;
 }
 
-const Result: React.FC = () => {
+const Result = () => {
   const [resultArrToShow, setResultArrToShow] = useState<onLoadUnAnsweredArr[]>([]);
   const [percentageMarks, setPercentageMarks] = useState<number>(0);
   const [fullMarks, setFullMarks] = useState<number>(0);
@@ -33,10 +33,10 @@ const Result: React.FC = () => {
   const navigate = useNavigate();
   const { genreBasedQuestionFullMarks, submittedAnswerArr, resultArr, userValid, userValidMsg, authenticationHandler, resultHandler } = useStateHandler();
 
-  useEffect(() => {
-    authenticationHandler();
-  }, []);
-  useEffect(() => {
+  // useEffect(() => {
+  //   authenticationHandler();
+  // }, []);
+  useMemo(() => {
     if (!userValid) {
       if (userValidMsg?.statusCode === 403) {
         navigate('/login');
@@ -47,7 +47,9 @@ const Result: React.FC = () => {
   }, [userValid, userValidMsg])
 
   useEffect(() => {
-    resultHandler(submittedAnswerArr?.genreId);
+    if(submittedAnswerArr?.genreId){
+      resultHandler(submittedAnswerArr?.genreId);
+    }
   }, [submittedAnswerArr])
 
   useEffect(() => {
@@ -68,7 +70,7 @@ const Result: React.FC = () => {
   }, [resultArr]);
 
   return (
-    <div style={{ padding: '41px', marginTop: '30px' }}>
+    <div style={{ padding: '41px', marginTop: '30px', height: "100vh" }}>
       <div style={{float: "right"}} onClick={()=> navigate("/dashboard")}>
         <Tooltip title="Go To Dashboard" arrow TransitionComponent={Fade} TransitionProps={{ timeout: 600 }}>
           <IconButton><HomeIcon fontSize='large'/></IconButton>

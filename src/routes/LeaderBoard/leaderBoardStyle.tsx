@@ -30,5 +30,23 @@ export const Button = styled.button`
 
 export const ButtonDiv = styled.div`
     margin: 2px 10px 0px 520px;
+    @media (max-width: 1024px) {
+        margin: 2px 10px 10px 300px;
+    }
+    @media (max-width: 913px) {
+        margin: 2px 10px 10px 220px;
+    }
+    @media (max-width: 770px) {
+        margin: 2px 10px 10px 160px;
+    }
+    @media (max-width: 450px) {
+        margin: 2px;
+        margin-bottom: 10px;
+    }
+    @media (max-width: 290px) {
+        margin: 0px;
+        margin-left: -30px;
+        margin-bottom: 10px;
+    }
 
 `

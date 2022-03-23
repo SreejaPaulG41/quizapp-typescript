@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { IndividualCard, DetailsDiv, Heading } from '../QuizTopicCard/questionTopicContainerStyle';
+import { IndividualCard, DetailsDiv, Heading, IndividualDiv } from '../QuizTopicCard/questionTopicContainerStyle';
 import gk from '../../Assets/Images/gk.jpg';
 import javascript from '../../Assets/Images/javascript.png';
 import react from '../../Assets/Images/react.png';
@@ -60,14 +60,14 @@ const QuizTopicCard: React.FC<quizTopicCard> = ({ name, id, leaderBoardDetails }
                     </Link>
                     :
                     <DetailsDiv>
-                        <div>
+                        <IndividualDiv>
                             <Heading>{"Score"}</Heading>
                             <div>{showDetails?.userScore + " / " + showDetails?.fullMarks}</div>
-                        </div>
-                        <div>
-                            <Heading>{"Quiz Taken On"}</Heading>
+                        </IndividualDiv>
+                        <IndividualDiv>
+                            <Heading>{"Date"}</Heading>
                             <div>{showDetails?.quizGivenTime}</div>
-                        </div>
+                        </IndividualDiv>
 
                     </DetailsDiv>
             }

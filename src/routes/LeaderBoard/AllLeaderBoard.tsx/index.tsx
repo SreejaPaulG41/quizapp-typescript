@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import useStateHandler from '../../../Redux/useStateHandler';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -27,7 +28,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-type singleLeaderBoard = {
+type LeaderBoard = {
     userFullName: string;
     genreName: string;
     fullMarks: number;
@@ -35,28 +36,34 @@ type singleLeaderBoard = {
     quizGivenTime: string;
 }
 type propsType = {
-    leaderBoardData: singleLeaderBoard[]
+    leaderBoardData: LeaderBoard[]
 }
-const AllLeaderBoard: React.FC<propsType> = ({ leaderBoardData }) => {
-    const [sortedData, setSortedData] = useState<singleLeaderBoard[]>([]);
+const AllLeaderBoard = () => {
+    const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoard[]>([]);
+    const [sortedData, setSortedData] = useState<LeaderBoard[]>([]);
+    const { leaderBoard, leaderBoardHandler } = useStateHandler();
+
     useEffect(() => {
-        console.log(leaderBoardData)
-        if(leaderBoardData.length > 0){
-            const sortedArr = leaderBoardData.sort((a,b)=>{
+        if(leaderBoard.length > 0){
+            setLeaderBoardData(leaderBoard)
+            const sortedArr = leaderBoard.sort((a: any,b: any)=>{
                 // if(a.userScore - b.userScore)
                 //     return 1;
                 // else if(a.userScore - b.userScore)
                 //     return -1;
                 return b.userScore - a.userScore;
             })
-            console.log(sortedArr === leaderBoardData)
+            console.log(sortedArr === leaderBoard)
             setSortedData(sortedArr)
         }
-    }, [leaderBoardData])
+    }, [leaderBoard])
+    useEffect(()=>{
+        leaderBoardHandler();
+    },[])
     return (
         <div>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <Table sx={{ minWidth: 100 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>{"User Name"}</StyledTableCell>
