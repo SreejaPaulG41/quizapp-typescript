@@ -6,6 +6,7 @@ import Home from '../routes/Home/index';
 import SignUp from '../routes/SignUp';
 import Login from '../routes/Login';
 import LeaderBoard from '../routes/LeaderBoard';
+import NewQuestionAdd from '../routes/AddNewQuestion';
 
 export const routerConfig = [
     {
@@ -56,4 +57,10 @@ export const routerConfig = [
         name: "LeaderBoard",
         privateRoute: true,
     },
+    {
+        path: routerConstants.ADDQUESTION_ROUTE,
+        component: NewQuestionAdd,
+        name: "AddNewQuestion",
+        privateRoute: true,
+    }
 ]
