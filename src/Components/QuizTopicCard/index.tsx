@@ -6,6 +6,7 @@ import gk from '../../Assets/Images/gk.jpg';
 import javascript from '../../Assets/Images/javascript.png';
 import react from '../../Assets/Images/react.png';
 import science from '../../Assets/Images/science.jpeg';
+import os from '../../Assets/Images/OS.jpg';
 
 type singleLeaderboardDataType = {
     fullMarks: number;
@@ -33,6 +34,8 @@ const QuizTopicCard: React.FC<quizTopicCard> = ({ name, id, leaderBoardDetails }
                 return react;
             case "Science":
                 return science;
+            case "Operating System":
+                return os;
         }
     }
     useEffect(() => {

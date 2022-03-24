@@ -48,10 +48,11 @@ const MyLeaderBoard = () => {
         console.log(leaderBoardUserSpecific)
         if (leaderBoardUserSpecific.length > 0) {
             setInformation(leaderBoardUserSpecific);
-        }else{
-            userBasedLeaderBoardHandler();
         }
-    }, [])
+    }, [leaderBoardUserSpecific])
+    useEffect(()=>{
+        userBasedLeaderBoardHandler();
+    },[])
     return (
         <div>
             {(information?.length) ?
