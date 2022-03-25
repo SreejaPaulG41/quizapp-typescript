@@ -35,6 +35,7 @@ const StyledButton = styled('button')(
     box-sizing: border-box;
     min-height: calc(1.5em + 22px);
     min-width: 320px;
+    width: 100%;
     background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
     border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
     border-radius: 0.75em;
@@ -88,7 +89,7 @@ export const StyledOption = styled(OptionUnstyled)(
     list-style: none;
     padding: 8px;
     border-radius: 0.45em;
-    cursor: default;
+    cursor: pointer;
   
     &:last-of-type {
       border-bottom: none;
@@ -121,7 +122,7 @@ export const StyledOption = styled(OptionUnstyled)(
 );
 
 const StyledPopper = styled(PopperUnstyled)`
-    z-index: 1;
+    z-index: 50;
   `;
 
 export const CustomSelect = React.forwardRef(function CustomSelect<TValue>(

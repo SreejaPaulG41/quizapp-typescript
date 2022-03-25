@@ -9,6 +9,7 @@ import { signUpActions } from './SignUp/signUpActions';
 import { loginAction } from './Login/loginAction';
 import { leaderBoardActions } from './LeaderBoard/leaderBoardAction';
 import { authenticationActions } from './Authentication/authenticationActions';
+import { newQuestionAddAction } from './NewQuestionAdd/newQuestionAddAction';
 
 interface prevAnswer {
     questionId: number;
@@ -59,7 +60,13 @@ type logInInfoType = {
     email: string;
     password: string;
 }
-
+type newQuestionAdd = {
+    genreName: string | null;
+    questionText: string;
+    questionMark: number | null;
+    timeAlloted: number | null;
+    answerOptions: answerOptionArr[]
+}
 function useStateHandler() {
     const userValid = useSelector((state: RootState) => state.authenticationReducer.userValid);
     const userValidMsg = useSelector((state: RootState) => state.authenticationReducer.msg);
@@ -126,8 +133,11 @@ function useStateHandler() {
     const userBasedLeaderBoardHandler = ()=>{
         dispatch(leaderBoardActions.getLeaderboardUserSpecHandler());
     }
+    const addNewQuestionQithGenreHandler = (newQuestion: newQuestionAdd)=>{
+        dispatch(newQuestionAddAction.addNewQuestionHandler(newQuestion));
+    }
     return {userValid, userValidMsg, jwtToken, userInfo, signUpError, loggedJwtToken, loggedUserInfo, logInUserError, genreDetails, genreAuthenticationError, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, leaderBoardUserSpecific, leaderBoard,
-        authenticationHandler, userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler}
+        authenticationHandler, userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler, addNewQuestionQithGenreHandler}
   
 }
 
