@@ -4,7 +4,7 @@ import axios from 'axios';
 const leaderBoardResponse = () =>{
     return axios.request({
         method: 'GET',
-        url: 'http://localhost:5000/leaderBoard',
+        url: 'https://quizmaster-backend.herokuapp.com/leaderBoard',
         headers: {
             'Content-Type': 'application/json',
             'jwtToken': localStorage.token

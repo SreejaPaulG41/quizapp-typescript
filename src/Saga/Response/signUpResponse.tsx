@@ -16,7 +16,7 @@ type errorObj = {
 
 const signUpResponse = (payload: userInformation) => {
     const dataToSend = payload;
-    return axios.post('http://localhost:5000/auth/register', JSON.stringify(dataToSend), {
+    return axios.post('https://quizmaster-backend.herokuapp.com/auth/register', JSON.stringify(dataToSend), {
         headers: {
             'Content-Type': 'application/json',
         },

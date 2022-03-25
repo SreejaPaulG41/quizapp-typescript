@@ -1,5 +1,4 @@
-import React from 'react';
-import useStateHandler from '../../Redux/useStateHandler';
+import React, { useEffect, useRef, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,10 +10,22 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledOption, CustomSelect } from './selectStyle';
+import useStateHandler from '../../Redux/useStateHandler';
+
+interface genreInterface {
+    genreName: string;
+    genreId: string;
+}
 
 const theme = createTheme();
 
 const NewQuestionAdd = () => {
+    const { genreDetails, getAllGenreDetails } = useStateHandler();
+
+    useEffect(() => {
+        getAllGenreDetails();
+    }, [])
+
     return (
         <div>
             <ThemeProvider theme={theme}>
@@ -141,11 +152,13 @@ const NewQuestionAdd = () => {
 
                                     />
                                 </Grid>
-                                {/* API Call Results Will Be Stored Here  */}
                                 <Grid item xs={12} >
                                     <CustomSelect defaultValue={"General Knowledge"}>
-                                        <StyledOption value={"General Knowledge"}>General Knowledge</StyledOption>
-                                        <StyledOption value={"JavaScript"}>JavaScript</StyledOption>
+                                        {
+                                            genreDetails?.map((item: genreInterface, index: number) => (
+                                                <StyledOption value={item?.genreName}>{item?.genreName}</StyledOption>
+                                            ))
+                                        }
                                     </CustomSelect>
                                 </Grid>
                                 <Grid item xs={12} sm={6}>

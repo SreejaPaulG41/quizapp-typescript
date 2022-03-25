@@ -5,7 +5,7 @@ const genreBasedQuestionResponse = (payload: string) =>{
     const dataToSend = {"genreId": payload}
     return axios.request({
         method: 'GET',
-        url: 'http://localhost:5000/genreBasedQuestions',
+        url: 'https://quizmaster-backend.herokuapp.com/genreBasedQuestions',
         headers: {
             'Content-Type': 'application/json',
             'jwtToken': localStorage.token

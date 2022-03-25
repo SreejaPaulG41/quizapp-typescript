@@ -4,7 +4,7 @@ import axios from 'axios';
 const genreResponse = () =>{
     return axios.request({
         method: 'GET',
-        url: 'http://localhost:5000/genreDetails',
+        url: 'https://quizmaster-backend.herokuapp.com/genreDetails',
         headers: {
             'Content-Type': 'application/json',
             'jwtToken': localStorage.token
