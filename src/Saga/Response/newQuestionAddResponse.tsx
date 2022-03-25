@@ -19,8 +19,9 @@ type errorObj = {
 
 }
 
-const newAnswerAddRes = (payload: newQuestionAdd) => {
+const newAnswerAddRes = async (payload: newQuestionAdd) => {
     const dataToSend = payload;
+    console.log("Call Coming")
     return axios.post(`http://localhost:5000/add-new-question`, JSON.stringify(dataToSend), {
         headers: {
             'Content-Type': 'application/json',

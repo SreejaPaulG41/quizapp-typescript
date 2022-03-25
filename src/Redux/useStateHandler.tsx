@@ -90,6 +90,9 @@ function useStateHandler() {
     const resultArr = useSelector((state : RootState)=>state.resultReducer.resultArr);
     const leaderBoardUserSpecific = useSelector((state : RootState)=>state.leaderBoardReducer.userSpecificLeaderBoardInformation);
     const leaderBoard = useSelector((state : RootState)=>state.leaderBoardReducer.leaderBoardInformation);
+    const successFulQuestionAdd = useSelector((state: RootState)=>state.newQuestionAddReducer.successfulMsg);
+    const errorOnAddingQuestion = useSelector((state: RootState)=>state.newQuestionAddReducer.errorMsg);
+
     const dispatch = useDispatch();
     const authenticationHandler = ()=>{
         dispatch(authenticationActions.getUserValidity());
@@ -136,7 +139,8 @@ function useStateHandler() {
     const addNewQuestionQithGenreHandler = (newQuestion: newQuestionAdd)=>{
         dispatch(newQuestionAddAction.addNewQuestionHandler(newQuestion));
     }
-    return {userValid, userValidMsg, jwtToken, userInfo, signUpError, loggedJwtToken, loggedUserInfo, logInUserError, genreDetails, genreAuthenticationError, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, leaderBoardUserSpecific, leaderBoard,
+    return {userValid, userValidMsg, jwtToken, userInfo, signUpError, loggedJwtToken, loggedUserInfo, logInUserError, genreDetails, genreAuthenticationError, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, 
+        leaderBoardUserSpecific, leaderBoard, successFulQuestionAdd, errorOnAddingQuestion,
         authenticationHandler, userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler, addNewQuestionQithGenreHandler}
   
 }

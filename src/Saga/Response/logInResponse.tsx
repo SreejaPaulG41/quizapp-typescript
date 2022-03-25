@@ -11,7 +11,7 @@ type errorObj = {
     statusCode: number;
 
 }
-const logInResponse = (payload: logInInfoType) => {
+const logInResponse = async (payload: logInInfoType) => {
     const dataToSend = payload;
     return axios.post(`${process.env.REACT_APP_API_URL}auth/login`, JSON.stringify(dataToSend), {
         headers: {

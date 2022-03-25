@@ -24,12 +24,11 @@ type answerOptions = {
 const theme = createTheme();
 
 const NewQuestionAdd = () => {
-    const { genreDetails, getAllGenreDetails, addNewQuestionQithGenreHandler } = useStateHandler();
+    const { genreDetails, successFulQuestionAdd, errorOnAddingQuestion, getAllGenreDetails, addNewQuestionQithGenreHandler } = useStateHandler();
     const [selectedGenre, setSelectedGenre] = useState<string | null>("General Knowledge");
     const [genreTextboxDisplay, setGenreTextboxDisplay] = useState<boolean>(false);
     
     const [questionText, setQuestionText] = useState<string>('');
-    const [answerOptions, setAnswerOptions] = useState<answerOptions[]>([]);
     const [firstOption, setFirstOption] = useState<answerOptions>({answerText: '', isCorrect: false});
     const [secondOption, setSecondOption] = useState<answerOptions>({answerText: '', isCorrect: false});
     const [thirdOption, setThirdOption] = useState<answerOptions>({answerText: '', isCorrect: false});
@@ -70,7 +69,20 @@ const NewQuestionAdd = () => {
         }
         console.log(dataToSend)
         addNewQuestionQithGenreHandler(dataToSend);
+        setSelectedGenre("General Knowledge");
+        setQuestionText("");
+        setQuestionMark(0);
+        setQuestionAllotedTime(0);
+        setNewGenre("");
+        setFirstOption({answerText: '', isCorrect: false});
+        setSecondOption({answerText: '', isCorrect: false});
+        setThirdOption({answerText: '', isCorrect: false});
+        setFourthOption({answerText: '', isCorrect: false});
     }
+    useEffect(()=>{
+        console.log(successFulQuestionAdd)
+        console.log(errorOnAddingQuestion)
+    },[successFulQuestionAdd, errorOnAddingQuestion])
     return (
         <div>
             <ThemeProvider theme={theme}>
@@ -150,7 +162,7 @@ const NewQuestionAdd = () => {
                                         label="Option 2 CorrectNess"
                                         name="Option 2 CorrectNess"
                                         autoFocus
-                                        value={secondOption.isCorrect}
+                                        value={true}
                                         onChange={(e)=>setSecondOption({...secondOption, isCorrect: checkCorrectNess(e.target.value)})}
                                     />
                                 </Grid>

@@ -1,8 +1,8 @@
 import { newQuestionAddConstant } from './newQuestionAddConstant';
 
 type stateType = {
-    successfuMsg: string;
-    errorMsg: string;
+    successfulMsg: string;
+    errorMsg: errorObj;
 }
 type errorObj = {
     data: string;
@@ -18,15 +18,17 @@ type actionType = {
     errorRes: errorObj;
 }
 const initialState: stateType = {
-    successfuMsg: '',
-    errorMsg: ''
+    successfulMsg: '',
+    errorMsg: {data: '', statusCode: 0}
 }
 const newQuestionAddReducer = (state: stateType = initialState, action: actionType): stateType =>{
     switch(action.type){
         case newQuestionAddConstant.ON_SUCCESSFUL_QUESTION_ADD:
-            return {...state}
+            const data = action.successRes.response;
+            return {...state, successfulMsg: data, errorMsg: {data: '', statusCode: 0}}
         case newQuestionAddConstant.ON_ERROR_IN_QUESTION_ADD:
-            return {...state}
+            const dataToShow = action.errorRes;
+            return {...state, errorMsg: dataToShow, successfulMsg: ''}
         default:
             return {...state}
     }
