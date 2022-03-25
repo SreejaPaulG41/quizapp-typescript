@@ -15,7 +15,7 @@ type submittedAns = {
 
 const givenAnswerSubmitRes = (payload: submittedAns) => {
     const dataToSend = payload;
-    return axios.post('https://quizmaster-backend.herokuapp.com/submitAnswers', JSON.stringify(dataToSend), {
+    return axios.post(`${process.env.REACT_APP_API_URL}submitAnswers`, JSON.stringify(dataToSend), {
         headers: {
             'Content-Type': 'application/json',
             'jwtToken': localStorage.token

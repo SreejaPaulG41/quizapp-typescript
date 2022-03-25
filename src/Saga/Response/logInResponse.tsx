@@ -13,7 +13,7 @@ type errorObj = {
 }
 const logInResponse = (payload: logInInfoType) => {
     const dataToSend = payload;
-    return axios.post('https://quizmaster-backend.herokuapp.com/auth/login', JSON.stringify(dataToSend), {
+    return axios.post(`${process.env.REACT_APP_API_URL}auth/login`, JSON.stringify(dataToSend), {
         headers: {
             'Content-Type': 'application/json',
         },

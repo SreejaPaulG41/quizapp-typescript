@@ -9,7 +9,7 @@ type errorObj = {
 const authenticationResponse = () => {
     return axios.request({
         method: 'GET',
-        url: 'https://quizmaster-backend.herokuapp.com/valid-check',
+        url: `${process.env.REACT_APP_API_URL}valid-check`,
         headers: {
             'Content-Type': 'application/json',
             'jwtToken': localStorage.token
