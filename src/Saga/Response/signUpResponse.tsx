@@ -6,6 +6,7 @@ type userInformation = {
     lastName: string;
     email: string;
     password: string;
+    isAdmin: boolean;
 }
 
 type errorObj = {

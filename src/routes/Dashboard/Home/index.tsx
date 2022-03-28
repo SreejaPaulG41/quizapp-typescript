@@ -1,10 +1,12 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useState,  useMemo} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../../Components/NavBar/index';
 import QuizTopicCardContainer from '../QuizTopicCardContainer/index';
 import useStateHandler from '../../../Redux/useStateHandler';
+import AddNewQuestionOption from '../AddNewQuestionOption/index';
 
 const Dashboard = ()=> {
+  const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
   const { userValid, userValidMsg, authenticationHandler } = useStateHandler();
   const navigate = useNavigate();
   // useEffect(() => {
@@ -19,10 +21,17 @@ const Dashboard = ()=> {
       }
     }
   }, [userValid, userValidMsg])
+
+  useEffect(()=>{
+    const userInfo = JSON.parse(localStorage.getItem("userInformation") || " ");
+    setIsUserAdmin(userInfo?.isAdmin);
+  },[])
   return (
     <div>
         <Navbar/>
-        <QuizTopicCardContainer/>
+        {
+          (!isUserAdmin) ? <QuizTopicCardContainer/> : <AddNewQuestionOption/>
+        }
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Avatar from '@mui/material/Avatar';
+import HomeIcon from '@mui/icons-material/Home';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -11,6 +11,15 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledOption, CustomSelect } from './selectStyle';
 import useStateHandler from '../../Redux/useStateHandler';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Fade from '@mui/material/Fade';
+import { useNavigate } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 
 interface genreInterface {
     genreName: string;
@@ -24,31 +33,37 @@ type answerOptions = {
 const theme = createTheme();
 
 const NewQuestionAdd = () => {
-    const { genreDetails, successFulQuestionAdd, errorOnAddingQuestion, getAllGenreDetails, addNewQuestionQithGenreHandler } = useStateHandler();
+    const { genreDetails, successFulQuestionAdd, errorOnAddingQuestion, getAllGenreDetails, addNewQuestionWithGenreHandler } = useStateHandler();
     const [selectedGenre, setSelectedGenre] = useState<string | null>("General Knowledge");
     const [genreTextboxDisplay, setGenreTextboxDisplay] = useState<boolean>(false);
-    
+
     const [questionText, setQuestionText] = useState<string>('');
-    const [firstOption, setFirstOption] = useState<answerOptions>({answerText: '', isCorrect: false});
-    const [secondOption, setSecondOption] = useState<answerOptions>({answerText: '', isCorrect: false});
-    const [thirdOption, setThirdOption] = useState<answerOptions>({answerText: '', isCorrect: false});
-    const [fourthOption, setFourthOption] = useState<answerOptions>({answerText: '', isCorrect: false});
+    const [firstOption, setFirstOption] = useState<answerOptions>({ answerText: '', isCorrect: false });
+    const [secondOption, setSecondOption] = useState<answerOptions>({ answerText: '', isCorrect: false });
+    const [thirdOption, setThirdOption] = useState<answerOptions>({ answerText: '', isCorrect: false });
+    const [fourthOption, setFourthOption] = useState<answerOptions>({ answerText: '', isCorrect: false });
     const [newGenre, setNewGenre] = useState<string>('');
-    const [questionMark, setQuestionMark] = useState<number | null>(0);
-    const [questionAllotedTime, setQuestionAllotedTime] = useState<number | null>(0);
+    const [questionMark, setQuestionMark] = useState<string>('');
+    const [questionAllotedTime, setQuestionAllotedTime] = useState<string>('');
+    const [open, setOpen] = useState<boolean>(false);
+    const [successOpen, setsuccessOpen] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
+    const [success, setSuccess] = useState<string>('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllGenreDetails();
     }, [])
 
-    useEffect(()=>{
-        if(selectedGenre === "other"){
-           setGenreTextboxDisplay(true) 
-        }else{
+    useEffect(() => {
+        if (selectedGenre === "other") {
+            setGenreTextboxDisplay(true)
+        } else {
             setGenreTextboxDisplay(false);
             setNewGenre("");
         }
-    },[selectedGenre])
+    }, [selectedGenre])
 
     const checkCorrectNess = (inputValue: string): boolean => {
         const returnValue = (inputValue === "true") ? true : ((inputValue === "false") ? false : false)
@@ -56,35 +71,78 @@ const NewQuestionAdd = () => {
         return returnValue;
     }
 
-    const submitNewQuestionHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
+    const submitNewQuestionHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        let answerOptions  = [];
+        let answerOptions = [];
         answerOptions.push(firstOption, secondOption, thirdOption, fourthOption);
-        const dataToSend = {
-            genreName: (newGenre !== '') ? newGenre : selectedGenre,
-            questionText,
-            questionMark,
-            timeAlloted: questionAllotedTime,
-            answerOptions
+        if (questionText !== '' && !Number.isNaN(parseInt(questionMark)) && !Number.isNaN(parseInt(questionAllotedTime)) && (firstOption.answerText !== "" && secondOption.answerText !== "" && thirdOption.answerText !== "" && fourthOption.answerText !== "")) {
+            const dataToSend = {
+                genreName: (newGenre !== '') ? newGenre : selectedGenre,
+                questionText,
+                questionMark: parseInt(questionMark),
+                timeAlloted: parseInt(questionAllotedTime),
+                answerOptions
+            }
+            console.log(dataToSend)
+            addNewQuestionWithGenreHandler(dataToSend);
+            setSelectedGenre("General Knowledge");
+            setQuestionText("");
+            setQuestionMark('');
+            setQuestionAllotedTime('');
+            setNewGenre("");
+            setFirstOption({ answerText: '', isCorrect: false });
+            setSecondOption({ answerText: '', isCorrect: false });
+            setThirdOption({ answerText: '', isCorrect: false });
+            setFourthOption({ answerText: '', isCorrect: false });
+        } else {
+            if (questionText === '') {
+                setError("Please Enter Question Text To Submit!");
+            } else if (Number.isNaN(parseInt(questionMark))) {
+                setError("Please Add Proper Marks For The Question!");
+            } else if (Number.isNaN(parseInt(questionAllotedTime))) {
+                setError("Please Provide Proper Time For The Question!");
+            } else if(firstOption.answerText === "" || secondOption.answerText === "" || thirdOption.answerText === "" || fourthOption.answerText === ""){
+                setError("Please Provide All Four Options For The Question!");
+            }else {
+                setError("Please Enter All Fields Correctly!");
+            }
         }
-        console.log(dataToSend)
-        addNewQuestionQithGenreHandler(dataToSend);
-        setSelectedGenre("General Knowledge");
-        setQuestionText("");
-        setQuestionMark(0);
-        setQuestionAllotedTime(0);
-        setNewGenre("");
-        setFirstOption({answerText: '', isCorrect: false});
-        setSecondOption({answerText: '', isCorrect: false});
-        setThirdOption({answerText: '', isCorrect: false});
-        setFourthOption({answerText: '', isCorrect: false});
     }
-    useEffect(()=>{
-        console.log(successFulQuestionAdd)
+    useEffect(() => {
         console.log(errorOnAddingQuestion)
-    },[successFulQuestionAdd, errorOnAddingQuestion])
+        console.log(successFulQuestionAdd)
+        if (errorOnAddingQuestion?.data !== "") {
+            setError(errorOnAddingQuestion?.data);
+        }
+        if (successFulQuestionAdd !== "") {
+            setSuccess(successFulQuestionAdd);
+        }
+    }, [successFulQuestionAdd, errorOnAddingQuestion])
+    useEffect(() => {
+        if (error !== '') {
+            setOpen(true);
+        }
+    }, [error])
+    useEffect(() => {
+        if (success !== '') {
+            setsuccessOpen(true);
+        }
+    }, [success])
+    const handleClose = () => {
+        setOpen(false);
+        setsuccessOpen(false);
+        setError('');
+        setSuccess('');
+    }
     return (
         <div>
+            <div style={{ height: "30px", width: "100%" }}>
+                <div style={{ float: "right" }} onClick={() => navigate("/dashboard")}>
+                    <Tooltip title="Go To Dashboard" arrow TransitionComponent={Fade} TransitionProps={{ timeout: 600 }}>
+                        <IconButton><HomeIcon fontSize='large' /></IconButton>
+                    </Tooltip>
+                </div>
+            </div>
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
@@ -97,7 +155,7 @@ const NewQuestionAdd = () => {
                         }}
                     >
                         <Typography component="h1" variant="h5">
-                            Add New Question
+                            Add Details Of The New Question
                         </Typography>
                         <Box component="form" noValidate sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
@@ -111,7 +169,7 @@ const NewQuestionAdd = () => {
                                         name="question"
                                         autoFocus
                                         value={questionText}
-                                        onChange={(e)=> setQuestionText(e.target.value)}
+                                        onChange={(e) => setQuestionText(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -123,12 +181,12 @@ const NewQuestionAdd = () => {
                                         label="Option 1 Answer"
                                         name="Option 1 Answer"
                                         autoFocus
-                                        value={firstOption.answerText} 
-                                        onChange={(e)=>setFirstOption({...firstOption, answerText: e.target.value})}
+                                        value={firstOption.answerText}
+                                        onChange={(e) => setFirstOption({ ...firstOption, answerText: e.target.value })}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField
+                                    {/* <TextField
                                         margin="normal"
                                         required
                                         fullWidth
@@ -136,9 +194,17 @@ const NewQuestionAdd = () => {
                                         label="Option 1 CorrectNess"
                                         name="Option 1 CorrectNess"
                                         autoFocus
-                                        value={firstOption.isCorrect} 
-                                        onChange={(e)=>setFirstOption({...firstOption, isCorrect: checkCorrectNess(e.target.value)})}
-                                    />
+                                        value={firstOption.isCorrect}
+                                        onChange={(e) => setFirstOption({ ...firstOption, isCorrect: checkCorrectNess(e.target.value) })}
+                                    /> */}
+                                    <Select
+                                        value={firstOption.isCorrect}
+                                        style={{marginTop: "15px"}}
+                                        onChange={(e) => setFirstOption({ ...firstOption, isCorrect: checkCorrectNess(e.target.value as string) })}
+                                    >
+                                        <MenuItem value={"true"}>True</MenuItem>
+                                        <MenuItem value={"false"}>False</MenuItem>
+                                    </Select>
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
@@ -149,12 +215,12 @@ const NewQuestionAdd = () => {
                                         label="Option 2 Answer"
                                         name="Option 2 Answer"
                                         autoFocus
-                                        value = {secondOption.answerText}
-                                        onChange={(e)=>setSecondOption({...secondOption, answerText: e.target.value})}
+                                        value={secondOption.answerText}
+                                        onChange={(e) => setSecondOption({ ...secondOption, answerText: e.target.value })}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField
+                                    {/* <TextField
                                         margin="normal"
                                         required
                                         fullWidth
@@ -163,8 +229,16 @@ const NewQuestionAdd = () => {
                                         name="Option 2 CorrectNess"
                                         autoFocus
                                         value={true}
-                                        onChange={(e)=>setSecondOption({...secondOption, isCorrect: checkCorrectNess(e.target.value)})}
-                                    />
+                                        onChange={(e) => setSecondOption({ ...secondOption, isCorrect: checkCorrectNess(e.target.value) })}
+                                    /> */}
+                                    <Select
+                                        value={secondOption.isCorrect}
+                                        style={{marginTop: "15px"}}
+                                        onChange={(e) => setSecondOption({ ...secondOption, isCorrect: checkCorrectNess(e.target.value as string) })}
+                                    >
+                                        <MenuItem value={"true"}>True</MenuItem>
+                                        <MenuItem value={"false"}>False</MenuItem>
+                                    </Select>
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
@@ -176,11 +250,11 @@ const NewQuestionAdd = () => {
                                         name="Option 3 Answer"
                                         autoFocus
                                         value={thirdOption.answerText}
-                                        onChange={(e)=>setThirdOption({...thirdOption, answerText: e.target.value})}
+                                        onChange={(e) => setThirdOption({ ...thirdOption, answerText: e.target.value })}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField
+                                    {/* <TextField
                                         margin="normal"
                                         required
                                         fullWidth
@@ -189,8 +263,16 @@ const NewQuestionAdd = () => {
                                         name="Option 3 CorrectNess"
                                         autoFocus
                                         value={thirdOption.isCorrect}
-                                        onChange={(e)=>setThirdOption({...thirdOption, isCorrect: checkCorrectNess(e.target.value)})}
-                                    />
+                                        onChange={(e) => setThirdOption({ ...thirdOption, isCorrect: checkCorrectNess(e.target.value) })}
+                                    /> */}
+                                    <Select
+                                        value={thirdOption.isCorrect}
+                                        style={{marginTop: "15px"}}
+                                        onChange={(e) => setThirdOption({ ...thirdOption, isCorrect: checkCorrectNess(e.target.value as string) })}
+                                    >
+                                        <MenuItem value={"true"}>True</MenuItem>
+                                        <MenuItem value={"false"}>False</MenuItem>
+                                    </Select>
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
@@ -201,12 +283,12 @@ const NewQuestionAdd = () => {
                                         label="Option 4 Answer"
                                         name="Option 4 Answer"
                                         autoFocus
-                                        value = {fourthOption.answerText}
-                                        onChange= {(e)=>setFourthOption({...fourthOption, answerText: e.target.value})}
+                                        value={fourthOption.answerText}
+                                        onChange={(e) => setFourthOption({ ...fourthOption, answerText: e.target.value })}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField
+                                    {/* <TextField
                                         margin="normal"
                                         required
                                         fullWidth
@@ -215,34 +297,42 @@ const NewQuestionAdd = () => {
                                         name="Option 4 CorrectNess"
                                         autoFocus
                                         value={fourthOption.isCorrect}
-                                        onChange= {(e)=>setFourthOption({...fourthOption, isCorrect: checkCorrectNess(e.target.value)})}
-                                    />
+                                        onChange={(e) => setFourthOption({ ...fourthOption, isCorrect: checkCorrectNess(e.target.value) })}
+                                    /> */}
+                                    <Select
+                                        value={fourthOption.isCorrect}
+                                        style={{marginTop: "15px"}}
+                                        onChange={(e) => setFourthOption({ ...fourthOption, isCorrect: checkCorrectNess(e.target.value as string) })}
+                                    >
+                                        <MenuItem value={"true"}>True</MenuItem>
+                                        <MenuItem value={"false"}>False</MenuItem>
+                                    </Select>
                                 </Grid>
                                 <Grid item xs={12} >
                                     <CustomSelect value={selectedGenre} onChange={setSelectedGenre}>
                                         {
                                             genreDetails?.map((item: genreInterface, index: number) => (
-                                                <StyledOption key={ index } value={item?.genreName}>{item?.genreName}</StyledOption>
+                                                <StyledOption key={index} value={item?.genreName}>{item?.genreName}</StyledOption>
                                             ))
                                         }
                                         <StyledOption value={"other"}>Other</StyledOption>
                                     </CustomSelect>
                                 </Grid>
                                 {
-                                    genreTextboxDisplay ? 
-                                <Grid item xs={12} >
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="genreName"
-                                        label="Enter Genre Name"
-                                        name="genreName"
-                                        autoFocus
-                                        value = {newGenre} onChange={(e)=>setNewGenre(e.target.value)}
-                                    />
-                                </Grid>
-                                : " " }
+                                    genreTextboxDisplay ?
+                                        <Grid item xs={12} >
+                                            <TextField
+                                                margin="normal"
+                                                required
+                                                fullWidth
+                                                id="genreName"
+                                                label="Enter Genre Name"
+                                                name="genreName"
+                                                autoFocus
+                                                value={newGenre} onChange={(e) => setNewGenre(e.target.value)}
+                                            />
+                                        </Grid>
+                                        : " "}
                                 <Grid item xs={12} sm={6}>
                                     <TextField
                                         margin="normal"
@@ -252,8 +342,9 @@ const NewQuestionAdd = () => {
                                         label="Enter Question Marks"
                                         name="questionMark"
                                         autoFocus
-                                        value = {questionMark}
-                                        onChange={(e)=> setQuestionMark(parseInt(e.target.value))}
+                                        type="number"
+                                        value={questionMark}
+                                        onChange={(e) => setQuestionMark(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -265,8 +356,9 @@ const NewQuestionAdd = () => {
                                         label="Enter Alloted Time"
                                         name="allotedTime"
                                         autoFocus
-                                        value = {questionAllotedTime}
-                                        onChange={(e)=>setQuestionAllotedTime(parseInt(e.target.value))}
+                                        type="number"
+                                        value={questionAllotedTime}
+                                        onChange={(e) => setQuestionAllotedTime(e.target.value)}
                                     />
                                 </Grid>
                             </Grid>
@@ -283,6 +375,16 @@ const NewQuestionAdd = () => {
                     </Box>
                 </Container>
             </ThemeProvider>
+            <Snackbar open={open} anchorOrigin={{ vertical: "top", horizontal: "center" }} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    {error}
+                </Alert>
+            </Snackbar>
+            <Snackbar open={successOpen} anchorOrigin={{ vertical: "top", horizontal: "center" }} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    {success}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

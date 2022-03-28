@@ -7,6 +7,9 @@ import javascript from '../../Assets/Images/javascript.png';
 import react from '../../Assets/Images/react.png';
 import science from '../../Assets/Images/science.jpeg';
 import os from '../../Assets/Images/OS.jpg';
+import oop from '../../Assets/Images/oop.png';
+import Default from '../../Assets/Images/Default.jpeg';
+import history from '../../Assets/Images/History.jpg';
 
 type singleLeaderboardDataType = {
     fullMarks: number;
@@ -36,6 +39,25 @@ const QuizTopicCard: React.FC<quizTopicCard> = ({ name, id, leaderBoardDetails }
                 return science;
             case "Operating System":
                 return os;
+            case "Object Oriented Programming":
+                return oop;
+            case "History":
+                return history;
+            default:
+                return Default;
+        }
+    }
+    const showNameHandler = (name: string) => {
+        let newName = '';
+        if (name.length > 20) {
+            const withOutSpace = name?.split(" ");
+            newName = withOutSpace?.reduce((acc: string, item: string): string => {
+                acc = acc + item.charAt(0).toUpperCase();
+                return acc;
+            }, '')
+            return newName;
+        } else {
+            return name;
         }
     }
     useEffect(() => {
@@ -52,7 +74,7 @@ const QuizTopicCard: React.FC<quizTopicCard> = ({ name, id, leaderBoardDetails }
     return (
         <IndividualCard>
             <div>
-                <h1>{name}</h1>
+                <h2>{showNameHandler(name)}</h2>
                 <img src={emojiRendererHandler(name)} alt={name} />
             </div>
             {

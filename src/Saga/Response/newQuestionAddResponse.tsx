@@ -8,8 +8,8 @@ interface answerOptionArr {
 type newQuestionAdd = {
     genreName: string | null;
     questionText: string;
-    questionMark: number | null;
-    timeAlloted: number | null;
+    questionMark: number;
+    timeAlloted: number;
     answerOptions: answerOptionArr[]
 }
 
@@ -22,7 +22,7 @@ type errorObj = {
 const newAnswerAddRes = async (payload: newQuestionAdd) => {
     const dataToSend = payload;
     console.log("Call Coming")
-    return axios.post(`http://localhost:5000/add-new-question`, JSON.stringify(dataToSend), {
+    return axios.post(`${process.env.REACT_APP_API_URL}add-new-question`, JSON.stringify(dataToSend), {
         headers: {
             'Content-Type': 'application/json',
             'jwtToken': localStorage.token

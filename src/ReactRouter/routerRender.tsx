@@ -8,6 +8,7 @@ type configRouteType = {
     component: () => JSX.Element;
     name: string;
     privateRoute: boolean;
+    adminCheck?: boolean;
 }
 const RouterRender = ()=>{
     // const routesConfigFiltered = useMemo(()=>{

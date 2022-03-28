@@ -62,5 +62,6 @@ export const routerConfig = [
         component: NewQuestionAdd,
         name: "AddNewQuestion",
         privateRoute: true,
+        adminCheck: true,
     }
 ]

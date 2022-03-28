@@ -55,6 +55,7 @@ type userInformation = {
     lastName: string;
     email: string;
     password: string;
+    isAdmin: boolean;
 }
 type logInInfoType = {
     email: string;
@@ -63,8 +64,8 @@ type logInInfoType = {
 type newQuestionAdd = {
     genreName: string | null;
     questionText: string;
-    questionMark: number | null;
-    timeAlloted: number | null;
+    questionMark: number;
+    timeAlloted: number;
     answerOptions: answerOptionArr[]
 }
 function useStateHandler() {
@@ -136,12 +137,12 @@ function useStateHandler() {
     const userBasedLeaderBoardHandler = ()=>{
         dispatch(leaderBoardActions.getLeaderboardUserSpecHandler());
     }
-    const addNewQuestionQithGenreHandler = (newQuestion: newQuestionAdd)=>{
+    const addNewQuestionWithGenreHandler = (newQuestion: newQuestionAdd)=>{
         dispatch(newQuestionAddAction.addNewQuestionHandler(newQuestion));
     }
     return {userValid, userValidMsg, jwtToken, userInfo, signUpError, loggedJwtToken, loggedUserInfo, logInUserError, genreDetails, genreAuthenticationError, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, 
         leaderBoardUserSpecific, leaderBoard, successFulQuestionAdd, errorOnAddingQuestion,
-        authenticationHandler, userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler, addNewQuestionQithGenreHandler}
+        authenticationHandler, userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler, addNewQuestionWithGenreHandler}
   
 }
 

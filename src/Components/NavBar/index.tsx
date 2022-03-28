@@ -17,6 +17,7 @@ import useStateHandler from '../../Redux/useStateHandler';
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [user, setUser] = useState<string>('');
+  const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
   const { userValid, signedUpLogOut, logOutHandler, authenticationHandler } = useStateHandler();
@@ -30,6 +31,7 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInformation") || " ");
     setUser(userInfo?.firstName)
+    setIsUserAdmin(userInfo?.isAdmin);
   }, [])
 
   const userLogOut = () => {
@@ -44,9 +46,13 @@ const Navbar: React.FC = () => {
   return (
     <NavbarStyle>
       <h1>Quiz Master</h1>
-      <Link to="/leaderBoard" style={{textDecoration: "none", color: "inherit"}}>
-        <h4>Leaderboard</h4>
-      </Link>
+      {
+        (!isUserAdmin) ?
+          <Link to="/leaderBoard" style={{ textDecoration: "none", color: "inherit" }}>
+            <h4>Leaderboard</h4>
+          </Link>
+          : ""
+      }
       <UserInfo>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
           <Typography sx={{ minWidth: 50 }}>{"Hello, " + user}</Typography>

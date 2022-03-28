@@ -14,8 +14,8 @@ interface answerOptionArr {
 type newQuestionAdd = {
     genreName: string | null;
     questionText: string;
-    questionMark: number | null;
-    timeAlloted: number | null;
+    questionMark: number;
+    timeAlloted: number;
     answerOptions: answerOptionArr[]
 }
 

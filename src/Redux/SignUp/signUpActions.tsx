@@ -5,6 +5,7 @@ type userInformation = {
     lastName: string;
     email: string;
     password: string;
+    isAdmin: boolean;
 }
 
 export const signUpActions = {

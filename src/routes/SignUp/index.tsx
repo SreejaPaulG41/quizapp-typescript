@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { SignupDiv } from './signUpStyle';
+import { SignupDiv, InputStyle } from './signUpStyle';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
@@ -26,17 +26,19 @@ const SignUp = () => {
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
     const [open, setOpen] = useState<boolean>(false);
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
     const { jwtToken, userInfo, signUpError, userSignUpHandler, authenticationHandler } = useStateHandler();
 
     const signUpHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        const dataToAdd = { firstName, lastName, email, password };
+        const dataToAdd = { firstName, lastName, email, password, isAdmin };
         console.log(dataToAdd)
         userSignUpHandler(dataToAdd);
         setFirstName('');
         setLastName('');
         setEmail('');
         setPassword('');
+        setIsAdmin(false);
     }
 
     useEffect(() => {
@@ -125,6 +127,10 @@ const SignUp = () => {
                                         id="password"
                                         value={password} onChange={(e) => setPassword(e.target.value)}
                                     />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <InputStyle type="checkbox" onChange={(e)=>setIsAdmin(e.target.checked)}/> 
+                                    Sign Up As Admin
                                 </Grid>
                             </Grid>
                             <Button
