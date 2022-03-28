@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../../../Components/NavBar/index';
 import QuizTopicCardContainer from '../QuizTopicCardContainer/index';
 import useStateHandler from '../../../Redux/useStateHandler';
-import AddNewQuestionOption from '../AddNewQuestionOption/index';
+import QuestionTopicContainer from '../QuestionContainer/index';
 
 const Dashboard = ()=> {
   const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
@@ -30,7 +30,7 @@ const Dashboard = ()=> {
     <div>
         <Navbar/>
         {
-          (!isUserAdmin) ? <QuizTopicCardContainer/> : <AddNewQuestionOption/>
+          (!isUserAdmin) ? <QuizTopicCardContainer/> : <QuestionTopicContainer/>
         }
     </div>
   )

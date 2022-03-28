@@ -51,7 +51,10 @@ const Navbar: React.FC = () => {
           <Link to="/leaderBoard" style={{ textDecoration: "none", color: "inherit" }}>
             <h4>Leaderboard</h4>
           </Link>
-          : ""
+          :
+          <Link to="/addNewQuestion" style={{ textDecoration: "none", color: "inherit" }}>
+            <h4>Add New Question</h4>
+          </Link>
       }
       <UserInfo>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
