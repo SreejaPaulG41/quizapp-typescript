@@ -61,24 +61,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const SingleQuestionModal = ({ showQuestionModal, handleSingleQuestionModalClose, question, deleteClicked, setDeleteClicked }: propsType) => {
-    const { onSuccessFulDelete, deletQuestionHandler, getSingleQuestionHandler } = useStateHandler();
+    const { onSuccessFulDelete, deletionClearenceHandler, deletQuestionHandler, getSingleQuestionHandler } = useStateHandler();
     const navigate = useNavigate();
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [successOnDeleteOpen, setSuccessOnDeleteOpen] = useState<boolean>(false);
     const [deleteSuccess, setDeleteSuccess] = useState<string>('');
 
-    useEffect(() => {
-        console.log(question)
-
-    }, [question])
     const deleteQuestionHandler = () => {
         handleSingleQuestionModalClose();
         deletQuestionHandler(question?.questionId!);
-        if (onSuccessFulDelete !== '') {
-            setDeleteSuccess(onSuccessFulDelete);
-            setDeleteClicked(true);
-        }
     }
     const updateQuestionHandler = () => {
         handleSingleQuestionModalClose();
@@ -89,16 +81,15 @@ const SingleQuestionModal = ({ showQuestionModal, handleSingleQuestionModalClose
         setSuccessOnDeleteOpen(false);
         setDeleteSuccess('');
     }
-    // useEffect(()=>{
-    //     if(onSuccessFulDelete!==''){
-    //         setDeleteSuccess(onSuccessFulDelete);
-    //         setDeleteClicked(true);
-    //     }
-    // },[onSuccessFulDelete])
+    useEffect(()=>{
+        if(onSuccessFulDelete!==''){
+            setDeleteSuccess(onSuccessFulDelete);
+            setDeleteClicked(true);
+        }
+        deletionClearenceHandler();
+    },[onSuccessFulDelete])
     useEffect(() => {
         if (deleteSuccess !== '') {
-            console.log("deleteSuccess")
-            console.log(deleteSuccess)
             setSuccessOnDeleteOpen(true);
         }
     }, [deleteSuccess])
@@ -166,7 +157,7 @@ const SingleQuestionModal = ({ showQuestionModal, handleSingleQuestionModalClose
                         <Button autoFocus onClick={updateQuestionHandler}>
                             Update
                         </Button>
-                        <Button onClick={deleteQuestionHandler} autoFocus>
+                        <Button onClick={deleteQuestionHandler}>
                             Delete
                         </Button>
                     </DialogActions>

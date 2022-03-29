@@ -32,6 +32,8 @@ const updateQuestionReducer = (state: stateType = initialState, action: actionty
             const error = action?.errorRes?.data;
             console.log(action?.errorRes?.data)
             return {...state, errorMsg: error!, successMsg: ''}
+        case updateQuestionConstants.CLEARING_RESPONSE:
+            return {...state, errorMsg: '', successMsg: ''}
         default:
             return { ...state }
     }

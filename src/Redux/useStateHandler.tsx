@@ -157,11 +157,17 @@ function useStateHandler() {
     const addNewQuestionWithGenreHandler = (newQuestion: newQuestionAdd)=>{
         dispatch(newQuestionAddAction.addNewQuestionHandler(newQuestion));
     }
+    const additionClearenceHandler = ()=>{
+        dispatch(newQuestionAddAction.clearingAdditionHandler());
+    }
     const getAllQuestions = ()=>{
         dispatch(allQuestionActions.getAllQuestionHandler());
     }
     const deletQuestionHandler = (questionId: number)=>{
         dispatch(deleteQuestionAction.deleteQuestionHandler(questionId));
+    }
+    const deletionClearenceHandler = ()=>{
+        dispatch(deleteQuestionAction.clearingDeletionHandler());
     }
     const getSingleQuestionHandler = (questionId: number)=>{
         dispatch(getSingleQuestionAction.getQuestionDetails(questionId));
@@ -169,10 +175,13 @@ function useStateHandler() {
     const updateQuestionHandler = (updatedQuestion: updatedQuestionAdd)=>{
         dispatch(updateQuestionActions.postUpdatedQuestion(updatedQuestion));
     }
+    const updationClearenceHandler = ()=>{
+        dispatch(updateQuestionActions.clearingUpdationHandler());
+    }
     return {userValid, userValidMsg, jwtToken, userInfo, signUpError, loggedJwtToken, loggedUserInfo, logInUserError, genreDetails, genreAuthenticationError, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, 
         leaderBoardUserSpecific, leaderBoard, successFulQuestionAdd, errorOnAddingQuestion, allQuestions, onSuccessFulDelete, successFulUpdation, errorOnUpdation, singleQuestion, 
         authenticationHandler, userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler, addNewQuestionWithGenreHandler, getAllQuestions,
-        deletQuestionHandler, getSingleQuestionHandler, updateQuestionHandler}
+        deletQuestionHandler, getSingleQuestionHandler, updateQuestionHandler, updationClearenceHandler, additionClearenceHandler, deletionClearenceHandler}
   
 }
 

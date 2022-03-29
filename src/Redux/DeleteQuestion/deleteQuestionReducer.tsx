@@ -25,6 +25,8 @@ const deleteQuestionReducer = (state: stateType = initialState, action: actionTy
         case deleteQuestionConstants.ON_DELETE_ERROR:
             const errorToShow = action?.msg;
             return {...state, errorMessage: errorToShow!, successMessage: ''}
+        case deleteQuestionConstants.CLEARING_RESPONSE:
+            return {...state, errorMessage: '', successMessage: ''}
         default: 
             return {...state}
     }

@@ -6,5 +6,10 @@ export const deleteQuestionAction = {
             type: deleteQuestionConstants.DELETE_A_QUESTION,
             payload: questionId
         }
+    },
+    clearingDeletionHandler: ()=>{
+        return {
+            type: deleteQuestionConstants.CLEARING_RESPONSE
+        }
     }
 }

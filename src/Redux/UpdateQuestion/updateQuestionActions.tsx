@@ -19,5 +19,10 @@ export const updateQuestionActions = {
             type: updateQuestionConstants.POST_UPDATED_QUESTION,
             payload: updatedQuestion
         }
+    },
+    clearingUpdationHandler: ()=>{
+        return {
+            type: updateQuestionConstants.CLEARING_RESPONSE
+        }
     }
 }

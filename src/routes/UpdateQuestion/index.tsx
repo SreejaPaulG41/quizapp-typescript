@@ -44,7 +44,7 @@ const theme = createTheme();
 
 const UpdateQuestion = () => {
     const questionId = useParams().questionId;
-    const { genreDetails, successFulUpdation, errorOnUpdation, singleQuestion, getAllGenreDetails, addNewQuestionWithGenreHandler, allQuestions, updateQuestionHandler } = useStateHandler();
+    const { genreDetails, successFulUpdation, errorOnUpdation, singleQuestion, updationClearenceHandler, getAllGenreDetails, addNewQuestionWithGenreHandler, allQuestions, updateQuestionHandler } = useStateHandler();
     const [questionSelected, setQuestionSelected] = useState<questionType>();
     const [selectedGenre, setSelectedGenre] = useState<string | null>("General Knowledge");
     const [genreTextboxDisplay, setGenreTextboxDisplay] = useState<boolean>(false);
@@ -111,21 +111,6 @@ const UpdateQuestion = () => {
             }
             console.log(dataToSend)
             updateQuestionHandler(dataToSend);
-            // setSelectedGenre("General Knowledge");
-            // setQuestionText("");
-            // setQuestionMark('');
-            // setQuestionAllotedTime('');
-            // setNewGenre("");
-            // setFirstOption({ answerText: '', isCorrect: false });
-            // setSecondOption({ answerText: '', isCorrect: false });
-            // setThirdOption({ answerText: '', isCorrect: false });
-            // setFourthOption({ answerText: '', isCorrect: false });
-            if (errorOnUpdation !== "") {
-                setError(errorOnUpdation);
-            }
-            if (successFulUpdation !== "") {
-                setSuccess(successFulUpdation);
-            }
         } else {
             if (questionText === '') {
                 setError("Please Enter Question Text To Submit!");
@@ -150,6 +135,15 @@ const UpdateQuestion = () => {
             setsuccessOpen(true);
         }
     }, [success])
+    useEffect(()=>{
+        if (errorOnUpdation !== "") {
+            setError(errorOnUpdation);
+        }
+        if (successFulUpdation !== "") {
+            setSuccess(successFulUpdation);
+        }
+        updationClearenceHandler();
+    }, [errorOnUpdation, successFulUpdation])
     const handleClose = () => {
         setOpen(false);
         setsuccessOpen(false);

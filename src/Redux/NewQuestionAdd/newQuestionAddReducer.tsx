@@ -25,10 +25,12 @@ const newQuestionAddReducer = (state: stateType = initialState, action: actionTy
     switch(action.type){
         case newQuestionAddConstant.ON_SUCCESSFUL_QUESTION_ADD:
             const data = action.successRes.response;
-            return {...state, successfulMsg: data, errorMsg: {data: '', statusCode: 0}}
+            return {...state, successfulMsg: data!, errorMsg: {data: '', statusCode: 0}}
         case newQuestionAddConstant.ON_ERROR_IN_QUESTION_ADD:
             const dataToShow = action.errorRes;
             return {...state, errorMsg: dataToShow, successfulMsg: ''}
+        case newQuestionAddConstant.CLEARING_RESPONSE:
+            return {...state, errorMsg: {data: '', statusCode: 0}, successfulMsg: ''}
         default:
             return {...state}
     }

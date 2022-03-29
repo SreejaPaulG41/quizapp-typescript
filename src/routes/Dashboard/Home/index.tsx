@@ -30,7 +30,7 @@ const Dashboard = ()=> {
     <div>
         <Navbar/>
         {
-          (!isUserAdmin) ? <QuizTopicCardContainer/> : <QuestionTopicContainer/>
+          (!(JSON.parse(localStorage.getItem("userInformation") || " ")?.isAdmin)) ? <QuizTopicCardContainer/> : <QuestionTopicContainer/>
         }
     </div>
   )

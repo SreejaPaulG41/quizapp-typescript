@@ -18,5 +18,10 @@ export const newQuestionAddAction = {
             type: newQuestionAddConstant.SUBMIT_NEW_QUESTION_TO_ADD,
             payload: newQuestion
         }
+    },
+    clearingAdditionHandler: ()=>{
+        return {
+            type: newQuestionAddConstant.CLEARING_RESPONSE
+        }
     }
 }

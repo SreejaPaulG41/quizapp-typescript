@@ -33,7 +33,7 @@ type answerOptions = {
 const theme = createTheme();
 
 const NewQuestionAdd = () => {
-    const { genreDetails, successFulQuestionAdd, errorOnAddingQuestion, getAllGenreDetails, addNewQuestionWithGenreHandler } = useStateHandler();
+    const { genreDetails, successFulQuestionAdd, errorOnAddingQuestion, additionClearenceHandler, getAllGenreDetails, addNewQuestionWithGenreHandler } = useStateHandler();
     const [selectedGenre, setSelectedGenre] = useState<string | null>("General Knowledge");
     const [genreTextboxDisplay, setGenreTextboxDisplay] = useState<boolean>(false);
 
@@ -94,12 +94,6 @@ const NewQuestionAdd = () => {
             setSecondOption({ answerText: '', isCorrect: false });
             setThirdOption({ answerText: '', isCorrect: false });
             setFourthOption({ answerText: '', isCorrect: false });
-            if (errorOnAddingQuestion?.data !== "") {
-                setError(errorOnAddingQuestion?.data);
-            }
-            if (successFulQuestionAdd !== "") {
-                setSuccess(successFulQuestionAdd);
-            }
         } else {
             if (questionText === '') {
                 setError("Please Enter Question Text To Submit!");
@@ -114,16 +108,18 @@ const NewQuestionAdd = () => {
             }
         }
     }
-    // useEffect(() => {
-    //     console.log(errorOnAddingQuestion)
-    //     console.log(successFulQuestionAdd)
-    //     if (errorOnAddingQuestion?.data !== "") {
-    //         setError(errorOnAddingQuestion?.data);
-    //     }
-    //     if (successFulQuestionAdd !== "") {
-    //         setSuccess(successFulQuestionAdd);
-    //     }
-    // }, [successFulQuestionAdd, errorOnAddingQuestion])
+    useEffect(() => {
+        console.log(errorOnAddingQuestion)
+        console.log(successFulQuestionAdd)
+        if (errorOnAddingQuestion?.data !== "") {
+            setError(errorOnAddingQuestion?.data);
+            additionClearenceHandler();
+        }
+        if (successFulQuestionAdd !== "") {
+            setSuccess(successFulQuestionAdd);
+            additionClearenceHandler();
+        }
+    }, [successFulQuestionAdd, errorOnAddingQuestion])
     useEffect(() => {
         if (error !== '') {
             setOpen(true);
