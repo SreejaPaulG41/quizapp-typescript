@@ -8,13 +8,18 @@ import { watchLeaderBoardUserSpecificSagaMiddleWare } from './Handler/leaderBoar
 import { watchLeaderBoardSagaMiddleWare } from './Handler/leaderBoardHandler';
 import { authResponseSagaMiddleWare } from './Handler/authenticationHandler';
 import { watchNewQuestionAddSagaMiddleWare } from './Handler/newQuestionAddhandler';
+import { allQuestionsResponseSagaMiddleWare } from './Handler/allQuestionHandler';
+import { watchQuestionDeleteSagaMiddleWare } from './Handler/deleteAQuestionHandler';
+import { watchUpdatedQuestionAddSagaMiddleWare } from './Handler/updatedQuestionResHandler';
+import { watchSingleQuestionSagaMiddleWare } from './Handler/getSingleQuestionReshandler';
 import React from 'react';
 import { all } from "redux-saga/effects";
 
 function* rootSagas() {
     yield all([authResponseSagaMiddleWare(), watchGenreSagaMiddleWare(), watchGenreBasedQuestionSagaMiddleWare(), watchGivenAnswerSubmitSagaMiddleWare(), 
         resultSagaMiddleWare(), signUpResponseSagaMiddleWare(), logInResponseSagaMiddleWare(), watchLeaderBoardUserSpecificSagaMiddleWare(),
-        watchLeaderBoardSagaMiddleWare(), watchNewQuestionAddSagaMiddleWare()])
+        watchLeaderBoardSagaMiddleWare(), watchNewQuestionAddSagaMiddleWare(), allQuestionsResponseSagaMiddleWare(), watchQuestionDeleteSagaMiddleWare(),
+        watchUpdatedQuestionAddSagaMiddleWare(), watchSingleQuestionSagaMiddleWare()])
 }
 
 export default rootSagas;

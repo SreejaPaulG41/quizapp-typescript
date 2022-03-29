@@ -10,6 +10,10 @@ import { loginAction } from './Login/loginAction';
 import { leaderBoardActions } from './LeaderBoard/leaderBoardAction';
 import { authenticationActions } from './Authentication/authenticationActions';
 import { newQuestionAddAction } from './NewQuestionAdd/newQuestionAddAction';
+import { allQuestionActions } from './AllQuestions/allQuestionActions';
+import { deleteQuestionAction } from './DeleteQuestion/deleteQuestionAction';
+import { updateQuestionActions } from './UpdateQuestion/updateQuestionActions';
+import { getSingleQuestionAction } from './GetASingleQuestion/getSingleQuestionActions';
 
 interface prevAnswer {
     questionId: number;
@@ -68,6 +72,14 @@ type newQuestionAdd = {
     timeAlloted: number;
     answerOptions: answerOptionArr[]
 }
+type updatedQuestionAdd = {
+    questionId: number;
+    genreName: string | null;
+    questionText: string;
+    questionMark: number;
+    timeAlloted: number;
+    answerOptions: answerOptionArr[]
+}
 function useStateHandler() {
     const userValid = useSelector((state: RootState) => state.authenticationReducer.userValid);
     const userValidMsg = useSelector((state: RootState) => state.authenticationReducer.msg);
@@ -93,6 +105,11 @@ function useStateHandler() {
     const leaderBoard = useSelector((state : RootState)=>state.leaderBoardReducer.leaderBoardInformation);
     const successFulQuestionAdd = useSelector((state: RootState)=>state.newQuestionAddReducer.successfulMsg);
     const errorOnAddingQuestion = useSelector((state: RootState)=>state.newQuestionAddReducer.errorMsg);
+    const allQuestions = useSelector((state: RootState)=>state.allQuestionReducer.questions);
+    const onSuccessFulDelete = useSelector((state: RootState)=>state.deleteQuestionReducer.successMessage);
+    const successFulUpdation = useSelector((state: RootState)=>state.updateQuestionReducer.successMsg);
+    const errorOnUpdation = useSelector((state: RootState)=>state.updateQuestionReducer.errorMsg);
+    const singleQuestion = useSelector((state: RootState)=>state.getSingleQuestionReducer.question);
 
     const dispatch = useDispatch();
     const authenticationHandler = ()=>{
@@ -140,9 +157,22 @@ function useStateHandler() {
     const addNewQuestionWithGenreHandler = (newQuestion: newQuestionAdd)=>{
         dispatch(newQuestionAddAction.addNewQuestionHandler(newQuestion));
     }
+    const getAllQuestions = ()=>{
+        dispatch(allQuestionActions.getAllQuestionHandler());
+    }
+    const deletQuestionHandler = (questionId: number)=>{
+        dispatch(deleteQuestionAction.deleteQuestionHandler(questionId));
+    }
+    const getSingleQuestionHandler = (questionId: number)=>{
+        dispatch(getSingleQuestionAction.getQuestionDetails(questionId));
+    }
+    const updateQuestionHandler = (updatedQuestion: updatedQuestionAdd)=>{
+        dispatch(updateQuestionActions.postUpdatedQuestion(updatedQuestion));
+    }
     return {userValid, userValidMsg, jwtToken, userInfo, signUpError, loggedJwtToken, loggedUserInfo, logInUserError, genreDetails, genreAuthenticationError, genreBasedQuestionData, onLoadUnAnseredQuestion, genreBasedQuestionTime, genreBasedQuestionFullMarks, answerArr, unAnsweredArray, submittedAnswerArr, prevAnswer, resultArr, genreBasedQuestionMsg, 
-        leaderBoardUserSpecific, leaderBoard, successFulQuestionAdd, errorOnAddingQuestion,
-        authenticationHandler, userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler, addNewQuestionWithGenreHandler}
+        leaderBoardUserSpecific, leaderBoard, successFulQuestionAdd, errorOnAddingQuestion, allQuestions, onSuccessFulDelete, successFulUpdation, errorOnUpdation, singleQuestion, 
+        authenticationHandler, userSignUpHandler, signedUpLogOut, userLogInHandler, logOutHandler, getAllGenreDetails, getGenreSpecificQuestions, storeGivenAnswerHandler, storeNotAnsweredHandler, submitGivenAnswerHandler, previousQuestionAnswerHandler, resultHandler, leaderBoardHandler, userBasedLeaderBoardHandler, addNewQuestionWithGenreHandler, getAllQuestions,
+        deletQuestionHandler, getSingleQuestionHandler, updateQuestionHandler}
   
 }
 

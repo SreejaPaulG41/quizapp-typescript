@@ -9,12 +9,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { StyledOption, CustomSelect } from './selectStyle';
+import { StyledOption, CustomSelect } from '../AddNewQuestion/selectStyle';
 import useStateHandler from '../../Redux/useStateHandler';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Fade from '@mui/material/Fade';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -30,10 +30,22 @@ type answerOptions = {
     answerText: string;
     isCorrect: boolean;
 }
+
+interface questionType {
+    questionId: number;
+    questionText: string;
+    questionMark: number;
+    timeAlloted: number;
+    answerOptions: answerOptions[];
+    genreName: string;
+}
+
 const theme = createTheme();
 
-const NewQuestionAdd = () => {
-    const { genreDetails, successFulQuestionAdd, errorOnAddingQuestion, getAllGenreDetails, addNewQuestionWithGenreHandler } = useStateHandler();
+const UpdateQuestion = () => {
+    const questionId = useParams().questionId;
+    const { genreDetails, successFulUpdation, errorOnUpdation, singleQuestion, getAllGenreDetails, addNewQuestionWithGenreHandler, allQuestions, updateQuestionHandler } = useStateHandler();
+    const [questionSelected, setQuestionSelected] = useState<questionType>();
     const [selectedGenre, setSelectedGenre] = useState<string | null>("General Knowledge");
     const [genreTextboxDisplay, setGenreTextboxDisplay] = useState<boolean>(false);
 
@@ -56,6 +68,19 @@ const NewQuestionAdd = () => {
         getAllGenreDetails();
     }, [])
 
+    useEffect(()=>{
+        if(singleQuestion){
+            setQuestionText(singleQuestion?.questionText!);
+            setSelectedGenre(singleQuestion?.genreName!);
+            setFirstOption({answerText: singleQuestion?.answerOptions[0]?.answerText!, isCorrect:singleQuestion?.answerOptions[0]?.isCorrect!});
+            setSecondOption({answerText: singleQuestion?.answerOptions[1]?.answerText!, isCorrect:singleQuestion?.answerOptions[1]?.isCorrect!});
+            setThirdOption({answerText: singleQuestion?.answerOptions[2]?.answerText!, isCorrect:singleQuestion?.answerOptions[2]?.isCorrect!});
+            setFourthOption({answerText: singleQuestion?.answerOptions[3]?.answerText!, isCorrect:singleQuestion?.answerOptions[3]?.isCorrect!});
+            setQuestionMark(singleQuestion?.questionMark?.toString()!);
+            setQuestionAllotedTime(singleQuestion?.timeAlloted?.toString()!);
+        }
+    },[singleQuestion])
+
     useEffect(() => {
         if (selectedGenre === "other") {
             setGenreTextboxDisplay(true)
@@ -77,6 +102,7 @@ const NewQuestionAdd = () => {
         answerOptions.push(firstOption, secondOption, thirdOption, fourthOption);
         if (questionText !== '' && !Number.isNaN(parseInt(questionMark)) && !Number.isNaN(parseInt(questionAllotedTime)) && (firstOption.answerText !== "" && secondOption.answerText !== "" && thirdOption.answerText !== "" && fourthOption.answerText !== "")) {
             const dataToSend = {
+                questionId: parseInt(questionId!),
                 genreName: (newGenre !== '') ? newGenre : selectedGenre,
                 questionText,
                 questionMark: parseInt(questionMark),
@@ -84,21 +110,21 @@ const NewQuestionAdd = () => {
                 answerOptions
             }
             console.log(dataToSend)
-            addNewQuestionWithGenreHandler(dataToSend);
-            setSelectedGenre("General Knowledge");
-            setQuestionText("");
-            setQuestionMark('');
-            setQuestionAllotedTime('');
-            setNewGenre("");
-            setFirstOption({ answerText: '', isCorrect: false });
-            setSecondOption({ answerText: '', isCorrect: false });
-            setThirdOption({ answerText: '', isCorrect: false });
-            setFourthOption({ answerText: '', isCorrect: false });
-            if (errorOnAddingQuestion?.data !== "") {
-                setError(errorOnAddingQuestion?.data);
+            updateQuestionHandler(dataToSend);
+            // setSelectedGenre("General Knowledge");
+            // setQuestionText("");
+            // setQuestionMark('');
+            // setQuestionAllotedTime('');
+            // setNewGenre("");
+            // setFirstOption({ answerText: '', isCorrect: false });
+            // setSecondOption({ answerText: '', isCorrect: false });
+            // setThirdOption({ answerText: '', isCorrect: false });
+            // setFourthOption({ answerText: '', isCorrect: false });
+            if (errorOnUpdation !== "") {
+                setError(errorOnUpdation);
             }
-            if (successFulQuestionAdd !== "") {
-                setSuccess(successFulQuestionAdd);
+            if (successFulUpdation !== "") {
+                setSuccess(successFulUpdation);
             }
         } else {
             if (questionText === '') {
@@ -114,16 +140,6 @@ const NewQuestionAdd = () => {
             }
         }
     }
-    // useEffect(() => {
-    //     console.log(errorOnAddingQuestion)
-    //     console.log(successFulQuestionAdd)
-    //     if (errorOnAddingQuestion?.data !== "") {
-    //         setError(errorOnAddingQuestion?.data);
-    //     }
-    //     if (successFulQuestionAdd !== "") {
-    //         setSuccess(successFulQuestionAdd);
-    //     }
-    // }, [successFulQuestionAdd, errorOnAddingQuestion])
     useEffect(() => {
         if (error !== '') {
             setOpen(true);
@@ -161,7 +177,7 @@ const NewQuestionAdd = () => {
                         }}
                     >
                         <Typography component="h1" variant="h5">
-                            Add Details Of The New Question
+                            Update Details Of The New Question
                         </Typography>
                         <Box component="form" noValidate sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
@@ -192,17 +208,6 @@ const NewQuestionAdd = () => {
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    {/* <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="Option 1 CorrectNess"
-                                        label="Option 1 CorrectNess"
-                                        name="Option 1 CorrectNess"
-                                        autoFocus
-                                        value={firstOption.isCorrect}
-                                        onChange={(e) => setFirstOption({ ...firstOption, isCorrect: checkCorrectNess(e.target.value) })}
-                                    /> */}
                                     <Select
                                         value={firstOption.isCorrect}
                                         style={{marginTop: "15px"}}
@@ -226,17 +231,6 @@ const NewQuestionAdd = () => {
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    {/* <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="Option 2 CorrectNess"
-                                        label="Option 2 CorrectNess"
-                                        name="Option 2 CorrectNess"
-                                        autoFocus
-                                        value={true}
-                                        onChange={(e) => setSecondOption({ ...secondOption, isCorrect: checkCorrectNess(e.target.value) })}
-                                    /> */}
                                     <Select
                                         value={secondOption.isCorrect}
                                         style={{marginTop: "15px"}}
@@ -260,17 +254,6 @@ const NewQuestionAdd = () => {
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    {/* <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="Option 3 CorrectNess"
-                                        label="Option 3 CorrectNess"
-                                        name="Option 3 CorrectNess"
-                                        autoFocus
-                                        value={thirdOption.isCorrect}
-                                        onChange={(e) => setThirdOption({ ...thirdOption, isCorrect: checkCorrectNess(e.target.value) })}
-                                    /> */}
                                     <Select
                                         value={thirdOption.isCorrect}
                                         style={{marginTop: "15px"}}
@@ -294,17 +277,6 @@ const NewQuestionAdd = () => {
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    {/* <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="Option 4 CorrectNess"
-                                        label="Option 4 CorrectNess"
-                                        name="Option 4 CorrectNess"
-                                        autoFocus
-                                        value={fourthOption.isCorrect}
-                                        onChange={(e) => setFourthOption({ ...fourthOption, isCorrect: checkCorrectNess(e.target.value) })}
-                                    /> */}
                                     <Select
                                         value={fourthOption.isCorrect}
                                         style={{marginTop: "15px"}}
@@ -375,7 +347,7 @@ const NewQuestionAdd = () => {
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={(e) => submitNewQuestionHandler(e)}
                             >
-                                Add Question
+                                Update Question
                             </Button>
                         </Box>
                     </Box>
@@ -395,4 +367,4 @@ const NewQuestionAdd = () => {
     )
 }
 
-export default NewQuestionAdd;
+export default UpdateQuestion;

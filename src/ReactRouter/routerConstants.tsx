@@ -7,5 +7,6 @@ export const routerConstants = {
     QUESTION_ROUTE: "/genre/:genreId/:qIndex",
     RESULT_ROUTE: "/result",
     LEADERBOARD_ROUTE: "/leaderBoard",
-    ADDQUESTION_ROUTE: "/addNewQuestion"
+    ADDQUESTION_ROUTE: "/addNewQuestion",
+    UPDATE_QUESTION_ROUTE: "/updateQuestion/:questionId"
 }
