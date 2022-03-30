@@ -74,7 +74,7 @@ const SingleQuestionModal = ({ showQuestionModal, handleSingleQuestionModalClose
     }
     const updateQuestionHandler = () => {
         handleSingleQuestionModalClose();
-        getSingleQuestionHandler(question?.questionId!);
+        //getSingleQuestionHandler(question?.questionId!);
         navigate(`/updateQuestion/${question?.questionId}`);
     }
     const handleClose = () => {
@@ -104,7 +104,7 @@ const SingleQuestionModal = ({ showQuestionModal, handleSingleQuestionModalClose
 
                 >
                     <DialogContent>
-                        <DialogContentText>
+                        
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 100 }} aria-label="customized table">
                                     <TableHead>
@@ -151,7 +151,7 @@ const SingleQuestionModal = ({ showQuestionModal, handleSingleQuestionModalClose
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        </DialogContentText>
+                        
                     </DialogContent>
                     <DialogActions>
                         <Button autoFocus onClick={updateQuestionHandler}>

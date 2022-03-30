@@ -44,7 +44,7 @@ const theme = createTheme();
 
 const UpdateQuestion = () => {
     const questionId = useParams().questionId;
-    const { genreDetails, successFulUpdation, errorOnUpdation, singleQuestion, updationClearenceHandler, getAllGenreDetails, addNewQuestionWithGenreHandler, allQuestions, updateQuestionHandler } = useStateHandler();
+    const { genreDetails, successFulUpdation, errorOnUpdation, singleQuestion, getSingleQuestionHandler, updationClearenceHandler, getAllGenreDetails, addNewQuestionWithGenreHandler, allQuestions, updateQuestionHandler } = useStateHandler();
     const [questionSelected, setQuestionSelected] = useState<questionType>();
     const [selectedGenre, setSelectedGenre] = useState<string | null>("General Knowledge");
     const [genreTextboxDisplay, setGenreTextboxDisplay] = useState<boolean>(false);
@@ -80,6 +80,12 @@ const UpdateQuestion = () => {
             setQuestionAllotedTime(singleQuestion?.timeAlloted?.toString()!);
         }
     },[singleQuestion])
+
+    useEffect(()=>{
+        if(questionId!==undefined){
+            getSingleQuestionHandler(parseInt(questionId!));
+        }
+    },[questionId])
 
     useEffect(() => {
         if (selectedGenre === "other") {
